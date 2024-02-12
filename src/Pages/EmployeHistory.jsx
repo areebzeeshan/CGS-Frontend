@@ -5,6 +5,7 @@ import Footer from "../Components/Footer";
 import { useParams } from "react-router-dom";
 
 const EmployeHistory = () => {
+
   const { id } = useParams();
 
   const table_head = [
@@ -64,8 +65,6 @@ const EmployeHistory = () => {
             <div className="pt-10 px-5">
               <h1 className="text-2xl lg:text-4xl font-semibold mb-5">
                 <span className="text-gray-400">Employee History</span> <br />
-                <br />
-                Name 
               </h1>
               <div className="my-5">
                 <div className="overflow-x-auto">
