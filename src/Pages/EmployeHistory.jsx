@@ -20,27 +20,28 @@ const EmployeHistory = () => {
     "Shift",
   ];
 
-  const table_body = [
-    {
-      depart: "Production",
-      desg: "3D animations",
-      startDate: "03 Nov 2023",
-      endDate: "03 Nov 2024",
-      salary: "50000",
-      shift: "Morning",
-    },
-    {
-      depart: "Production",
-      desg: "3D animations",
-      startDate: "03 Nov 2023",
-      endDate: "03 Nov 2024",
-      salary: "50000",
-      shift: "Morning",
-    },
-  ];
+  const [employeeData, setEmployeeData] = useState([]);
+
+  useEffect(() => {
+    const fetchEmployeeData = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:4000/api/employee/search?name=${name} `
+        );
+        // alert("Data fetched successfully!")
+        setEmployeeData(response.data.data[0]);
+        console.log(response.data.data[0]);
+      } catch (error) {
+        console.log("Error fetching employee data :", error);
+      }
+    };
+
+    fetchEmployeeData();
+  }, []);
 
   const emptyFromData = {
     id: "",
+    Name: "", // Changed from "Name" to "name"
     depart: "",
     desg: "",
     startDate: "",
@@ -51,7 +52,7 @@ const EmployeHistory = () => {
 
   const [formData, setFormData] = useState({
     id: "",
-    Name: "",
+    Name: "", // Change from "name" to "Name"
     depart: "",
     desg: "",
     startDate: "",
@@ -60,34 +61,41 @@ const EmployeHistory = () => {
     shift: "",
   });
 
+
+
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleRecord = async () => {
     try {
-      const response = await axios.post("http://localhost:4000/api/employee/employeeHistory",
-        { id: id, department: formData.depart, designation: formData.desg, StartDate: formData.startDate, EndDate: formData.endDate, salary: formData.salary, shift: formData.shift });
+      const response = await axios.post("http://localhost:4000/api/employee/employeeHistory", {
+        id: formData.id,
+        Name: formData.Name, // Change from "name" to "Name"
+        department: formData.depart,
+        designation: formData.desg,
+        StartDate: formData.startDate,
+        EndDate: formData.endDate,
+        salary: formData.salary,
+        shift: formData.shift
+      });
       if (response.status === 200 && response.data.success) {
         console.log("Employee History posted successfully!")
         console.log(response)
+        alert("Employee History posted successfully!")
       }
-      setFormData({ id: emptyFromData.id, department: emptyFromData.depart, designation: emptyFromData.desg, StartDate: emptyFromData.startDate, EndDate: emptyFromData.endDate, salary: emptyFromData.salary, shift: emptyFromData.shift })
+      // setFormData({
+      //   id: emptyFromData.id,
+      //   Name: emptyFromData.Name,
+      //   department: emptyFromData.depart,
+      //   designation: emptyFromData.desg,
+      //   StartDate: emptyFromData.startDate,
+      //   EndDate: emptyFromData.endDate,
+      //   salary: emptyFromData.salary,
+      //   shift: emptyFromData.shift
+      // })
     } catch (error) {
-      if (error.response) {
-        // The request was made and the server responded with a status code
-        // that falls out of the range of 2xx
-        console.log("Server responded with an error status:");
-        console.log("Status Code:", error.response.status);
-        console.log("Response Data:", error.response.data);
-        console.log("Response Headers:", error.response.headers);
-      } else if (error.request) {
-        // The request was made but no response was received
-        console.log("No response received from the server:", error.request);
-      } else {
-        // Something happened in setting up the request that triggered an Error
-        console.log("Error during request setup:", error.message);
-      }
+      console.log("Error", error);
     }
   }
 
@@ -122,22 +130,22 @@ const EmployeHistory = () => {
                     </thead>
                     <tbody>
                       {/* row */}
-                      {table_body.map((item, index) => (
+                      {employeeData.map((item, index) => (
                         <tr
                           key={index}
                           className={index % 2 === 0 ? "bg-gray-100" : ""}
                         >
                           <td className="p-2 text-start border-b border-gray-300">
-                            {item.depart}
+                            {item.department}
                           </td>
                           <td className="p-2 text-start border-b border-gray-300">
-                            {item.desg}
+                            {item.designation}
                           </td>
                           <td className="p-2 text-start border-b border-gray-300">
-                            {item.startDate}
+                            {item.StartDate}
                           </td>
                           <td className="p-2 text-start border-b border-gray-300">
-                            {item.endDate}
+                            {item.EndDate}
                           </td>
                           <td className="p-2 text-start border-b border-gray-300">
                             {item.salary}
@@ -166,7 +174,7 @@ const EmployeHistory = () => {
                         className={`block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none ring-gray-300 ring-1 ring-inset placeholder:text-gray-400 sm:text-sm sm:leading-6`}
                         id="id"
                         name="id"
-                        value={id}
+                        value={formData.id}
                         onChange={handleInputChange}
                       />
                     </div>
@@ -182,7 +190,7 @@ const EmployeHistory = () => {
                         className={`block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none ring-gray-300 ring-1 ring-inset placeholder:text-gray-400 sm:text-sm sm:leading-6`}
                         id="Name"
                         name="Name"
-                        value={name}
+                        value={formData.Name}
                         onChange={handleInputChange}
                       />
                     </div>
