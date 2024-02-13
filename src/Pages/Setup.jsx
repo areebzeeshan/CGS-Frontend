@@ -89,7 +89,7 @@ const Setup = () => {
         console.log('Data posted successfully')
         console.log(response)
       }
-      setDepartmentData({ id: departmentData.id, label: departmentData.label })
+      setDepartmentData({ id: departmentData.id, label: departmentData.label3 })
     } catch (error) {
       console.log("Error", error)
     }

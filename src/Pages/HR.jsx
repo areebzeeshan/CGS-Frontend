@@ -101,9 +101,7 @@ const HR = () => {
                               background={"bg-red-500"}
                             />
                           </Link>
-                          <Link
-                            to={`/HR/EmployeeHistory/${item.id}`}
-                          >
+                          <Link to={`/HR/EmployeeHistory/${item.id}?name=${item.name}`}>
                             <Buttons
                               title={"More Info"}
                               background={"bg-green-500"}

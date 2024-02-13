@@ -2,11 +2,14 @@ import React, { useEffect, useState } from "react";
 import Dashboard from "../Components/Dashboard";
 import Navbar from "../Components/Navbar";
 import Footer from "../Components/Footer";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
+import axios from "axios";
 
 const EmployeHistory = () => {
 
   const { id } = useParams();
+  const location = useLocation();
+  const name = new URLSearchParams(location.search).get("name");
 
   const table_head = [
     "Department",
@@ -36,7 +39,19 @@ const EmployeHistory = () => {
     },
   ];
 
+  const emptyFromData = {
+    id: "",
+    depart: "",
+    desg: "",
+    startDate: "",
+    endDate: "",
+    salary: "",
+    shift: "",
+  }
+
   const [formData, setFormData] = useState({
+    id: "",
+    Name: "",
     depart: "",
     desg: "",
     startDate: "",
@@ -49,9 +64,32 @@ const EmployeHistory = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  useEffect(() => {
-    
-  }, [])
+  const handleRecord = async () => {
+    try {
+      const response = await axios.post("http://localhost:4000/api/employee/employeeHistory",
+        { id: id, department: formData.depart, designation: formData.desg, StartDate: formData.startDate, EndDate: formData.endDate, salary: formData.salary, shift: formData.shift });
+      if (response.status === 200 && response.data.success) {
+        console.log("Employee History posted successfully!")
+        console.log(response)
+      }
+      setFormData({ id: emptyFromData.id, department: emptyFromData.depart, designation: emptyFromData.desg, StartDate: emptyFromData.startDate, EndDate: emptyFromData.endDate, salary: emptyFromData.salary, shift: emptyFromData.shift })
+    } catch (error) {
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        // that falls out of the range of 2xx
+        console.log("Server responded with an error status:");
+        console.log("Status Code:", error.response.status);
+        console.log("Response Data:", error.response.data);
+        console.log("Response Headers:", error.response.headers);
+      } else if (error.request) {
+        // The request was made but no response was received
+        console.log("No response received from the server:", error.request);
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.log("Error during request setup:", error.message);
+      }
+    }
+  }
 
   return (
     <>
@@ -116,6 +154,38 @@ const EmployeHistory = () => {
                 {/* form start */}
                 <div className="shadow-lg rounded-lg p-4 my-10 bg-gray-200">
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 text-center lg:text-start">
+                    <div className="mb-3">
+                      <label
+                        htmlFor="id"
+                        className="block text-sm font-medium leading-6 text-gray-900"
+                      >
+                        Id:
+                      </label>
+                      <input
+                        type="number"
+                        className={`block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none ring-gray-300 ring-1 ring-inset placeholder:text-gray-400 sm:text-sm sm:leading-6`}
+                        id="id"
+                        name="id"
+                        value={id}
+                        onChange={handleInputChange}
+                      />
+                    </div>
+                    <div className="mb-3">
+                      <label
+                        htmlFor="Name"
+                        className="block text-sm font-medium leading-6 text-gray-900"
+                      >
+                        Name:
+                      </label>
+                      <input
+                        type="text"
+                        className={`block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none ring-gray-300 ring-1 ring-inset placeholder:text-gray-400 sm:text-sm sm:leading-6`}
+                        id="Name"
+                        name="Name"
+                        value={name}
+                        onChange={handleInputChange}
+                      />
+                    </div>
                     <div className="mb-3">
                       <label
                         htmlFor="depart"
@@ -214,7 +284,7 @@ const EmployeHistory = () => {
                     </div>
                   </div>
                   <div className="text-center">
-                    <button className="text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
+                    <button onClick={handleRecord} className="text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
                       Add New Record
                     </button>
                   </div>
