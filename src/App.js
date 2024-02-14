@@ -14,6 +14,9 @@ import HR from "./Pages/HR";
 import Setup from "./Pages/Setup";
 import EmployeeDetails from "./Pages/EmployeeDetails";
 import EmployeHistory from "./Pages/EmployeHistory";
+import LoginSales from "./Pages/LoginSales";
+import LoginProduction from "./Pages/LoginProduction";
+import WorkspaceSales from "./Pages/WorkspaceSales";
 
 function App() {
 
@@ -22,7 +25,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<LandingPage />} /> 
-          <Route path="/Login/:depart" element={<Login />} /> 
+          <Route path="/Login" element={<Login />} /> 
           <Route path="/Workspace" element={<Workspace />} /> 
           <Route path="/Workspace/Alloted" element={<Alloted />} /> 
           <Route path="/Workspace/Interview" element={<Interview />} /> 
@@ -37,6 +40,9 @@ function App() {
           <Route path="/HR/EmployeeDetails/:id" element={<EmployeeDetails />} /> 
           <Route path="/HR/EmployeeDetails" element={<EmployeeDetails />} /> 
           <Route path="/HR/EmployeeHistory/:id" element={<EmployeHistory />} /> 
+          <Route path="/SalesLogin" element={<LoginSales />} /> 
+          <Route path="/ProductionLogin" element={<LoginProduction />} /> 
+          <Route path="/WorkspaceSales" element={<WorkspaceSales />} /> 
         </Routes>
       </BrowserRouter>
     </>
