@@ -6,6 +6,7 @@ import { GoProjectRoadmap } from 'react-icons/go';
 import { GiProgression } from 'react-icons/gi';
 import { PiExamFill } from 'react-icons/pi';
 import { MdIncompleteCircle } from 'react-icons/md';
+import { Link } from 'react-router-dom';
 
 const WorkspaceSales = () => {
     return (
@@ -27,15 +28,15 @@ const WorkspaceSales = () => {
                                             <div className="opacity-50"><GoProjectRoadmap size={28} /></div>
                                         </div>
                                     </div>
-                                    <div
-                                        className="border rounded-lg p-3 shadow-lg mb-4 text-black bg-slate-200"
-                                    >
-                                        <h3 className="text-xl mb-2">Project Title</h3>
-                                        <h3 className="text-xl mb-2">Client Name</h3>
-                                        <h3 className="text-xl mb-2">
-                                            Deadline
-                                        </h3>
-                                    </div>
+                                    <Link to={''}>
+                                        <div className="border rounded-lg p-3 shadow-lg mb-4 text-black bg-slate-200">
+                                            <h3 className="text-xl mb-2">Project Title</h3>
+                                            <h3 className="text-xl mb-2">Client Name</h3>
+                                            <h3 className="text-xl mb-2">
+                                                Deadline
+                                            </h3>
+                                        </div>
+                                    </Link>
                                 </div>
                                 {/* In progress */}
                                 <div>
