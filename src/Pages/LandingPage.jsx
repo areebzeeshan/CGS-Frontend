@@ -36,7 +36,7 @@ const LandingPage = () => {
                         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
                             {landingPage.map((item, index) => (
                                 <Link key={index} to={item.page}>
-                                    <div className='p-5 rounded-lg bg-indigo-500 transition transform hover:scale-110 hover:shadow-lg'>
+                                    <div className='p-5 rounded-lg bg-indigo-500 transition transform hover:scale-105 hover:shadow-lg'>
                                         <div className='flex flex-col justify-between h-[250px] text-white'>
                                             <div>
                                                 <h3 className='text-2xl font-bold'>{item.Name}</h3>
