@@ -9,7 +9,7 @@ const Login = () => {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post('http://localhost:4000/api/user/login', {
+      const response = await axios.post('https://cgs-backend.vercel.app/api/user/login', {
         username: username,
         password: password
       });
