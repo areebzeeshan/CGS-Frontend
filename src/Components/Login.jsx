@@ -23,7 +23,7 @@ const Login = () => {
         setAuthError("User not found");
       }
     } catch (error) {
-      console.error('Error logging in:', error);
+      console.log('Error logging in:', error);
       setAuthError("Error logging in");
     }
   };
