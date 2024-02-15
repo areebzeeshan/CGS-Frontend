@@ -19,6 +19,7 @@ import LoginProduction from "./Pages/LoginProduction";
 import WorkspaceSales from "./Pages/WorkspaceSales";
 import SalesProjectDetail from "./Pages/SalesProjectDetail";
 import WorkspaceProduction from "./Pages/WorkspaceProduction";
+import Attachments from "./Pages/Attachments";
 
 function App() {
 
@@ -47,6 +48,7 @@ function App() {
           <Route path="/WorkspaceSales" element={<WorkspaceSales />} /> 
           <Route path="/SalesProjectDetail" element={<SalesProjectDetail />} /> 
           <Route path="/WorkspaceProduction" element={<WorkspaceProduction />} /> 
+          <Route path="/Attachments" element={<Attachments />} /> 
         </Routes>
       </BrowserRouter>
     </>

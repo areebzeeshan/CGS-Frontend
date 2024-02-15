@@ -7,13 +7,14 @@ import { GiProgression } from 'react-icons/gi';
 import { PiExamFill } from 'react-icons/pi';
 import { MdIncompleteCircle } from 'react-icons/md';
 import { Link } from 'react-router-dom';
+import ProductionDashboard from '../Components/ProductionDashboard';
 
 const WorkspaceProduction = () => {
     return (
         <>
             <div className='flex'>
                 <div>
-                    <SalesDashboard />
+                    <ProductionDashboard />
                 </div>
                 <div className='container flex flex-col justify-between'>
                     <div>
