@@ -11,11 +11,9 @@ const Navbar = () => {
             Sign In
           </button>
         </Link> */}
-        <Link to={'/Login/AdminPanel'}>
-          <button className="text-white mx-3 px-2 bg-slate-800 border-0 py-2 md:px-5 focus:outline-none hover:bg-slate-700 rounded">
-            <CiLogout />
-          </button>
-        </Link>
+        <button className="text-white mx-3 px-2 bg-slate-800 border-0 py-2 md:px-5 focus:outline-none hover:bg-slate-700 rounded">
+          <CiLogout />
+        </button>
       </div>
     </>
   );

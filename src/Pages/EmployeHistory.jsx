@@ -26,9 +26,11 @@ const EmployeHistory = () => {
     const fetchEmployeeData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:4000/api/employee/search?name=${name} `
+          `http://localhost:4000/api/employee/fetch`
         );
         // alert("Data fetched successfully!")
+        // const employee = response.data.data[0];
+        // console.log("employee_id : ", employee.id)
         setEmployeeData(response.data.data[0]);
         console.log(response.data.data[0]);
       } catch (error) {
@@ -69,9 +71,9 @@ const EmployeHistory = () => {
 
   const handleRecord = async () => {
     try {
-      const response = await axios.post("http://localhost:4000/api/employee/employeeHistory", {
-        id: formData.id,
-        Name: formData.Name, // Change from "name" to "Name"
+      const response = await axios.post(`http://localhost:4000/api/employee/record/${id}`, {
+        // id: formData.id,
+        // Name: formData.Name, 
         department: formData.depart,
         designation: formData.desg,
         StartDate: formData.startDate,
@@ -83,17 +85,17 @@ const EmployeHistory = () => {
         console.log("Employee History posted successfully!")
         console.log(response)
         alert("Employee History posted successfully!")
+        setFormData({
+          id: emptyFromData.id,
+          Name: emptyFromData.Name,
+          department: emptyFromData.depart,
+          designation: emptyFromData.desg,
+          StartDate: emptyFromData.startDate,
+          EndDate: emptyFromData.endDate,
+          salary: emptyFromData.salary,
+          shift: emptyFromData.shift
+        })
       }
-      // setFormData({
-      //   id: emptyFromData.id,
-      //   Name: emptyFromData.Name,
-      //   department: emptyFromData.depart,
-      //   designation: emptyFromData.desg,
-      //   StartDate: emptyFromData.startDate,
-      //   EndDate: emptyFromData.endDate,
-      //   salary: emptyFromData.salary,
-      //   shift: emptyFromData.shift
-      // })
     } catch (error) {
       console.log("Error", error);
     }
@@ -130,39 +132,42 @@ const EmployeHistory = () => {
                     </thead>
                     <tbody>
                       {/* row */}
-                      {employeeData.map((item, index) => (
-                        <tr
-                          key={index}
-                          className={index % 2 === 0 ? "bg-gray-100" : ""}
-                        >
-                          <td className="p-2 text-start border-b border-gray-300">
-                            {item.department}
-                          </td>
-                          <td className="p-2 text-start border-b border-gray-300">
-                            {item.designation}
-                          </td>
-                          <td className="p-2 text-start border-b border-gray-300">
-                            {item.StartDate}
-                          </td>
-                          <td className="p-2 text-start border-b border-gray-300">
-                            {item.EndDate}
-                          </td>
-                          <td className="p-2 text-start border-b border-gray-300">
-                            {item.salary}
-                          </td>
-                          <td className="p-2 text-start border-b border-gray-300">
-                            {item.shift}
-                          </td>
-                        </tr>
+                      {employeeData.history && employeeData.history.map((item, index) => (
+                        item.id === parseInt(id) ? (
+                          <tr
+                            key={index}
+                            className={index % 2 === 0 ? "bg-gray-100" : ""}
+                          >
+                            <td className="p-2 text-start border-b border-gray-300">
+                              {item.department}
+                            </td>
+                            <td className="p-2 text-start border-b border-gray-300">
+                              {item.designation}
+                            </td>
+                            <td className="p-2 text-start border-b border-gray-300">
+                              {item.StartDate}
+                            </td>
+                            <td className="p-2 text-start border-b border-gray-300">
+                              {item.EndDate}
+                            </td>
+                            <td className="p-2 text-start border-b border-gray-300">
+                              {item.salary}
+                            </td>
+                            <td className="p-2 text-start border-b border-gray-300">
+                              {item.shift}
+                            </td>
+                          </tr>
+                        ) : null
                       ))}
                     </tbody>
+
                   </table>
                 </div>
 
                 {/* form start */}
                 <div className="shadow-lg rounded-lg p-4 my-10 bg-gray-200">
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 text-center lg:text-start">
-                    <div className="mb-3">
+                    {/* <div className="mb-3">
                       <label
                         htmlFor="id"
                         className="block text-sm font-medium leading-6 text-gray-900"
@@ -193,7 +198,7 @@ const EmployeHistory = () => {
                         value={formData.Name}
                         onChange={handleInputChange}
                       />
-                    </div>
+                    </div> */}
                     <div className="mb-3">
                       <label
                         htmlFor="depart"
