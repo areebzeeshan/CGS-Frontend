@@ -20,27 +20,6 @@ const EmployeHistory = () => {
     "Shift",
   ];
 
-  const [employeeData, setEmployeeData] = useState([]);
-
-  useEffect(() => {
-    const fetchEmployeeData = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:4000/api/employee/fetch`
-        );
-        // alert("Data fetched successfully!")
-        // const employee = response.data.data[0];
-        // console.log("employee_id : ", employee.id)
-        setEmployeeData(response.data.data[0]);
-        console.log(response.data.data[0]);
-      } catch (error) {
-        console.log("Error fetching employee data :", error);
-      }
-    };
-
-    fetchEmployeeData();
-  }, []);
-
   const emptyFromData = {
     id: "",
     Name: "", // Changed from "Name" to "name"
@@ -63,17 +42,33 @@ const EmployeHistory = () => {
     shift: "",
   });
 
-
-
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const [employeeData, setEmployeeData] = useState([]);
+
+  useEffect(() => {
+    const fetchEmployeeData = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:4000/api/employee/search/${id}`
+        );
+        alert("Data fetched successfully!")
+        setEmployeeData(response.data.data[0]);
+        console.log(response.data.data[0]);
+      } catch (error) {
+        console.log("Error fetching employee data :", error);
+      }
+    };
+
+    fetchEmployeeData();
+  }, []);
+
+
   const handleRecord = async () => {
     try {
       const response = await axios.post(`http://localhost:4000/api/employee/record/${id}`, {
-        // id: formData.id,
-        // Name: formData.Name, 
         department: formData.depart,
         designation: formData.desg,
         StartDate: formData.startDate,
@@ -85,16 +80,6 @@ const EmployeHistory = () => {
         console.log("Employee History posted successfully!")
         console.log(response)
         alert("Employee History posted successfully!")
-        setFormData({
-          id: emptyFromData.id,
-          Name: emptyFromData.Name,
-          department: emptyFromData.depart,
-          designation: emptyFromData.desg,
-          StartDate: emptyFromData.startDate,
-          EndDate: emptyFromData.endDate,
-          salary: emptyFromData.salary,
-          shift: emptyFromData.shift
-        })
       }
     } catch (error) {
       console.log("Error", error);
@@ -133,31 +118,29 @@ const EmployeHistory = () => {
                     <tbody>
                       {/* row */}
                       {employeeData.history && employeeData.history.map((item, index) => (
-                        item.id === parseInt(id) ? (
-                          <tr
-                            key={index}
-                            className={index % 2 === 0 ? "bg-gray-100" : ""}
-                          >
-                            <td className="p-2 text-start border-b border-gray-300">
-                              {item.department}
-                            </td>
-                            <td className="p-2 text-start border-b border-gray-300">
-                              {item.designation}
-                            </td>
-                            <td className="p-2 text-start border-b border-gray-300">
-                              {item.StartDate}
-                            </td>
-                            <td className="p-2 text-start border-b border-gray-300">
-                              {item.EndDate}
-                            </td>
-                            <td className="p-2 text-start border-b border-gray-300">
-                              {item.salary}
-                            </td>
-                            <td className="p-2 text-start border-b border-gray-300">
-                              {item.shift}
-                            </td>
-                          </tr>
-                        ) : null
+                        <tr
+                          key={index}
+                          className={index % 2 === 0 ? "bg-gray-100" : ""}
+                        >
+                          <td className="p-2 text-start border-b border-gray-300">
+                            {item.department}
+                          </td>
+                          <td className="p-2 text-start border-b border-gray-300">
+                            {item.designation}
+                          </td>
+                          <td className="p-2 text-start border-b border-gray-300">
+                            {item.StartDate}
+                          </td>
+                          <td className="p-2 text-start border-b border-gray-300">
+                            {item.EndDate}
+                          </td>
+                          <td className="p-2 text-start border-b border-gray-300">
+                            {item.salary}
+                          </td>
+                          <td className="p-2 text-start border-b border-gray-300">
+                            {item.shift}
+                          </td>
+                        </tr>
                       ))}
                     </tbody>
 
