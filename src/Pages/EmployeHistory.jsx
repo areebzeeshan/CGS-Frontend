@@ -68,7 +68,7 @@ const EmployeHistory = () => {
 
   const handleRecord = async () => {
     try {
-      const response = await axios.post(`http://localhost:4000/api/employee/record/${id}`, {
+      const response = await axios.post(`http://localhost:4000/api/employee/addRecord/${id}`, {
         department: formData.depart,
         designation: formData.desg,
         StartDate: formData.startDate,
