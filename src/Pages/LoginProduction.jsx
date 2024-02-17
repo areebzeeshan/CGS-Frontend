@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import axios from 'axios';
 
 const LoginProduction = () => {
 
@@ -7,26 +8,24 @@ const LoginProduction = () => {
   const [authError, setAuthError] = useState("");
 
   const handleLogin = async () => {
-    // try {
-    //   const response = await axios.post('http://localhost:4000/api/user/login', {
-    //     username: username,
-    //     password: password
-    //   });
+    try {
+      const response = await axios.post('http://localhost:4000/api/productionUser/login', {
+        username: username,
+        password: password
+      });
 
-    //   if (response.status === 200 && response.data.success) {
-    //     console.log(response)
-    //     console.log('Login successful');
-    //     window.location.href = '/Workspace';
-    //   }
-    //   else {
-    //     setAuthError("User not found");
-    //   }
-    // } catch (error) {
-    //   console.error('Error logging in:', error);
-    //   setAuthError("Error logging in");
-    // }
-    console.log("submitted")
-    window.location.href = "/WorkspaceProduction";
+      if (response.status === 200 && response.data.success) {
+        console.log(response)
+        console.log('Login successful');
+        window.location.href = '/WorkspaceProduction';
+      }
+      else {
+        setAuthError("User not found");
+      }
+    } catch (error) {
+      console.error('Error logging in:', error);
+      setAuthError("Error logging in");
+    }
   };
 
   return (

@@ -35,6 +35,7 @@ const Projects = () => {
   });
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    console.log({ [e.target.name]: e.target.value })
   };
 
   useEffect(() => {
@@ -72,6 +73,16 @@ const Projects = () => {
     getPlatform();
     getDepartment();
   }, [])
+
+  const handleSubmit = async () => {
+    try {
+
+    } catch (error) {
+      alert(error.message)
+    }
+  }
+
+  console.log(formData.platform);
 
   return (
     <>
@@ -269,37 +280,8 @@ const Projects = () => {
                         />
                       </div>
                     </div>
-
-                    {/* check boxes */}
-                    <div className="mb-3">
-                      <div className="mb-2 flex items-center">
-                        <input
-                          type="checkbox"
-                          className="appearance-none w-6 h-6 border-2 border-indigo-500 rounded-md checked:bg-indigo-500 checked:text-white checked:border-transparent mr-3"
-                          id="check1"
-                        />
-                        <label htmlFor="check1">Talha</label>
-                      </div>
-                      <div className="mb-2 flex items-center">
-                        <input
-                          type="checkbox"
-                          className="appearance-none w-6 h-6 border-2 border-indigo-500 rounded-md checked:bg-indigo-500 checked:text-white checked:border-transparent mr-3"
-                          id="check2"
-                        />
-                        <label htmlFor="check2">Waqar</label>
-                      </div>
-                      <div className="mb-2 flex items-center">
-                        <input
-                          type="checkbox"
-                          className="appearance-none w-6 h-6 border-2 border-indigo-500 rounded-md checked:bg-indigo-500 checked:text-white checked:border-transparent mr-3"
-                          id="check3"
-                        />
-                        <label htmlFor="check3">
-                          All as per nature of work
-                        </label>
-                      </div>
-                    </div>
                   </div>
+
                   {/* description */}
                   <div className="mb-3">
                     <label
@@ -320,7 +302,7 @@ const Projects = () => {
 
                   {/* submit button */}
                   <div className="flex justify-center my-10">
-                    <button className="text-white w-full lg:w-1/3 bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
+                    <button onClick={handleSubmit} className="text-white w-full lg:w-1/3 bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
                       Submit
                     </button>
                   </div>
