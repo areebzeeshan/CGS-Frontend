@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { useState } from 'react'
 
 const LoginSales = () => {
@@ -7,27 +8,25 @@ const LoginSales = () => {
     const [authError, setAuthError] = useState("");
 
     const handleLogin = async () => {
-        // try {
-        //   const response = await axios.post('http://localhost:4000/api/user/login', {
-        //     username: username,
-        //     password: password
-        //   });
-    
-        //   if (response.status === 200 && response.data.success) {
-        //     console.log(response)
-        //     console.log('Login successful');
-        //     window.location.href = '/Workspace';
-        //   }
-        //   else {
-        //     setAuthError("User not found");
-        //   }
-        // } catch (error) {
-        //   console.error('Error logging in:', error);
-        //   setAuthError("Error logging in");
-        // }
-        console.log("submitted")
-        window.location.href = "/WorkspaceSales";
-      };
+        try {
+            const response = await axios.post('http://localhost:4000/api/salesuser/login', {
+                username: username,
+                password: password
+            });
+
+            if (response.status === 200 && response.data.success) {
+                console.log(response)
+                console.log('Login successful');
+                window.location.href = '/WorkspaceSales';
+            }
+            else {
+                setAuthError("User not found");
+            }
+        } catch (error) {
+            console.error('Error logging in:', error);
+            setAuthError("Error logging in");
+        }
+    };
 
     return (
         <>
