@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Navbar from '../Components/Navbar';
 import Footer from '../Components/Footer';
 import SalesDashboard from '../Components/SalesDashboard';
@@ -7,8 +7,26 @@ import { GiProgression } from 'react-icons/gi';
 import { PiExamFill } from 'react-icons/pi';
 import { MdIncompleteCircle } from 'react-icons/md';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 const WorkspaceSales = () => {
+
+    const [projects, setProjects] = useState([]);
+
+    useEffect(() => {
+        const fetchingProjects = async () => {
+            try {
+                const response = await axios.get("http://localhost:4000/api/projects/get");
+                setProjects(response.data.data[0])
+                console.log(response.data.data[0]);
+            } catch (error) {
+                console.log("Error in fetching projects ", error)
+            }
+        }
+
+        fetchingProjects();
+    }, [])
+
     return (
         <>
             <div className='flex'>
@@ -28,15 +46,17 @@ const WorkspaceSales = () => {
                                             <div className="opacity-50"><GoProjectRoadmap size={28} /></div>
                                         </div>
                                     </div>
-                                    <Link to={'/SalesProjectDetail'}>
-                                        <div className="border rounded-lg p-3 shadow-lg mb-4 text-black bg-slate-200">
-                                            <h3 className="text-xl mb-2">Project Title</h3>
-                                            <h3 className="text-xl mb-2">Client Name</h3>
-                                            <h3 className="text-xl mb-2">
-                                                Deadline
-                                            </h3>
-                                        </div>
-                                    </Link>
+                                    {projects && projects.map((item, index) => (
+                                        <Link key={index} to={'/SalesProjectDetail'}>
+                                            <div className="border rounded-lg p-3 shadow-lg mb-4 text-black bg-slate-200">
+                                                <h3 className="text-xl mb-2">{item.title}</h3>
+                                                <h3 className="text-xl mb-2">{item.clientName}</h3>
+                                                <h3 className="text-xl mb-2">
+                                                    {item.deleiveryDate}
+                                                </h3>
+                                            </div>
+                                        </Link>
+                                    ))}
                                 </div>
                                 {/* In progress */}
                                 <div>
@@ -46,7 +66,7 @@ const WorkspaceSales = () => {
                                             <div className="opacity-50"><GiProgression size={28} /></div>
                                         </div>
                                     </div>
-                                    <Link to={'/SalesProjectDetail'}>
+                                    {/* <Link to={'/SalesProjectDetail'}>
                                         <div className="border rounded-lg p-3 shadow-lg mb-4 text-black bg-slate-200">
                                             <h3 className="text-xl mb-2">Project Title</h3>
                                             <h3 className="text-xl mb-2">Client Name</h3>
@@ -54,7 +74,7 @@ const WorkspaceSales = () => {
                                                 Deadline
                                             </h3>
                                         </div>
-                                    </Link>
+                                    </Link> */}
                                 </div>
                                 {/* In Review */}
                                 <div>

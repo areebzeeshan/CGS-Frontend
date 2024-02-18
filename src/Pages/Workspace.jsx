@@ -9,6 +9,7 @@ import { MdIncompleteCircle } from "react-icons/md";
 import { PiExamFill } from "react-icons/pi";
 import { GiProgression } from "react-icons/gi";
 import { PieChart } from "@mui/x-charts/PieChart";
+import axios from "axios";
 
 const Workspace = () => {
   const cardInfo = [
@@ -169,6 +170,22 @@ const Workspace = () => {
     completed: completedItems,
   };
 
+  const [projects, setProjects] = useState([]);
+
+  useEffect(() => {
+    const fetchingProjects = async () => {
+      try {
+        const response = await axios.get("http://localhost:4000/api/projects/get");
+        setProjects(response.data.data[0])
+        console.log(response.data.data[0]);
+      } catch (error) {
+        console.log("Error in fetching projects ", error)
+      }
+    }
+
+    fetchingProjects();
+  }, [])
+
   return (
     <>
       <div className="flex">
@@ -195,8 +212,8 @@ const Workspace = () => {
                         </div>
 
                         <div className="py-5">
-                          {toBeAllotedItems.map((item2, index2) => (
-                            <Link to={`/ProjectDetails/:${item2.userID}`}>
+                          {projects.map((item2, index2) => (
+                            <Link to={`/ProjectDetails/:${item2.id}`}>
                               <div
                                 key={index2}
                                 className="border rounded-lg p-3 shadow-lg mb-4 text-black bg-slate-200"
@@ -205,10 +222,10 @@ const Workspace = () => {
                                   handleOnDrag(e, "toBeAlloted", item2)
                                 }
                               >
-                                <h3 className="text-xl mb-2">{item2.title}</h3>
-                                <h3 className="text-xl mb-2">{item2.Name}</h3>
+                                <h3 className="text-xl font-bold mb-2">{item2.title}</h3>
+                                <h3 className="text-xl mb-2">{item2.clientName}</h3>
                                 <h3 className="text-xl mb-2">
-                                  {item2.deadline}
+                                  <span className="font-semibold">Deadline:</span> {item2.deleiveryDate}
                                 </h3>
                               </div>
                             </Link>

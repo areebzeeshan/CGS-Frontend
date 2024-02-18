@@ -11,8 +11,24 @@ const Input = (props) => (
 );
 
 const MySelect = (props) => {
-  const menuIsOpen = props.isReadOnly ? false : props.menuIsOpen;
-  return <Select components={{ Input }} {...props} menuIsOpen={menuIsOpen} />;
+  const { options, value, onChange, isReadOnly } = props;
+  const [menuIsOpen, setMenuIsOpen] = useState(false); // State to manage menu open/close
+
+  const handleChange = (selectedOption) => {
+    onChange(selectedOption);
+  };
+
+  return (
+    <Select
+      options={options}
+      value={value}
+      onChange={handleChange}
+      menuIsOpen={!isReadOnly && menuIsOpen} // Open menu if not read-only and state is open
+      onMenuOpen={() => setMenuIsOpen(true)} // Open menu when clicked
+      onMenuClose={() => setMenuIsOpen(false)} // Close menu when clicked outside
+      components={{ Input }}
+    />
+  );
 };
 
 const Projects = () => {
@@ -26,6 +42,8 @@ const Projects = () => {
     startDate: "",
     deleiveryDate: "",
     platform: "",
+    department: "",
+    nature: "",
     profile: "",
     salesPerson: "",
     amount: "",
@@ -76,9 +94,29 @@ const Projects = () => {
 
   const handleSubmit = async () => {
     try {
-
+      const response = await axios.post("http://localhost:4000/api/projects/submit", {
+        id: formData.id,
+        title: formData.title,
+        startDate: formData.startDate,
+        deleiveryDate: formData.deleiveryDate,
+        platform: formData.platform,
+        department: formData.department,
+        nature: formData.nature,
+        profile: formData.profile,
+        salesPerson: formData.salesPerson,
+        amount: formData.amount,
+        clientName: formData.clientName,
+        description: formData.description,
+        attachments: formData.attachments,
+      })
+      if (response.status === 200 && response.data.success) {
+        console.log(response);
+        console.log("Project Posted Successfully")
+        alert("Project Posted Successfully");
+      }
     } catch (error) {
-      alert(error.message)
+      console.log("Error in posting Project", error)
+      // alert(error.message)
     }
   }
 
@@ -98,26 +136,27 @@ const Projects = () => {
               <div>
                 {/* form start */}
                 <form>
-                  <div className="mb-3">
-                    <label
-                      htmlFor="ID"
-                      className="block text-sm font-medium leading-6 text-gray-900"
-                    >
-                      ID:
-                    </label>
-                    <input
-                      type="number"
-                      className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none ring-gray-300 ring-1 ring-inset placeholder:text-gray-400 sm:text-sm sm:leading-6"}
-                      id="ID"
-                      name="id"
-                      value={formData.id}
-                      onChange={handleInputChange}
 
-                    />
-                  </div>
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 text-center lg:text-start">
                     {/* 1 */}
                     <div>
+                      <div className="mb-3">
+                        <label
+                          htmlFor="ID"
+                          className="block text-sm font-medium leading-6 text-gray-900"
+                        >
+                          ID:
+                        </label>
+                        <input
+                          type="number"
+                          className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none ring-gray-300 ring-1 ring-inset placeholder:text-gray-400 sm:text-sm sm:leading-6"}
+                          id="ID"
+                          name="id"
+                          value={formData.id}
+                          onChange={handleInputChange}
+
+                        />
+                      </div>
                       <div className="mb-3">
                         <label
                           htmlFor="startDate"
@@ -161,9 +200,13 @@ const Projects = () => {
                         </label>
                         <MySelect
                           options={platform}
-
-                          defaultValue={"Select"}
+                          value={formData.platform}
+                          onChange={(selectedOption) =>
+                            setFormData({ ...formData, platform: selectedOption })
+                          }
+                          id="platformDropdown"
                         />
+
                       </div>
                       <div className="mb-3">
                         <label
@@ -204,6 +247,23 @@ const Projects = () => {
                     <div>
                       <div className="mb-3">
                         <label
+                          htmlFor="profile"
+                          className="block text-sm font-medium leading-6 text-gray-900"
+                        >
+                          Profile:
+                        </label>
+                        <input
+                          type="text"
+                          className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none ring-gray-300 ring-1 ring-inset placeholder:text-gray-400 sm:text-sm sm:leading-6"}
+                          id="profile"
+                          name="profile"
+                          value={formData.profile}
+                          onChange={handleInputChange}
+
+                        />
+                      </div>
+                      <div className="mb-3">
+                        <label
                           htmlFor="delieveryDate"
                           className="block text-sm font-medium leading-6 text-gray-900"
                         >
@@ -213,7 +273,7 @@ const Projects = () => {
                           type="date"
                           className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none ring-gray-300 ring-1 ring-inset placeholder:text-gray-400 sm:text-sm sm:leading-6"}
                           id="delieveryDate"
-                          name="delieveryDate"
+                          name="deleiveryDate"
                           value={formData.deleiveryDate}
                           onChange={handleInputChange}
 
@@ -245,9 +305,13 @@ const Projects = () => {
                         </label>
                         <MySelect
                           options={department}
-
-                          defaultValue={"Select"}
+                          value={formData.department}
+                          onChange={(selectedOption) =>
+                            setFormData({ ...formData, department: selectedOption })
+                          }
+                          id="departmentDropdown"
                         />
+
                       </div>
                       <div className="mb-3">
                         <label
@@ -275,8 +339,11 @@ const Projects = () => {
                         </label>
                         <MySelect
                           options={projectNature}
-
-                          defaultValue={"Select"}
+                          value={formData.nature}
+                          onChange={(selectedOption) =>
+                            setFormData({ ...formData, nature: selectedOption })
+                          }
+                          id="natureDropdown"
                         />
                       </div>
                     </div>
@@ -300,14 +367,15 @@ const Projects = () => {
                     ></textarea>
                   </div>
 
-                  {/* submit button */}
-                  <div className="flex justify-center my-10">
-                    <button onClick={handleSubmit} className="text-white w-full lg:w-1/3 bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
-                      Submit
-                    </button>
-                  </div>
                 </form>
                 {/* form end */}
+
+                {/* submit button */}
+                <div className="flex justify-center my-10">
+                  <button onClick={handleSubmit} className="text-white w-full lg:w-1/3 bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
+                    Submit
+                  </button>
+                </div>
               </div>
             </div>
           </div>
