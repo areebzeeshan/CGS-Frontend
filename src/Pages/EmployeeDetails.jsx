@@ -1,14 +1,41 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import Dashboard from '../Components/Dashboard';
 import Navbar from '../Components/Navbar';
 import Footer from '../Components/Footer';
 import axios from 'axios';
+import Select, { components } from "react-select";
+
+const Input = (props) => (
+    <components.Input {...props} readOnly={props.selectProps.isReadOnly} />
+);
+
+const MySelect = (props) => {
+    const { options, value, onChange, isReadOnly } = props;
+    const [menuIsOpen, setMenuIsOpen] = useState(false); // State to manage menu open/close
+
+    const handleChange = (selectedOption) => {
+        onChange(selectedOption);
+    };
+
+    return (
+        <Select
+            options={options}
+            value={value}
+            onChange={handleChange}
+            menuIsOpen={!isReadOnly && menuIsOpen} // Open menu if not read-only and state is open
+            onMenuOpen={() => setMenuIsOpen(true)} // Open menu when clicked
+            onMenuClose={() => setMenuIsOpen(false)} // Close menu when clicked outside
+            components={{ Input }}
+        />
+    );
+};
 
 const EmployeeDetails = () => {
 
     const { id } = useParams();
     const [editMode, setEditMode] = useState(false);
+    const [department, setDepartment] = useState([{ label: "", value: "" }]);
     const [formData, setFormData] = useState({
         id: "",
         Name: "",
@@ -30,9 +57,16 @@ const EmployeeDetails = () => {
         shift: ""
     });
 
+    const [selectedOption, setSelectedOption] = useState('Select');
+
+    const handleSelectChange = (e) => {
+        setSelectedOption(e.target.value);
+    };
+
     const handleSubmit = async () => {
         try {
             const response = await axios.post("http://localhost:4000/api/employee/submit", {
+                // Ensure formData has all necessary fields
                 id: formData.id,
                 name: formData.Name,
                 joiningDate: formData.joinDate,
@@ -45,26 +79,26 @@ const EmployeeDetails = () => {
                 emergencyPhone: formData.emergencyPhone,
                 username: formData.userName,
                 password: formData.password,
-                history: [
-                    {
-                        department: formData.department,
-                        designation: formData.designation,
-                        StartDate: formData.joinDate,
-                        EndDate: formData.EndDate,
-                        salary: formData.salary,
-                        shift: formData.shift
-                    },
-                ]
+                history: [{
+                    department: formData.department,
+                    designation: formData.designation,
+                    StartDate: formData.joinDate, // Corrected field name
+                    EndDate: formData.EndDate,
+                    salary: formData.salary,
+                    shift: formData.shift
+                }]
             });
 
+            // Check response status and data
             if (response.status === 200 && response.data.success) {
                 console.log(response);
                 console.log("Data posted Successfully !");
-                alert("Form posted successfully!")
+                alert("Form posted successfully!");
             } else {
                 console.log("Data posting FAILED!");
             }
         } catch (error) {
+            // Proper error handling
             if (error.response) {
                 console.log("Server responded with an error status:");
                 console.log("Status Code:", error.response.status);
@@ -78,6 +112,50 @@ const EmployeeDetails = () => {
         }
     };
 
+    const handleUsers = async () => {
+        try {
+            console.log("Form Data Department:", formData.department);
+            if (formData.department === "Sales") {
+                const salesResponse = await axios.post("http://localhost:4000/api/salesuser/signup", {
+                    username: formData.userName,
+                    password: formData.password
+                });
+                console.log("Sales Response:", salesResponse.data);
+                if (salesResponse.status === 200 && salesResponse.data.success) {
+                    console.log("Sales user added");
+                }
+            } else if (formData.department === "Production") {
+                const prodResponse = await axios.post("http://localhost:4000/api/productionUser/signup", {
+                    username: formData.userName,
+                    password: formData.password
+                });
+                console.log("Production Response:", prodResponse.data);
+                if (prodResponse.status === 200 && prodResponse.data.success) {
+                    console.log("Production user added");
+                }
+            }
+        } catch (error) {
+            console.log("Error in handleUsers:", error);
+        }
+    };
+
+
+
+    useEffect(() => {
+        const getDepartment = async () => {
+            try {
+                const response = await axios.get("http://localhost:4000/dropdown/getDepartment");
+                setDepartment(response.data.data[0]);
+                console.log("Response", response.data.data[0]);
+            } catch (error) {
+                console.log("Error in fetching Project Nature", error)
+            }
+        };
+
+        getDepartment();
+    }, [])
+
+    console.log("Departments ", department);
 
     const handleInputChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value })
@@ -173,20 +251,15 @@ const EmployeeDetails = () => {
                                         />
                                     </div>
                                     <div className="mb-3">
-                                        <label
-                                            htmlFor="department"
-                                            className="block text-sm font-medium leading-6 text-gray-900"
-                                        >
-                                            Department:
-                                        </label>
-                                        <input
-                                            type="text"
-                                            className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none border-b ps-0 font-semibold placeholder:text-gray-400 sm:text-sm sm:leading-6"}
-                                            id="department"
-                                            name="department"
-                                            value={formData.department}
-                                            onChange={handleInputChange}
-                                        />
+                                        <label htmlFor="dropdown" className="block text-sm font-medium leading-6 text-gray-900">Select an option:</label> <br />
+                                        <select id="dropdown" className='w-full border p-2 rounded' name='department' value={formData.department} onChange={handleInputChange}>
+                                            <option className='m-5' value="">Select</option>
+                                            {
+                                                department.map((item, index) => (
+                                                    <option key={index} className='m-5' value={item.label}>{item.label}</option>
+                                                ))
+                                            }
+                                        </select>
                                     </div>
                                     <div className="mb-3">
                                         <label
@@ -391,7 +464,12 @@ const EmployeeDetails = () => {
                                 </div>
                             </div>
                             <div className='my-5 text-center'>
-                                <button onClick={handleSubmit} className="text-white bg-indigo-500 border-0 py-2 px-9 focus:outline-none hover:bg-indigo-600 rounded">
+                                <button
+                                    onClick={() => {
+                                        handleSubmit();
+                                        handleUsers();
+                                    }}
+                                    className="text-white bg-indigo-500 border-0 py-2 px-9 focus:outline-none hover:bg-indigo-600 rounded">
                                     Submit
                                 </button>
                             </div>

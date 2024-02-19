@@ -35,55 +35,8 @@ const Workspace = () => {
     },
   ];
 
-  const toBeAlloted = [
-    {
-      userID: 1,
-      title: "Project 1 Title",
-      Name: "Client Name",
-      deadline: "Deadline",
-    },
-    {
-      userID: 2,
-      title: "Project 2 Title",
-      Name: "Client Name",
-      deadline: "Deadline",
-    },
-  ];
-
-  const inProgress = [
-    {
-      title: "Project 3 Title",
-      Name: "Client Name",
-      deadline: "Deadline",
-    },
-    {
-      title: "Project 4 Title",
-      Name: "Client Name",
-      deadline: "Deadline",
-    },
-    {
-      title: "Project 5 Title",
-      Name: "Client Name",
-      deadline: "Deadline",
-    },
-  ];
-  const inReview = [
-    {
-      title: "Project 6 Title",
-      Name: "Client Name",
-      deadline: "Deadline",
-    },
-  ];
-  const completed = [
-    {
-      title: "Project 7 Title",
-      Name: "Client Name",
-      deadline: "Deadline",
-    },
-  ];
-
   const [inProgressItems, setInProgressItems] = useState([]);
-  const [toBeAllotedItems, setToBeAllotedItems] = useState(toBeAlloted);
+  const [toBeAllotedItems, setToBeAllotedItems] = useState([]);
   const [InReviewItems, setInReviewItems] = useState([]);
   const [completedItems, setCompletedItems] = useState([]);
   const [update, setUpdate] = useState(false)
@@ -223,9 +176,9 @@ const Workspace = () => {
                                 }
                               >
                                 <h3 className="text-xl font-bold mb-2">{item2.title}</h3>
-                                <h3 className="text-xl mb-2">{item2.clientName}</h3>
-                                <h3 className="text-xl mb-2">
-                                  <span className="font-semibold">Deadline:</span> {item2.deleiveryDate}
+                                <h3 className="mb-2">Client: {item2.clientName}</h3>
+                                <h3 className="mb-2">
+                                  <span className="font-semibold text-red-500">Deadline:</span> {item2.deleiveryDate}
                                 </h3>
                               </div>
                             </Link>
