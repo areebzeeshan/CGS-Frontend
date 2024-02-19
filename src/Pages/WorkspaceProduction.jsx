@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Navbar from '../Components/Navbar';
 import Footer from '../Components/Footer';
 import SalesDashboard from '../Components/SalesDashboard';
@@ -8,8 +8,27 @@ import { PiExamFill } from 'react-icons/pi';
 import { MdIncompleteCircle } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 import ProductionDashboard from '../Components/ProductionDashboard';
+import axios from 'axios';
 
 const WorkspaceProduction = () => {
+
+    const [projects, setProjects] = useState([]);
+
+    // fetching
+    useEffect(() => {
+        const fetchingProjects = async () => {
+            try {
+                const response = await axios.get("http://localhost:4000/api/projects/get");
+                setProjects(response.data.data[0])
+                console.log(response.data.data[0]);
+            } catch (error) {
+                console.log("Error in fetching projects ", error)
+            }
+        }
+
+        fetchingProjects();
+    }, [])
+
     return (
         <>
             <div className='flex'>
@@ -29,13 +48,17 @@ const WorkspaceProduction = () => {
                                             <div className="opacity-50"><GoProjectRoadmap size={28} /></div>
                                         </div>
                                     </div>
-                                    <div className="border rounded-lg p-3 shadow-lg mb-4 text-black bg-slate-200">
-                                        <h3 className="text-xl mb-2">Project Title</h3>
-                                        <h3 className="text-xl mb-2">Client Name</h3>
-                                        <h3 className="text-xl mb-2">
-                                            Deadline
-                                        </h3>
-                                    </div>
+                                    {
+                                        projects && projects.map((item, index) => (
+                                            <div key={index} className="border rounded-lg p-3 shadow-lg mb-4 text-black bg-slate-200">
+                                                <h3 className="text-xl mb-2">{item.title}</h3>
+                                                <h3 className="text-xl mb-2">{item.clientName}</h3>
+                                                <h3 className="text-xl mb-2">
+                                                    {item.deleiveryDate}
+                                                </h3>
+                                            </div>
+                                        ))
+                                    }
                                 </div>
                                 {/* In progress */}
                                 <div>
@@ -45,13 +68,13 @@ const WorkspaceProduction = () => {
                                             <div className="opacity-50"><GiProgression size={28} /></div>
                                         </div>
                                     </div>
-                                    <div className="border rounded-lg p-3 shadow-lg mb-4 text-black bg-slate-200">
+                                    {/* <div className="border rounded-lg p-3 shadow-lg mb-4 text-black bg-slate-200">
                                         <h3 className="text-xl mb-2">Project Title</h3>
                                         <h3 className="text-xl mb-2">Client Name</h3>
                                         <h3 className="text-xl mb-2">
                                             Deadline
                                         </h3>
-                                    </div>
+                                    </div> */}
                                 </div>
                                 {/* In Review */}
                                 <div>
