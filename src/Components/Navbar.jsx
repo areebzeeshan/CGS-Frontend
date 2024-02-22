@@ -3,6 +3,11 @@ import { CiLogout } from "react-icons/ci";
 import { Link } from "react-router-dom";
 
 const Navbar = () => {
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    window.location.href = "/";
+  };
+
   return (
     <>
       <div className="bg-indigo-500 px-5 py-3 flex justify-end">
@@ -11,11 +16,12 @@ const Navbar = () => {
             Sign In
           </button>
         </Link> */}
-        <Link to={'/'}>
-          <button className="text-white mx-3 px-2 bg-slate-800 border-0 py-2 md:px-5 focus:outline-none hover:bg-slate-700 rounded">
-            <CiLogout />
-          </button>
-        </Link>
+        <button
+          onClick={handleLogout}
+          className="text-white mx-3 px-2 bg-slate-800 border-0 py-2 md:px-5 focus:outline-none hover:bg-slate-700 rounded"
+        >
+          <CiLogout />
+        </button>
       </div>
     </>
   );

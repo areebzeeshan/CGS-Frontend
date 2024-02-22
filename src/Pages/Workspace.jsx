@@ -10,6 +10,8 @@ import { PiExamFill } from "react-icons/pi";
 import { GiProgression } from "react-icons/gi";
 import { PieChart } from "@mui/x-charts/PieChart";
 import axios from "axios";
+import { useDrop, useDrag } from "react-dnd";
+import WithAuth from "../Components/WithAuth";
 
 const Workspace = () => {
   const cardInfo = [
@@ -39,7 +41,7 @@ const Workspace = () => {
   const [toBeAllotedItems, setToBeAllotedItems] = useState([]);
   const [InReviewItems, setInReviewItems] = useState([]);
   const [completedItems, setCompletedItems] = useState([]);
-  const [update, setUpdate] = useState(false)
+  const [update, setUpdate] = useState(false);
 
   const handleOnDrag = (e, section, projectData) => {
     e.dataTransfer.setData("section", section);
@@ -85,7 +87,6 @@ const Workspace = () => {
     console.log("completedItems updated:", completedItems);
   }, [completedItems]);
 
-
   const updateSectionState = (section, updatedSectionData) => {
     switch (section) {
       case "toBeAlloted":
@@ -109,12 +110,10 @@ const Workspace = () => {
         });
         break;
 
-
       default:
         break;
     }
   };
-
 
   const sectionDataMap = {
     toBeAlloted: toBeAllotedItems,
@@ -128,16 +127,18 @@ const Workspace = () => {
   useEffect(() => {
     const fetchingProjects = async () => {
       try {
-        const response = await axios.get("http://localhost:4000/api/projects/get");
-        setProjects(response.data.data[0])
+        const response = await axios.get(
+          "http://localhost:4000/api/projects/get"
+        );
+        setProjects(response.data.data[0]);
         console.log(response.data.data[0]);
       } catch (error) {
-        console.log("Error in fetching projects ", error)
+        console.log("Error in fetching projects ", error);
       }
-    }
+    };
 
     fetchingProjects();
-  }, [])
+  }, []);
 
   return (
     <>
@@ -150,13 +151,12 @@ const Workspace = () => {
             <Navbar />
             <div className="pt-10">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 px-5 text-white">
-
                 {cardInfo.map((item, index) => (
                   <div key={index}>
                     {item.heading === "To be alloted" && (
                       <div>
                         {/* <Link to={item.path}>
-                        </Link> */}
+        </Link> */}
                         <div className="rounded-lg p-2 bg-red-500 flex justify-between items-center">
                           <h3 className="text-xl">{item.heading}</h3>
                           <div>
@@ -175,10 +175,17 @@ const Workspace = () => {
                                   handleOnDrag(e, "toBeAlloted", item2)
                                 }
                               >
-                                <h3 className="text-xl font-bold mb-2">{item2.title}</h3>
-                                <h3 className="mb-2">Client: {item2.clientName}</h3>
+                                <h3 className="text-xl font-bold mb-2">
+                                  {item2.title}
+                                </h3>
                                 <h3 className="mb-2">
-                                  <span className="font-semibold text-red-500">Deadline:</span> {item2.deleiveryDate}
+                                  Client: {item2.clientName}
+                                </h3>
+                                <h3 className="mb-2">
+                                  <span className="font-semibold text-red-500">
+                                    Deadline:
+                                  </span>{" "}
+                                  {item2.deleiveryDate}
                                 </h3>
                               </div>
                             </Link>
@@ -189,7 +196,7 @@ const Workspace = () => {
                     {item.heading === "In Progress" && (
                       <div>
                         {/* <Link to={item.path}>
-                        </Link> */}
+        </Link> */}
                         <div
                           className="rounded-lg p-2 bg-orange-500 flex justify-between items-center"
                           onDrop={(e) => handleOnDrop(e, "inProgress")}
@@ -225,7 +232,7 @@ const Workspace = () => {
                     {item.heading === "Completed" && (
                       <div>
                         {/* <Link to={item.path}>
-                        </Link> */}
+        </Link> */}
                         <div
                           className="rounded-lg p-2 bg-green-500 flex justify-between items-center"
                           onDrop={(e) => handleOnDrop(e, "completed")}
@@ -257,7 +264,7 @@ const Workspace = () => {
                     {item.heading === "In Review" && (
                       <div>
                         {/* <Link to={item.path}>
-                        </Link> */}
+        </Link> */}
                         <div
                           className="rounded-lg p-2 bg-yellow-500 flex justify-between items-center"
                           onDrop={(e) => handleOnDrop(e, "inReview")}
@@ -304,4 +311,4 @@ const Workspace = () => {
   );
 };
 
-export default Workspace;
+export default WithAuth(Workspace);
