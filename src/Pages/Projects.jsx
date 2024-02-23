@@ -11,7 +11,7 @@ const Input = (props) => (
 );
 
 const MySelect = (props) => {
-  const { options, value, onChange, isReadOnly } = props;
+  const { options, label, onChange, isReadOnly } = props;
   const [menuIsOpen, setMenuIsOpen] = useState(false); // State to manage menu open/close
 
   const handleChange = (selectedOption) => {
@@ -21,7 +21,7 @@ const MySelect = (props) => {
   return (
     <Select
       options={options}
-      value={value}
+      label={label}
       onChange={handleChange}
       menuIsOpen={!isReadOnly && menuIsOpen} // Open menu if not read-only and state is open
       onMenuOpen={() => setMenuIsOpen(true)} // Open menu when clicked
@@ -94,7 +94,7 @@ const Projects = () => {
 
   const handleSubmit = async () => {
     try {
-      const response = await axios.post("http://localhost:4000/api/projects/submit", {
+      var response = await axios.post("http://localhost:4000/api/projects/submit", {
         id: formData.id,
         title: formData.title,
         startDate: formData.startDate,
@@ -115,6 +115,7 @@ const Projects = () => {
         alert("Project Posted Successfully");
       }
     } catch (error) {
+      console.log(response)
       console.log("Error in posting Project", error)
       // alert(error.message)
     }
@@ -135,7 +136,7 @@ const Projects = () => {
               <h1 className='text-2xl md:text-3xl lg:text-4xl lg:font-semibold text-slate-500 my-5'>Upload a Project</h1>
               <div>
                 {/* form start */}
-                <form>
+                <form action="/api/projects/submit" method="POST" enctype="multipart/form-data">
 
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 text-center lg:text-start">
                     {/* 1 */}
@@ -192,21 +193,15 @@ const Projects = () => {
                         />
                       </div>
                       <div className="mb-3">
-                        <label
-                          htmlFor="platform"
-                          className="block text-sm font-medium leading-6 text-gray-900"
-                        >
-                          Platform:
-                        </label>
-                        <MySelect
-                          options={platform}
-                          value={formData.platform}
-                          onChange={(selectedOption) =>
-                            setFormData({ ...formData, platform: selectedOption })
+                        <label htmlFor="dropdown" className="block text-sm font-medium leading-6 text-gray-900">Project Nature:</label> <br />
+                        <select id="dropdown" className='w-full border p-2 rounded' name='nature' value={formData.nature} onChange={handleInputChange}>
+                          <option className='m-5' value="">Select</option>
+                          {
+                            projectNature.map((item, index) => (
+                              <option key={index} className='m-5' value={item.label}>{item.label}</option>
+                            ))
                           }
-                          id="platformDropdown"
-                        />
-
+                        </select>
                       </div>
                       <div className="mb-3">
                         <label
@@ -297,21 +292,15 @@ const Projects = () => {
                         />
                       </div>
                       <div className="mb-3">
-                        <label
-                          htmlFor="department"
-                          className="block text-sm font-medium leading-6 text-gray-900"
-                        >
-                          Department:
-                        </label>
-                        <MySelect
-                          options={department}
-                          value={formData.department}
-                          onChange={(selectedOption) =>
-                            setFormData({ ...formData, department: selectedOption })
+                        <label htmlFor="dropdown" className="block text-sm font-medium leading-6 text-gray-900">Department:</label> <br />
+                        <select id="dropdown" className='w-full border p-2 rounded' name='department' value={formData.department} onChange={handleInputChange}>
+                          <option className='m-5' value="">Select</option>
+                          {
+                            department.map((item, index) => (
+                              <option key={index} className='m-5' value={item.label}>{item.label}</option>
+                            ))
                           }
-                          id="departmentDropdown"
-                        />
-
+                        </select>
                       </div>
                       <div className="mb-3">
                         <label
@@ -331,20 +320,15 @@ const Projects = () => {
                         />
                       </div>
                       <div className="mb-3">
-                        <label
-                          htmlFor="nature"
-                          className="block text-sm font-medium leading-6 text-gray-900"
-                        >
-                          Nature of Work:
-                        </label>
-                        <MySelect
-                          options={projectNature}
-                          value={formData.nature}
-                          onChange={(selectedOption) =>
-                            setFormData({ ...formData, nature: selectedOption })
+                        <label htmlFor="dropdown" className="block text-sm font-medium leading-6 text-gray-900">Platform:</label> <br />
+                        <select id="dropdown" className='w-full border p-2 rounded' name='platform' value={formData.platform} onChange={handleInputChange}>
+                          <option className='m-5' value="">Select</option>
+                          {
+                            platform.map((item, index) => (
+                              <option key={index} className='m-5' value={item.label}>{item.label}</option>
+                            ))
                           }
-                          id="natureDropdown"
-                        />
+                        </select>
                       </div>
                     </div>
                   </div>
