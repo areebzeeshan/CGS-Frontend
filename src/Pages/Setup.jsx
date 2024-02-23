@@ -4,6 +4,7 @@ import Navbar from "../Components/Navbar";
 import Footer from "../Components/Footer";
 import axios from "axios";
 import WithAuth from "../Components/WithAuth";
+import api from "../Components/Api";
 
 const Setup = () => {
   // const [formData, setFormData] = useState(initialFormData);
@@ -59,7 +60,7 @@ const Setup = () => {
   const handleProjNatureSubmit = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:4000/dropdown/projectNature",
+        `${api}/dropdown/projectNature`,
         {
           id: projectNature.id,
           label: projectNature.label,
@@ -67,6 +68,7 @@ const Setup = () => {
         }
       );
       if (response.status === 200 && response.data.success) {
+        alert("Data posted successfully")
         console.log("Data posted successfully");
         console.log(response);
       }
@@ -79,7 +81,7 @@ const Setup = () => {
   const handleProjPlatSubmit = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:4000/dropdown/platform",
+        `${api}/dropdown/platform`,
         {
           id: projectPlatform.id2,
           label: projectPlatform.label2,
@@ -87,6 +89,7 @@ const Setup = () => {
         }
       );
       if (response.status === 200 && response.data.success) {
+        alert("Data posted successfully")
         console.log("Data posted successfully");
         console.log(response);
       }
@@ -102,7 +105,7 @@ const Setup = () => {
   const handleProjDepartSubmit = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:4000/dropdown/department",
+        `${api}/dropdown/department`,
         {
           id: departmentData.id3,
           label: departmentData.label3,
@@ -110,6 +113,7 @@ const Setup = () => {
         }
       );
       if (response.status === 200 && response.data.success) {
+        alert("Data posted successfully")
         console.log("Data posted successfully");
         console.log(response);
       }
@@ -121,10 +125,6 @@ const Setup = () => {
       console.log("Error", error);
     }
   };
-
-  // useEffect(() => {
-  //   console.log("Department data updated: ", departmentData);
-  // }, []);
 
   return (
     <>
@@ -149,7 +149,7 @@ const Setup = () => {
                   <input
                     type="number"
                     className={
-                      "block w-[50%] rounded-md border-0 w-full py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none ring-gray-300 ring-1 ring-inset placeholder:text-gray-400 sm:text-sm sm:leading-6"
+                      "block rounded-md border-0 w-full py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none ring-gray-300 ring-1 ring-inset placeholder:text-gray-400 sm:text-sm sm:leading-6"
                     }
                     id="ID"
                     name="id"
@@ -167,7 +167,7 @@ const Setup = () => {
                   <input
                     type="text"
                     className={
-                      "block w-[50%] rounded-md border-0 w-full py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none ring-gray-300 ring-1 ring-inset placeholder:text-gray-400 sm:text-sm sm:leading-6"
+                      "block rounded-md border-0 w-full py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none ring-gray-300 ring-1 ring-inset placeholder:text-gray-400 sm:text-sm sm:leading-6"
                     }
                     id="label"
                     name="label"
@@ -185,7 +185,7 @@ const Setup = () => {
                   <input
                     type="text"
                     className={
-                      "block w-[50%] rounded-md border-0 w-full py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none ring-gray-300 ring-1 ring-inset placeholder:text-gray-400 sm:text-sm sm:leading-6"
+                      "block rounded-md border-0 w-full py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none ring-gray-300 ring-1 ring-inset placeholder:text-gray-400 sm:text-sm sm:leading-6"
                     }
                     id="value"
                     name="value"
@@ -217,7 +217,7 @@ const Setup = () => {
                   <input
                     type="number"
                     className={
-                      "block w-[50%] rounded-md border-0 w-full py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none ring-gray-300 ring-1 ring-inset placeholder:text-gray-400 sm:text-sm sm:leading-6"
+                      "block rounded-md border-0 w-full py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none ring-gray-300 ring-1 ring-inset placeholder:text-gray-400 sm:text-sm sm:leading-6"
                     }
                     id="id2"
                     name="id2"
@@ -235,7 +235,7 @@ const Setup = () => {
                   <input
                     type="text"
                     className={
-                      "block w-[50%] rounded-md border-0 w-full py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none ring-gray-300 ring-1 ring-inset placeholder:text-gray-400 sm:text-sm sm:leading-6"
+                      "block rounded-md border-0 w-full py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none ring-gray-300 ring-1 ring-inset placeholder:text-gray-400 sm:text-sm sm:leading-6"
                     }
                     id="label2"
                     name="label2"
@@ -253,7 +253,7 @@ const Setup = () => {
                   <input
                     type="text"
                     className={
-                      "block w-[50%] rounded-md border-0 w-full py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none ring-gray-300 ring-1 ring-inset placeholder:text-gray-400 sm:text-sm sm:leading-6"
+                      "block rounded-md border-0 w-full py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none ring-gray-300 ring-1 ring-inset placeholder:text-gray-400 sm:text-sm sm:leading-6"
                     }
                     id="value2"
                     name="value2"
@@ -285,7 +285,7 @@ const Setup = () => {
                   <input
                     type="number"
                     className={
-                      "block w-[50%] rounded-md border-0 w-full py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none ring-gray-300 ring-1 ring-inset placeholder:text-gray-400 sm:text-sm sm:leading-6"
+                      "block rounded-md border-0 w-full py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none ring-gray-300 ring-1 ring-inset placeholder:text-gray-400 sm:text-sm sm:leading-6"
                     }
                     id="id3"
                     name="id3"
@@ -303,7 +303,7 @@ const Setup = () => {
                   <input
                     type="text"
                     className={
-                      "block w-[50%] rounded-md border-0 w-full py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none ring-gray-300 ring-1 ring-inset placeholder:text-gray-400 sm:text-sm sm:leading-6"
+                      "block rounded-md border-0 w-full py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none ring-gray-300 ring-1 ring-inset placeholder:text-gray-400 sm:text-sm sm:leading-6"
                     }
                     id="label3"
                     name="label3"
@@ -321,7 +321,7 @@ const Setup = () => {
                   <input
                     type="text"
                     className={
-                      "block w-[50%] rounded-md border-0 w-full py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none ring-gray-300 ring-1 ring-inset placeholder:text-gray-400 sm:text-sm sm:leading-6"
+                      "block rounded-md border-0 w-full py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none ring-gray-300 ring-1 ring-inset placeholder:text-gray-400 sm:text-sm sm:leading-6"
                     }
                     id="value3"
                     name="value3"

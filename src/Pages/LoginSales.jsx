@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
+import api from "../Components/Api";
 
 const LoginSales = () => {
   const [username, setUsername] = useState("");
@@ -9,7 +10,7 @@ const LoginSales = () => {
   const handleLogin = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:4000/api/salesuser/login",
+        `${api}/api/salesuser/login`,
         {
           username: username,
           password: password,

@@ -5,6 +5,7 @@ import Footer from "../Components/Footer";
 import { useLocation, useParams } from "react-router-dom";
 import axios from "axios";
 import WithAuth from "../Components/WithAuth";
+import api from "../Components/Api";
 
 
 const EmployeHistory = () => {
@@ -54,7 +55,7 @@ const EmployeHistory = () => {
     const fetchEmployeeData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:4000/api/employee/search/${id}`
+          `${api}/api/employee/search/${id}`
         );
         alert("Data fetched successfully!")
         setEmployeeData(response.data.data[0]);
@@ -70,7 +71,7 @@ const EmployeHistory = () => {
 
   const handleRecord = async () => {
     try {
-      const response = await axios.post(`http://localhost:4000/api/employee/addRecord/${id}`, {
+      const response = await axios.post(`${api}/api/employee/addRecord/${id}`, {
         department: formData.depart,
         designation: formData.desg,
         StartDate: formData.startDate,

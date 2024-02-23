@@ -9,6 +9,7 @@ import Select, { components } from "react-select";
 import { IoIosSend } from "react-icons/io";
 import '../index.css'
 import WithAuth from "../Components/WithAuth";
+import api from "../Components/Api";
 
 const Input = (props) => (
   <components.Input {...props} readOnly={props.selectProps.isReadOnly} />
@@ -57,7 +58,7 @@ const ProjectDetails = () => {
   useEffect(() => {
     const getProjectNature = async () => {
       try {
-        const response = await axios.get("http://localhost:4000/dropdown/getProjectNature");
+        const response = await axios.get(`${api}/dropdown/getProjectNature`);
         setProjectNature(response.data.data[0])
         console.log("Response", response.data.data[0])
       } catch (error) {
@@ -67,7 +68,7 @@ const ProjectDetails = () => {
 
     const getPlatform = async () => {
       try {
-        const response = await axios.get("http://localhost:4000/dropdown/getPlatform");
+        const response = await axios.get(`${api}/dropdown/getPlatform`);
         setPlatform(response.data.data[0])
         console.log("Response", response.data.data[0])
       } catch (error) {
@@ -77,7 +78,7 @@ const ProjectDetails = () => {
 
     const getDepartment = async () => {
       try {
-        const response = await axios.get("http://localhost:4000/dropdown/getDepartment");
+        const response = await axios.get(`${api}/dropdown/getDepartment`);
         setDepartment(response.data.data[0])
         console.log("Response", response.data.data[0])
       } catch (error) {

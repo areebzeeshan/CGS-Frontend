@@ -5,6 +5,7 @@ import SalesDashboard from '../Components/SalesDashboard'
 import Select, { components } from "react-select";
 import axios from 'axios';
 import { IoIosSend } from 'react-icons/io';
+import api from '../Components/Api';
 
 const Input = (props) => (
   <components.Input {...props} readOnly={props.selectProps.isReadOnly} />
@@ -59,7 +60,7 @@ const Projects = () => {
   useEffect(() => {
     const getProjectNature = async () => {
       try {
-        const response = await axios.get("http://localhost:4000/dropdown/getProjectNature");
+        const response = await axios.get(`${api}/dropdown/getProjectNature`);
         setProjectNature(response.data.data[0])
         console.log("Response", response.data.data[0])
       } catch (error) {
@@ -69,7 +70,7 @@ const Projects = () => {
 
     const getPlatform = async () => {
       try {
-        const response = await axios.get("http://localhost:4000/dropdown/getPlatform");
+        const response = await axios.get(`${api}/dropdown/getPlatform`);
         setPlatform(response.data.data[0])
         console.log("Response", response.data.data[0])
       } catch (error) {
@@ -79,7 +80,7 @@ const Projects = () => {
 
     const getDepartment = async () => {
       try {
-        const response = await axios.get("http://localhost:4000/dropdown/getDepartment");
+        const response = await axios.get(`${api}/dropdown/getDepartment`);
         setDepartment(response.data.data[0])
         console.log("Response", response.data.data[0])
       } catch (error) {
@@ -94,7 +95,7 @@ const Projects = () => {
 
   const handleSubmit = async () => {
     try {
-      var response = await axios.post("http://localhost:4000/api/projects/submit", {
+      var response = await axios.post(`${api}/api/projects/submit`, {
         id: formData.id,
         title: formData.title,
         startDate: formData.startDate,
@@ -136,7 +137,7 @@ const Projects = () => {
               <h1 className='text-2xl md:text-3xl lg:text-4xl lg:font-semibold text-slate-500 my-5'>Upload a Project</h1>
               <div>
                 {/* form start */}
-                <form action="/api/projects/submit" method="POST" enctype="multipart/form-data">
+                <form enctype="multipart/form-data">
 
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 text-center lg:text-start">
                     {/* 1 */}
@@ -356,7 +357,7 @@ const Projects = () => {
 
                 {/* submit button */}
                 <div className="flex justify-center my-10">
-                  <button onClick={handleSubmit} className="text-white w-full lg:w-1/3 bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
+                  <button type='submit' onClick={handleSubmit} className="text-white w-full lg:w-1/3 bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
                     Submit
                   </button>
                 </div>

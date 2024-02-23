@@ -6,6 +6,7 @@ import Footer from '../Components/Footer';
 import axios from 'axios';
 import Select, { components } from "react-select";
 import WithAuth from '../Components/WithAuth';
+import api from '../Components/Api';
 
 
 const Input = (props) => (
@@ -67,7 +68,7 @@ const EmployeeDetails = () => {
 
     const handleSubmit = async () => {
         try {
-            const response = await axios.post("http://localhost:4000/api/employee/submit", {
+            const response = await axios.post(`${api}/api/employee/submit`, {
                 id: formData.id,
                 name: formData.Name,
                 joiningDate: formData.joinDate,
@@ -117,7 +118,7 @@ const EmployeeDetails = () => {
         try {
             console.log("Form Data Department:", formData.department);
             if (formData.department === "Sales") {
-                const salesResponse = await axios.post("http://localhost:4000/api/salesuser/signup", {
+                const salesResponse = await axios.post(`${api}/api/salesuser/signup`, {
                     username: formData.userName,
                     password: formData.password
                 });
@@ -126,7 +127,7 @@ const EmployeeDetails = () => {
                     console.log("Sales user added");
                 }
             } else if (formData.department === "Production") {
-                const prodResponse = await axios.post("http://localhost:4000/api/productionUser/signup", {
+                const prodResponse = await axios.post(`${api}/api/productionUser/signup`, {
                     username: formData.userName,
                     password: formData.password
                 });
@@ -145,7 +146,7 @@ const EmployeeDetails = () => {
     useEffect(() => {
         const getDepartment = async () => {
             try {
-                const response = await axios.get("http://localhost:4000/dropdown/getDepartment");
+                const response = await axios.get(`${api}/dropdown/getDepartment`);
                 setDepartment(response.data.data[0]);
                 console.log("Response", response.data.data[0]);
             } catch (error) {

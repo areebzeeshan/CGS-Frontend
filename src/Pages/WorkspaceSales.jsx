@@ -9,6 +9,7 @@ import { MdIncompleteCircle } from "react-icons/md";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import SalesAuth from "../Components/SalesAuth";
+import api from "../Components/Api";
 
 const WorkspaceSales = () => {
   const [projects, setProjects] = useState([]);
@@ -17,7 +18,7 @@ const WorkspaceSales = () => {
     const fetchingProjects = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:4000/api/projects/get"
+          `${api}/api/projects/get`
         );
         setProjects(response.data.data[0]);
         console.log(response.data.data[0]);

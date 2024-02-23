@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 import ProductionDashboard from "../Components/ProductionDashboard";
 import axios from "axios";
 import ProductionAuth from "../Components/ProductionAuth";
+import api from "../Components/Api";
 
 const WorkspaceProduction = () => {
   const [projects, setProjects] = useState([]);
@@ -19,7 +20,7 @@ const WorkspaceProduction = () => {
     const fetchingProjects = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:4000/api/projects/get"
+          `${api}/api/projects/get`
         );
         setProjects(response.data.data[0]);
         console.log(response.data.data[0]);

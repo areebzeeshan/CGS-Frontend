@@ -8,6 +8,7 @@ import Buttons from "../Components/Buttons";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import WithAuth from "../Components/WithAuth";
+import api from "../Components/Api";
 
 const HR = () => {
   const table_head = [
@@ -26,7 +27,7 @@ const HR = () => {
     const fetchEmployeeData = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:4000/api/employee/fetch"
+          `${api}/api/employee/fetch`
         );
         setEmployeeData(response.data.data[0]);
         console.log(response.data.data[0]);

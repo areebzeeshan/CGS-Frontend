@@ -12,6 +12,7 @@ import { PieChart } from "@mui/x-charts/PieChart";
 import axios from "axios";
 import { useDrop, useDrag } from "react-dnd";
 import WithAuth from "../Components/WithAuth";
+import api from "../Components/Api";
 
 const Workspace = () => {
   const cardInfo = [
@@ -128,7 +129,7 @@ const Workspace = () => {
     const fetchingProjects = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:4000/api/projects/get"
+          `${api}/api/projects/get`
         );
         setProjects(response.data.data[0]);
         console.log(response.data.data[0]);
