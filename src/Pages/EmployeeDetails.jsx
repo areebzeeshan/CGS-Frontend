@@ -136,6 +136,16 @@ const EmployeeDetails = () => {
                     console.log("Production user added");
                 }
             }
+            else if (formData.department === "Admin") {
+                const adminResponse = await axios.post(`${api}/api/user/signup`, {
+                    username: formData.userName,
+                    password: formData.password
+                });
+                console.log("Production Response:", adminResponse.data);
+                if (adminResponse.status === 200 && adminResponse.data.success) {
+                    console.log("Production user added");
+                }
+            }
         } catch (error) {
             console.log("Error in handleUsers:", error);
         }
