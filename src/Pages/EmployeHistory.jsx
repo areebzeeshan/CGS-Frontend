@@ -20,7 +20,9 @@ const EmployeHistory = () => {
     "Start Date",
     "End Date",
     "Salary",
-    "Shift"
+    "Shift",
+    "Bank",
+    "Account"
   ];
 
   const [formData, setFormData] = useState({
@@ -31,7 +33,9 @@ const EmployeHistory = () => {
     startDate: "",
     endDate: "",
     salary: "",
-    shift: ""
+    shift: "",
+    bankName: "",
+    accountNum: ""
   });
 
   const handleInputChange = (e) => {
@@ -66,7 +70,9 @@ const EmployeHistory = () => {
         StartDate: formData.startDate,
         EndDate: formData.endDate,
         salary: formData.salary,
-        shift: formData.shift
+        shift: formData.shift,
+        bank: formData.bankName,
+        accountNumber: formData.accountNum
       });
       if (response.status === 200 && response.data.success) {
         console.log("Employee History posted successfully!")
@@ -78,7 +84,9 @@ const EmployeHistory = () => {
           startDate: "",
           endDate: "",
           salary: "",
-          shift: ""
+          shift: "",
+          bankName: "",
+          accountNum: ""
         });
       }
     } catch (error) {
@@ -139,6 +147,12 @@ const EmployeHistory = () => {
                           </td>
                           <td className="p-2 text-start border-b border-gray-300">
                             {item.shift}
+                          </td>
+                          <td className="p-2 text-start border-b border-gray-300">
+                            {item.bank}
+                          </td>
+                          <td className="p-2 text-start border-b border-gray-300">
+                            {item.accountNumber}
                           </td>
                         </tr>
                       ))}
@@ -243,6 +257,38 @@ const EmployeHistory = () => {
                         id="shift"
                         name="shift"
                         value={formData.shift}
+                        onChange={handleInputChange}
+                      />
+                    </div>
+                    <div className="mb-3">
+                      <label
+                        htmlFor="bankName"
+                        className="block text-sm font-medium leading-6 text-gray-900"
+                      >
+                        Bank: <span className='text-red-500'>*</span>
+                      </label>
+                      <input
+                        type="text"
+                        className={`block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none ring-gray-300 ring-1 ring-inset placeholder:text-gray-400 sm:text-sm sm:leading-6`}
+                        id="bankName"
+                        name="bankName"
+                        value={formData.bankName}
+                        onChange={handleInputChange}
+                      />
+                    </div>
+                    <div className="mb-3">
+                      <label
+                        htmlFor="accountNum"
+                        className="block text-sm font-medium leading-6 text-gray-900"
+                      >
+                        Account: <span className='text-red-500'>*</span>
+                      </label>
+                      <input
+                        type="text"
+                        className={`block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none ring-gray-300 ring-1 ring-inset placeholder:text-gray-400 sm:text-sm sm:leading-6`}
+                        id="accountNum"
+                        name="accountNum"
+                        value={formData.accountNum}
                         onChange={handleInputChange}
                       />
                     </div>
