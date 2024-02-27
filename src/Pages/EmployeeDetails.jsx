@@ -26,9 +26,9 @@ const MySelect = (props) => {
             options={options}
             value={value}
             onChange={handleChange}
-            menuIsOpen={!isReadOnly && menuIsOpen} 
-            onMenuOpen={() => setMenuIsOpen(true)} 
-            onMenuClose={() => setMenuIsOpen(false)} 
+            menuIsOpen={!isReadOnly && menuIsOpen}
+            onMenuOpen={() => setMenuIsOpen(true)}
+            onMenuClose={() => setMenuIsOpen(false)}
             components={{ Input }}
         />
     );
@@ -203,7 +203,7 @@ const EmployeeDetails = () => {
                                             htmlFor="ID"
                                             className="block text-sm font-medium leading-6 text-gray-900"
                                         >
-                                            ID:
+                                            ID: <span className='text-red-500'>*</span>
                                         </label>
                                         <input
                                             type="number"
@@ -219,7 +219,7 @@ const EmployeeDetails = () => {
                                             htmlFor="fatherName"
                                             className="block text-sm font-medium leading-6 text-gray-900"
                                         >
-                                            Father's Name:
+                                            Father's Name: <span className='text-red-500'>*</span>
                                         </label>
                                         <input
                                             type="text"
@@ -235,7 +235,7 @@ const EmployeeDetails = () => {
                                             htmlFor="phone"
                                             className="block text-sm font-medium leading-6 text-gray-900"
                                         >
-                                            Phone:
+                                            Phone: <span className='text-red-500'>*</span>
                                         </label>
                                         <input
                                             type="text"
@@ -263,7 +263,7 @@ const EmployeeDetails = () => {
                                         />
                                     </div>
                                     <div className="mb-3">
-                                        <label htmlFor="dropdown" className="block text-sm font-medium leading-6 text-gray-900">Select an option:</label> <br />
+                                        <label htmlFor="dropdown" className="block text-sm font-medium leading-6 text-gray-900">Department: <span className='text-red-500'>*</span></label> <br />
                                         <select id="dropdown" className='w-full border p-2 rounded' name='department' value={formData.department} onChange={handleInputChange}>
                                             <option className='m-5' value="">Select</option>
                                             {
@@ -278,7 +278,7 @@ const EmployeeDetails = () => {
                                             htmlFor="shift"
                                             className="block text-sm font-medium leading-6 text-gray-900"
                                         >
-                                            Shift:
+                                            Shift: <span className='text-red-500'>*</span>
                                         </label>
                                         <input
                                             type="text"
@@ -298,7 +298,7 @@ const EmployeeDetails = () => {
                                             htmlFor="Name"
                                             className="block text-sm font-medium leading-6 text-gray-900"
                                         >
-                                            Name:
+                                            Name: <span className='text-red-500'>*</span>
                                         </label>
                                         <input
                                             type="text"
@@ -314,7 +314,7 @@ const EmployeeDetails = () => {
                                             htmlFor="cnic"
                                             className="block text-sm font-medium leading-6 text-gray-900"
                                         >
-                                            CNIC:
+                                            CNIC: <span className='text-red-500'>*</span>
                                         </label>
                                         <input
                                             type="number"
@@ -346,7 +346,7 @@ const EmployeeDetails = () => {
                                             htmlFor="userID"
                                             className="block text-sm font-medium leading-6 text-gray-900"
                                         >
-                                            Username:
+                                            Username: <span className='text-red-500'>*</span>
                                         </label>
                                         <input
                                             type="text"
@@ -362,7 +362,7 @@ const EmployeeDetails = () => {
                                             htmlFor="designation"
                                             className="block text-sm font-medium leading-6 text-gray-900"
                                         >
-                                            Designation:
+                                            Designation: <span className='text-red-500'>*</span>
                                         </label>
                                         <input
                                             type="text"
@@ -398,7 +398,7 @@ const EmployeeDetails = () => {
                                             htmlFor="joiningDate"
                                             className="block text-sm font-medium leading-6 text-gray-900"
                                         >
-                                            Joining Date:
+                                            Joining Date: <span className='text-red-500'>*</span>
                                         </label>
                                         <input
                                             type="date"
@@ -414,7 +414,7 @@ const EmployeeDetails = () => {
                                             htmlFor="email"
                                             className="block text-sm font-medium leading-6 text-gray-900"
                                         >
-                                            Email:
+                                            Email: <span className='text-red-500'>*</span>
                                         </label>
                                         <input
                                             type="email"
@@ -430,7 +430,7 @@ const EmployeeDetails = () => {
                                             htmlFor="address"
                                             className="block text-sm font-medium leading-6 text-gray-900"
                                         >
-                                            Address:
+                                            Address: <span className='text-red-500'>*</span>
                                         </label>
                                         <input
                                             type="text"
@@ -446,7 +446,7 @@ const EmployeeDetails = () => {
                                             htmlFor="password"
                                             className="block text-sm font-medium leading-6 text-gray-900"
                                         >
-                                            Password:
+                                            Password: <span className='text-red-500'>*</span>
                                         </label>
                                         <input
                                             type="text"
@@ -462,7 +462,7 @@ const EmployeeDetails = () => {
                                             htmlFor="salary"
                                             className="block text-sm font-medium leading-6 text-gray-900"
                                         >
-                                            Salary:
+                                            Salary: <span className='text-red-500'>*</span>
                                         </label>
                                         <input
                                             type="text"
