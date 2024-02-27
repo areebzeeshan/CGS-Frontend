@@ -38,9 +38,11 @@ const EmployeeDetails = () => {
 
     const { id } = useParams();
     const [editMode, setEditMode] = useState(false);
+    const [selectedOption, setSelectedOption] = useState('Select');
+    const [randomNumber, setRandomNumber] = useState("");
     const [department, setDepartment] = useState([{ label: "", value: "" }]);
     const [formData, setFormData] = useState({
-        id: "",
+        id: randomNumber,
         Name: "",
         joinDate: "",
         FathName: "",
@@ -59,8 +61,6 @@ const EmployeeDetails = () => {
         salary: "",
         shift: ""
     });
-
-    const [selectedOption, setSelectedOption] = useState('Select');
 
     const handleSelectChange = (e) => {
         setSelectedOption(e.target.value);
@@ -164,6 +164,13 @@ const EmployeeDetails = () => {
             }
         };
 
+        const generateRandomId = () => {
+            console.log("Random number : ", Math.floor(100000 + Math.random() * 900000))
+            return "CG-" + Math.floor(100000 + Math.random() * 900000);
+        }
+
+        setRandomNumber(generateRandomId());
+
         getDepartment();
     }, [])
 
@@ -206,11 +213,11 @@ const EmployeeDetails = () => {
                                             ID: <span className='text-red-500'>*</span>
                                         </label>
                                         <input
-                                            type="number"
+                                            type="text"
                                             className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none border-b ps-0 font-semibold placeholder:text-gray-400 sm:text-sm sm:leading-6"}
                                             id="ID"
                                             name="id"
-                                            value={formData.id}
+                                            value={randomNumber}
                                             onChange={handleInputChange}
                                         />
                                     </div>
