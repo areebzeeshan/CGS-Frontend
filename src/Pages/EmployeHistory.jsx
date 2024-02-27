@@ -20,29 +20,18 @@ const EmployeHistory = () => {
     "Start Date",
     "End Date",
     "Salary",
-    "Shift",
+    "Shift"
   ];
-
-  const emptyFromData = {
-    id: "",
-    Name: "", // Changed from "Name" to "name"
-    depart: "",
-    desg: "",
-    startDate: "",
-    endDate: "",
-    salary: "",
-    shift: "",
-  }
 
   const [formData, setFormData] = useState({
     id: "",
-    Name: "", // Change from "name" to "Name"
+    Name: "",
     depart: "",
     desg: "",
     startDate: "",
     endDate: "",
     salary: "",
-    shift: "",
+    shift: ""
   });
 
   const handleInputChange = (e) => {
@@ -57,9 +46,8 @@ const EmployeHistory = () => {
         const response = await axios.get(
           `${api}/api/employee/search/${id}`
         );
-        alert("Data fetched successfully!")
         setEmployeeData(response.data.data[0]);
-        console.log(response.data.data[0]);
+        console.log(`fetching employee history of id : ${id}`, response.data.data[0]);
       } catch (error) {
         console.log("Error fetching employee data :", error);
       }
@@ -70,6 +58,7 @@ const EmployeHistory = () => {
 
 
   const handleRecord = async () => {
+    console.log(formData)
     try {
       const response = await axios.post(`${api}/api/employee/addRecord/${id}`, {
         department: formData.depart,
@@ -83,6 +72,14 @@ const EmployeHistory = () => {
         console.log("Employee History posted successfully!")
         console.log(response)
         alert("Employee History posted successfully!")
+        setFormData({
+          depart: "",
+          desg: "",
+          startDate: "",
+          endDate: "",
+          salary: "",
+          shift: ""
+        });
       }
     } catch (error) {
       console.log("Error", error);
@@ -153,44 +150,12 @@ const EmployeHistory = () => {
                 {/* form start */}
                 <div className="shadow-lg rounded-lg p-4 my-10 bg-gray-200">
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 text-center lg:text-start">
-                    {/* <div className="mb-3">
-                      <label
-                        htmlFor="id"
-                        className="block text-sm font-medium leading-6 text-gray-900"
-                      >
-                        Id:
-                      </label>
-                      <input
-                        type="number"
-                        className={`block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none ring-gray-300 ring-1 ring-inset placeholder:text-gray-400 sm:text-sm sm:leading-6`}
-                        id="id"
-                        name="id"
-                        value={formData.id}
-                        onChange={handleInputChange}
-                      />
-                    </div>
-                    <div className="mb-3">
-                      <label
-                        htmlFor="Name"
-                        className="block text-sm font-medium leading-6 text-gray-900"
-                      >
-                        Name:
-                      </label>
-                      <input
-                        type="text"
-                        className={`block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none ring-gray-300 ring-1 ring-inset placeholder:text-gray-400 sm:text-sm sm:leading-6`}
-                        id="Name"
-                        name="Name"
-                        value={formData.Name}
-                        onChange={handleInputChange}
-                      />
-                    </div> */}
                     <div className="mb-3">
                       <label
                         htmlFor="depart"
                         className="block text-sm font-medium leading-6 text-gray-900"
                       >
-                        Department:
+                        Department: <span className='text-red-500'>*</span>
                       </label>
                       <input
                         type="text"
@@ -206,7 +171,7 @@ const EmployeHistory = () => {
                         htmlFor="desg"
                         className="block text-sm font-medium leading-6 text-gray-900"
                       >
-                        Designation:
+                        Designation: <span className='text-red-500'>*</span>
                       </label>
                       <input
                         type="text"
@@ -222,7 +187,7 @@ const EmployeHistory = () => {
                         htmlFor="startDate"
                         className="block text-sm font-medium leading-6 text-gray-900"
                       >
-                        Start Date:
+                        Start Date: <span className='text-red-500'>*</span>
                       </label>
                       <input
                         type="text"
@@ -254,7 +219,7 @@ const EmployeHistory = () => {
                         htmlFor="salary"
                         className="block text-sm font-medium leading-6 text-gray-900"
                       >
-                        Salary:
+                        Salary: <span className='text-red-500'>*</span>
                       </label>
                       <input
                         type="number"
@@ -270,7 +235,7 @@ const EmployeHistory = () => {
                         htmlFor="shift"
                         className="block text-sm font-medium leading-6 text-gray-900"
                       >
-                        Shift:
+                        Shift: <span className='text-red-500'>*</span>
                       </label>
                       <input
                         type="text"
