@@ -37,25 +37,38 @@ const Projects = () => {
   const [projectNature, setProjectNature] = useState([{ label: "", value: "" }]);
   const [platform, setPlatform] = useState([{ label: "", value: "" }]);
   const [department, setDepartment] = useState([{ label: "", value: "" }]);
-  const [formData, setFormData] = useState({
-    title: "",
-    id: "",
-    startDate: "",
-    deleiveryDate: "",
-    platform: "",
-    department: "",
-    nature: "",
-    profile: "",
-    salesPerson: "",
-    amount: "",
-    clientName: "",
-    description: "",
-    attachments: "",
-  });
-  const handleInputChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-    console.log({ [e.target.name]: e.target.value })
-  };
+  const [id, setId] = useState(null);
+  const [title, setTitle] = useState(null);
+  const [startDate, setStartDate] = useState(null);
+  const [deleiveryDate, setDeleiveryDate] = useState(null);
+  const [plat, setPlat] = useState(null);
+  const [depart, setDepart] = useState(null);
+  const [nature, setNature] = useState(null);
+  const [profile, setProfile] = useState(null);
+  const [salesPerson, setSalesPerson] = useState(null);
+  const [amount, setAmount] = useState(null);
+  const [clientName, setClientName] = useState(null);
+  const [description, setDescription] = useState(null);
+  const [attachments, setAttachments] = useState(null);
+  // const [formData, setFormData] = useState({
+  //   title: "",
+  //   id: "",
+  //   startDate: "",
+  //   deleiveryDate: "",
+  //   platform: "",
+  //   department: "",
+  //   nature: "",
+  //   profile: "",
+  //   salesPerson: "",
+  //   amount: "",
+  //   clientName: "",
+  //   description: "",
+  //   attachments: "",
+  // });
+  // const handleInputChange = (e) => {
+  //   setFormData({ ...formData, [e.target.name]: e.target.value });
+  //   console.log({ [e.target.name]: e.target.value })
+  // };
 
   useEffect(() => {
     const getProjectNature = async () => {
@@ -95,20 +108,23 @@ const Projects = () => {
 
   const handleSubmit = async () => {
     try {
+      const formData = new FormData();
+      formData.append("attachments", attachments)
+      formData.append("id", id);
+      formData.append("title", title);
+      formData.append("startDate", startDate);
+      formData.append("deleiveryDate", deleiveryDate);
+      formData.append("platform", platform);
+      formData.append("department", department);
+      formData.append("nature", nature);
+      formData.append("profile", profile);
+      formData.append("salesPerson", salesPerson);
+      formData.append("amount", amount);
+      formData.append("clientName", clientName);
+      formData.append("description", description);
+      console.log(formData);
       var response = await axios.post(`${api}/api/projects/submit`, {
-        id: formData.id,
-        title: formData.title,
-        startDate: formData.startDate,
-        deleiveryDate: formData.deleiveryDate,
-        platform: formData.platform,
-        department: formData.department,
-        nature: formData.nature,
-        profile: formData.profile,
-        salesPerson: formData.salesPerson,
-        amount: formData.amount,
-        clientName: formData.clientName,
-        description: formData.description,
-        attachments: formData.attachments,
+        formData
       })
       if (response.status === 200 && response.data.success) {
         console.log(response);
@@ -122,7 +138,7 @@ const Projects = () => {
     }
   }
 
-  console.log(formData.platform);
+  // console.log(formData.platform);
 
   return (
     <>
@@ -154,8 +170,8 @@ const Projects = () => {
                           className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none ring-gray-300 ring-1 ring-inset placeholder:text-gray-400 sm:text-sm sm:leading-6"}
                           id="ID"
                           name="id"
-                          value={formData.id}
-                          onChange={handleInputChange}
+                          value={id}
+                          onChange={(e) => setId(e.target.value)}
 
                         />
                       </div>
@@ -171,8 +187,8 @@ const Projects = () => {
                           className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none ring-gray-300 ring-1 ring-inset placeholder:text-gray-400 sm:text-sm sm:leading-6"}
                           id="startDate"
                           name="startDate"
-                          value={formData.startDate}
-                          onChange={handleInputChange}
+                          value={startDate}
+                          onChange={(e) => setStartDate(e.target.value)}
 
                         />
                       </div>
@@ -188,14 +204,14 @@ const Projects = () => {
                           className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none ring-gray-300 ring-1 ring-inset placeholder:text-gray-400 sm:text-sm sm:leading-6"}
                           id="clientName"
                           name="clientName"
-                          value={formData.clientName}
-                          onChange={handleInputChange}
+                          value={clientName}
+                          onChange={(e) => setClientName(e.target.value)}
 
                         />
                       </div>
                       <div className="mb-3">
                         <label htmlFor="dropdown" className="block text-sm font-medium leading-6 text-gray-900">Project Nature:</label> <br />
-                        <select id="dropdown" className='w-full border p-2 rounded' name='nature' value={formData.nature} onChange={handleInputChange}>
+                        <select id="dropdown" className='w-full border p-2 rounded' name='nature' value={nature} onChange={(e) => setNature(e.target.value)}>
                           <option className='m-5' value="">Select</option>
                           {
                             projectNature.map((item, index) => (
@@ -216,8 +232,8 @@ const Projects = () => {
                           className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none ring-gray-300 ring-1 ring-inset placeholder:text-gray-400 sm:text-sm sm:leading-6"}
                           id="salesPerson"
                           name="salesPerson"
-                          value={formData.salesPerson}
-                          onChange={handleInputChange}
+                          value={salesPerson}
+                          onChange={(e) => setSalesPerson(e.target.value)}
 
                         />
                       </div>
@@ -233,8 +249,7 @@ const Projects = () => {
                           className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none ring-gray-300 ring-1 ring-inset placeholder:text-gray-400 sm:text-sm sm:leading-6"}
                           id="attachments"
                           name="attachments"
-                          value={formData.attachments}
-                          onChange={handleInputChange}
+                          onChange={(e) => setAttachments(e.target.files[0])}
                         />
                       </div>
                     </div>
@@ -253,8 +268,8 @@ const Projects = () => {
                           className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none ring-gray-300 ring-1 ring-inset placeholder:text-gray-400 sm:text-sm sm:leading-6"}
                           id="profile"
                           name="profile"
-                          value={formData.profile}
-                          onChange={handleInputChange}
+                          value={profile}
+                          onChange={(e) => setProfile(e.target.value)}
 
                         />
                       </div>
@@ -270,8 +285,8 @@ const Projects = () => {
                           className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none ring-gray-300 ring-1 ring-inset placeholder:text-gray-400 sm:text-sm sm:leading-6"}
                           id="delieveryDate"
                           name="deleiveryDate"
-                          value={formData.deleiveryDate}
-                          onChange={handleInputChange}
+                          value={deleiveryDate}
+                          onChange={(e) => setDeleiveryDate(e.target.value)}
 
                         />
                       </div>
@@ -287,14 +302,14 @@ const Projects = () => {
                           className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none ring-gray-300 ring-1 ring-inset placeholder:text-gray-400 sm:text-sm sm:leading-6"}
                           id="title"
                           name="title"
-                          value={formData.title}
-                          onChange={handleInputChange}
+                          value={title}
+                          onChange={(e) => setTitle(e.target.value)}
 
                         />
                       </div>
                       <div className="mb-3">
                         <label htmlFor="dropdown" className="block text-sm font-medium leading-6 text-gray-900">Department:</label> <br />
-                        <select id="dropdown" className='w-full border p-2 rounded' name='department' value={formData.department} onChange={handleInputChange}>
+                        <select id="dropdown" className='w-full border p-2 rounded' name='department' value={depart} onChange={(e) => setDepart(e.target.value)}>
                           <option className='m-5' value="">Select</option>
                           {
                             department.map((item, index) => (
@@ -315,14 +330,14 @@ const Projects = () => {
                           className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none ring-gray-300 ring-1 ring-inset placeholder:text-gray-400 sm:text-sm sm:leading-6"}
                           id="amount"
                           name="amount"
-                          value={formData.amount}
-                          onChange={handleInputChange}
+                          value={amount}
+                          onChange={(e) => setAmount(e.target.value)}
 
                         />
                       </div>
                       <div className="mb-3">
                         <label htmlFor="dropdown" className="block text-sm font-medium leading-6 text-gray-900">Platform:</label> <br />
-                        <select id="dropdown" className='w-full border p-2 rounded' name='platform' value={formData.platform} onChange={handleInputChange}>
+                        <select id="dropdown" className='w-full border p-2 rounded' name='platform' value={plat} onChange={(e) => setPlat(e.target.value)}>
                           <option className='m-5' value="">Select</option>
                           {
                             platform.map((item, index) => (
@@ -346,8 +361,8 @@ const Projects = () => {
                       className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none ring-gray-300 ring-1 ring-inset placeholder:text-gray-400 sm:text-sm sm:leading-6"}
                       name="description"
                       id="description"
-                      value={formData.description}
-                      onChange={handleInputChange}
+                      value={description}
+                      onChange={(e) => setDescription(e.target.value)}
 
                     ></textarea>
                   </div>
