@@ -33,8 +33,10 @@ const Login = () => {
     } catch (error) {
       console.log("Error logging in:", error);
       setAuthError("Error logging in");
+      alert(error.message); 
     }
   };
+
 
   useEffect(() => {
     const token = localStorage.getItem("token");

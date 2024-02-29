@@ -37,32 +37,41 @@ const MySelect = (props) => {
 const EmployeeDetails = () => {
 
     const { id } = useParams();
+
     const [editMode, setEditMode] = useState(false);
     const [selectedOption, setSelectedOption] = useState('Select');
     const [randomNumber, setRandomNumber] = useState("");
+    const [employeeData, setEmployeeData] = useState([]);
     const [department, setDepartment] = useState([{ label: "", value: "" }]);
+    const [count, setCount] = useState(1);
+    const [shift, setShift] = useState([]);
+    const [designation, setDesignation] = useState([]);
+
+
     const [formData, setFormData] = useState({
-        id: randomNumber,
-        Name: "",
-        joinDate: "",
-        FathName: "",
-        cnic: "",
-        email: "",
-        phone: "",
-        emergencyPhone: "",
-        reference: "",
-        address: "",
-        userName: "",
-        password: "",
-        department: "",
-        designation: "",
-        StartDate: "",
-        EndDate: "",
-        salary: "",
-        shift: "",
-        bankName: "",
-        accountNum: ""
+        id: id ? id : count,
+        Name: '',
+        joinDate: '',
+        FathName: '',
+        cnic: '',
+        email: '',
+        phone: '',
+        emergencyPhone: '',
+        reference: '',
+        address: '',
+        userName: '',
+        password: '',
+        department: '',
+        designation: '',
+        StartDate: '',
+        EndDate: '',
+        salary: '',
+        shift: '',
+        bankName: '',
+        accountNum: ''
     });
+
+    // console.log("Params:", id, _name, _joiningDate, _fathersName, _cnic, _email, _phone, _emergencyPhone, _reference, _address, _username, _password, depart_ment, _designation, _StartDate, _EndDate, _salary, _shift, _bank, _accountNumber);
 
     const handleSelectChange = (e) => {
         setSelectedOption(e.target.value);
@@ -80,7 +89,7 @@ const EmployeeDetails = () => {
                 if (salesResponse.status === 200 && salesResponse.data.success) {
                     console.log("Sales user added");
                 }
-            } else if (formData.department === "Production") {
+            } else if (formData.department === "Production-Graphics" || formData.department === "Production-Development") {
                 const prodResponse = await axios.post(`${api}/api/productionUser/signup`, {
                     username: formData.userName,
                     password: formData.password
@@ -108,7 +117,7 @@ const EmployeeDetails = () => {
     const handleSubmit = async () => {
         try {
             const response = await axios.post(`${api}/api/employee/submit`, {
-                id: randomNumber,
+                id: id ? id : randomNumber,
                 name: formData.Name,
                 joiningDate: formData.joinDate,
                 fathersName: formData.FathName,
@@ -174,8 +183,40 @@ const EmployeeDetails = () => {
             } else {
                 console.log("Error during request setup:", error.message);
             }
+            alert("Error in submitting Employee : ", error.message);
         }
     };
+
+    const handleUpdate = async () => {
+        try {
+            const updateData = {
+                name: formData.Name,
+                joiningDate: formData.joinDate,
+                fathersName: formData.FathName,
+                cnic: formData.cnic,
+                email: formData.email,
+                phone: formData.phone,
+                reference: formData.reference,
+                address: formData.address,
+                emergencyPhone: formData.emergencyPhone,
+                username: formData.userName,
+                password: formData.password,
+            };
+
+            const response = await axios.put(`${api}/api/employee/update/${id}`, updateData);
+
+            if (response.status === 200 && response.data.success) {
+                console.log(response);
+                console.log("Data posted Successfully !");
+                alert("Form updated successfully!");
+            } else {
+                console.log("Data posting FAILED!");
+            }
+        } catch (error) {
+            console.log("Error in Updating employee ", error)
+            alert("Error in Updating Employee : ", error.message);
+        }
+    }
 
 
     useEffect(() => {
@@ -190,15 +231,73 @@ const EmployeeDetails = () => {
         };
 
         const generateRandomId = () => {
-            console.log("Random number : ", Math.floor(100000 + Math.random() * 900000))
             return Math.floor(100000 + Math.random() * 900000);
         }
 
-        setRandomNumber(generateRandomId());
+        const fetchEmployeeData = async () => {
+            try {
+                const response = await axios.get(
+                    `${api}/api/employee/search/${id}`
+                );
+                setEmployeeData(response.data.data[0]);
+                console.log(`fetching employee history of id : ${id}`, response.data.data[0]);
+                setFormData(prevState => ({
+                    ...prevState,
+                    Name: response.data.data[0].name,
+                    joinDate: response.data.data[0].joiningDate,
+                    FathName: response.data.data[0].fathersName,
+                    phone: response.data.data[0].phone,
+                    cnic: response.data.data[0].cnic,
+                    email: response.data.data[0].email,
+                    emergencyPhone: response.data.data[0].emergencyPhone,
+                    reference: response.data.data[0].reference,
+                    address: response.data.data[0].address,
+                    userName: response.data.data[0].username,
+                    password: response.data.data[0].password,
+                    department: response.data.data[0].history[response.data.data[0].history.length - 1].department,
+                    designation: response.data.data[0].history[response.data.data[0].history.length - 1].designation,
+                    StartDate: response.data.data[0].StartDate,
+                    EndDate: response.data.data[0].history[response.data.data[0].history.length - 1].EndDate,
+                    salary: response.data.data[0].history[response.data.data[0].history.length - 1].salary,
+                    shift: response.data.data[0].history[response.data.data[0].history.length - 1].shift,
+                    bankName: response.data.data[0].history[response.data.data[0].history.length - 1].bank,
+                    accountNum: response.data.data[0].history[response.data.data[0].history.length - 1].accountNumber,
+                }));
+            } catch (error) {
+                console.log("Error fetching employee data :", error);
+            }
+        };
 
+        const shiftFetch = async () => {
+            try {
+                const response = await axios.get(`${api}/dropdown/getShift`);
+                if (response.status === 200 && response.data.success) {
+                    setShift(response.data.data[0])
+                }
+            } catch (error) {
+                console.log("Error in shift fetching", error)
+            }
+        }
+
+        const designationFetch = async () => {
+            try {
+                const response = await axios.get(`${api}/dropdown/getDesignation`);
+                if (response.status === 200 && response.data.success) {
+                    setDesignation(response.data.data[0])
+                }
+            } catch (error) {
+                console.log("Error in designation fetching", error)
+            }
+        }
+
+        fetchEmployeeData();
+        setRandomNumber(generateRandomId());
         getDepartment();
+        shiftFetch();
+        designationFetch();
     }, [])
 
+    console.log("Employee Data : ", employeeData)
     console.log("Departments ", department);
 
     const handleInputChange = (e) => {
@@ -236,7 +335,7 @@ const EmployeeDetails = () => {
                                         className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none border-b ps-0 font-semibold placeholder:text-gray-400 sm:text-sm sm:leading-6"}
                                         id="ID"
                                         name="id"
-                                        value={randomNumber}
+                                        value={id ? id : randomNumber}
                                         onChange={handleInputChange}
                                     />
                                 </div>
@@ -293,7 +392,7 @@ const EmployeeDetails = () => {
                                         htmlFor="emerPhone"
                                         className="block text-sm font-medium leading-6 text-gray-900"
                                     >
-                                        Emergency Phone:
+                                        Emergency Phone: <span className='text-red-500'>*</span>
                                     </label>
                                     <input
                                         type="number"
@@ -304,33 +403,71 @@ const EmployeeDetails = () => {
                                         onChange={handleInputChange}
                                     />
                                 </div>
-                                <div className="mb-3">
-                                    <label htmlFor="dropdown" className="block text-sm font-medium leading-6 text-gray-900">Department: <span className='text-red-500'>*</span></label> <br />
-                                    <select id="dropdown" className='w-full border p-2 rounded' name='department' value={formData.department} onChange={handleInputChange}>
-                                        <option className='m-5' value="">Select</option>
-                                        {
-                                            department.map((item, index) => (
-                                                <option key={index} className='m-5' value={item.label}>{item.label}</option>
-                                            ))
-                                        }
-                                    </select>
-                                </div>
-                                <div className="mb-3">
-                                    <label
-                                        htmlFor="shift"
-                                        className="block text-sm font-medium leading-6 text-gray-900"
-                                    >
-                                        Shift: <span className='text-red-500'>*</span>
-                                    </label>
-                                    <input
-                                        type="text"
-                                        className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none border-b ps-0 font-semibold placeholder:text-gray-400 sm:text-sm sm:leading-6"}
-                                        id="shift"
-                                        name="shift"
-                                        value={formData.shift}
-                                        onChange={handleInputChange}
-                                    />
-                                </div>
+                                {
+                                    id ? (
+                                        <div className="mb-3">
+                                            <label htmlFor="dropdown" className="block text-sm font-medium leading-6 text-gray-900">Department: <span className='text-red-500'>*</span></label> <br />
+                                            <input
+                                                type="text"
+                                                className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none border-b ps-0 font-semibold placeholder:text-gray-400 sm:text-sm sm:leading-6"}
+                                                id="department"
+                                                name="department"
+                                                value={formData.department}
+                                                readOnly={true}
+                                            />
+                                        </div>
+                                    ) : (
+                                        <div className="mb-3">
+                                            <label htmlFor="dropdown" className="block text-sm font-medium leading-6 text-gray-900">Department: <span className='text-red-500'>*</span></label> <br />
+                                            <select id="dropdown" className='w-full border p-2 rounded' name='department' value={formData.department} onChange={handleInputChange}>
+                                                <option className='m-5' value="">Select</option>
+                                                {
+                                                    department.map((item, index) => (
+                                                        <option key={index} className='m-5' value={item.label}>{item.label}</option>
+                                                    ))
+                                                }
+                                            </select>
+                                        </div>
+                                    )
+                                }
+
+                                {
+                                    id ? (
+                                        <div className="mb-3">
+                                            <label
+                                                htmlFor="shift"
+                                                className="block text-sm font-medium leading-6 text-gray-900"
+                                            >
+                                                Shift: <span className='text-red-500'>*</span>
+                                            </label>
+                                            <input
+                                                type="text"
+                                                className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none border-b ps-0 font-semibold placeholder:text-gray-400 sm:text-sm sm:leading-6"}
+                                                id="shift"
+                                                name="shift"
+                                                value={formData.shift}
+                                                readOnly={true}
+                                            />
+                                        </div>
+                                    ) : (
+                                        <div className="mb-3">
+                                            <label
+                                                htmlFor="shift"
+                                                className="block text-sm font-medium leading-6 text-gray-900"
+                                            >
+                                                Shift: <span className='text-red-500'>*</span>
+                                            </label>
+                                            <select id="shift" className='w-full border p-2 rounded' name='shift' value={formData.shift} onChange={handleInputChange}>
+                                                <option className='m-5' value="">Select</option>
+                                                {
+                                                    shift.map((item, index) => (
+                                                        <option key={index} className='m-5' value={item.label}>{item.label}</option>
+                                                    ))
+                                                }
+                                            </select>
+                                        </div>
+                                    )
+                                }
 
                                 <div className="mb-3">
                                     <label
@@ -353,7 +490,7 @@ const EmployeeDetails = () => {
                                         htmlFor="reference"
                                         className="block text-sm font-medium leading-6 text-gray-900"
                                     >
-                                        Reference:
+                                        Reference: <span className='text-red-500'>*</span>
                                     </label>
                                     <input
                                         type="text"
@@ -382,36 +519,96 @@ const EmployeeDetails = () => {
                                 </div>
                                 <div className="mb-3">
                                     <label
-                                        htmlFor="designation"
+                                        htmlFor="password"
                                         className="block text-sm font-medium leading-6 text-gray-900"
                                     >
-                                        Designation: <span className='text-red-500'>*</span>
+                                        Password: <span className='text-red-500'>*</span>
                                     </label>
                                     <input
                                         type="text"
                                         className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none border-b ps-0 font-semibold placeholder:text-gray-400 sm:text-sm sm:leading-6"}
-                                        id="designation"
-                                        name="designation"
-                                        value={formData.designation}
+                                        id="password"
+                                        name="password"
+                                        value={formData.password}
                                         onChange={handleInputChange}
                                     />
                                 </div>
-                                <div className="mb-3">
-                                    <label
-                                        htmlFor="EndDate"
-                                        className="block text-sm font-medium leading-6 text-gray-900"
-                                    >
-                                        End Date:
-                                    </label>
-                                    <input
-                                        type="text"
-                                        className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none border-b ps-0 font-semibold placeholder:text-gray-400 sm:text-sm sm:leading-6"}
-                                        id="EndDate"
-                                        name="EndDate"
-                                        value={formData.EndDate}
-                                        onChange={handleInputChange}
-                                    />
-                                </div>
+                                {
+                                    id ? (
+                                        <div className="mb-3">
+                                            <label
+                                                htmlFor="designation"
+                                                className="block text-sm font-medium leading-6 text-gray-900"
+                                            >
+                                                Designation: <span className='text-red-500'>*</span>
+                                            </label>
+                                            <input
+                                                type="text"
+                                                className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none border-b ps-0 font-semibold placeholder:text-gray-400 sm:text-sm sm:leading-6"}
+                                                id="designation"
+                                                name="designation"
+                                                value={formData.designation}
+                                                readOnly={true}
+                                            />
+                                        </div>
+                                    ) : (
+                                        <div className="mb-3">
+                                            <label
+                                                htmlFor="designation"
+                                                className="block text-sm font-medium leading-6 text-gray-900"
+                                            >
+                                                Designation: <span className='text-red-500'>*</span>
+                                            </label>
+                                            <select id="designation" className='w-full border p-2 rounded' name='designation' value={formData.designation} onChange={handleInputChange} >
+                                                <option className='m-5' value="">Select</option>
+                                                {
+                                                    designation.map((item, index) => (
+                                                        <option key={index} className='m-5' value={item.label}>{item.label}</option>
+                                                    ))
+                                                }
+                                            </select>
+                                        </div>
+                                    )
+                                }
+
+                                {
+                                    id ? (
+                                        <div className="mb-3">
+                                            <label
+                                                htmlFor="EndDate"
+                                                className="block text-sm font-medium leading-6 text-gray-900"
+                                            >
+                                                End Date:
+                                            </label>
+                                            <input
+                                                type="text"
+                                                className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none border-b ps-0 font-semibold placeholder:text-gray-400 sm:text-sm sm:leading-6"}
+                                                id="EndDate"
+                                                name="EndDate"
+                                                value={formData.EndDate}
+                                                readOnly={true}
+                                            />
+                                        </div>
+                                    ) : (
+                                        <div className="mb-3">
+                                            <label
+                                                htmlFor="EndDate"
+                                                className="block text-sm font-medium leading-6 text-gray-900"
+                                            >
+                                                End Date:
+                                            </label>
+                                            <input
+                                                type="text"
+                                                className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none border-b ps-0 font-semibold placeholder:text-gray-400 sm:text-sm sm:leading-6"}
+                                                id="EndDate"
+                                                name="EndDate"
+                                                value={formData.EndDate}
+                                                onChange={handleInputChange}
+                                            />
+                                        </div>
+                                    )
+                                }
+
                                 <div className="mb-3">
                                     <label
                                         htmlFor="joiningDate"
@@ -460,77 +657,137 @@ const EmployeeDetails = () => {
                                         onChange={handleInputChange}
                                     />
                                 </div>
-                                <div className="mb-3">
-                                    <label
-                                        htmlFor="password"
-                                        className="block text-sm font-medium leading-6 text-gray-900"
-                                    >
-                                        Password: <span className='text-red-500'>*</span>
-                                    </label>
-                                    <input
-                                        type="text"
-                                        className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none border-b ps-0 font-semibold placeholder:text-gray-400 sm:text-sm sm:leading-6"}
-                                        id="password"
-                                        name="password"
-                                        value={formData.password}
-                                        onChange={handleInputChange}
-                                    />
-                                </div>
-                                <div className="mb-3">
-                                    <label
-                                        htmlFor="salary"
-                                        className="block text-sm font-medium leading-6 text-gray-900"
-                                    >
-                                        Salary: <span className='text-red-500'>*</span>
-                                    </label>
-                                    <input
-                                        type="text"
-                                        className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none border-b ps-0 font-semibold placeholder:text-gray-400 sm:text-sm sm:leading-6"}
-                                        id="salary"
-                                        name="salary"
-                                        value={formData.salary}
-                                        onChange={handleInputChange}
-                                    />
-                                </div>
-                                <div className="mb-3">
-                                    <label
-                                        htmlFor="bankName"
-                                        className="block text-sm font-medium leading-6 text-gray-900"
-                                    >
-                                        Bank: <span className='text-red-500'>*</span>
-                                    </label>
-                                    <input
-                                        type="text"
-                                        className={`block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none ring-gray-300 border-b placeholder:text-gray-400 sm:text-sm sm:leading-6`}
-                                        id="bankName"
-                                        name="bankName"
-                                        value={formData.bankName}
-                                        onChange={handleInputChange}
-                                    />
-                                </div>
-                                <div className="mb-3">
-                                    <label
-                                        htmlFor="accountNum"
-                                        className="block text-sm font-medium leading-6 text-gray-900"
-                                    >
-                                        Account: <span className='text-red-500'>*</span>
-                                    </label>
-                                    <input
-                                        type="text"
-                                        className={`block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none ring-gray-300 border-b placeholder:text-gray-400 sm:text-sm sm:leading-6`}
-                                        id="accountNum"
-                                        name="accountNum"
-                                        value={formData.accountNum}
-                                        onChange={handleInputChange}
-                                    />
-                                </div>
+
+                                {
+                                    id ? (
+                                        <div className="mb-3">
+                                            <label
+                                                htmlFor="salary"
+                                                className="block text-sm font-medium leading-6 text-gray-900"
+                                            >
+                                                Salary: <span className='text-red-500'>*</span>
+                                            </label>
+                                            <input
+                                                type="text"
+                                                className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none border-b ps-0 font-semibold placeholder:text-gray-400 sm:text-sm sm:leading-6"}
+                                                id="salary"
+                                                name="salary"
+                                                value={formData.salary}
+                                                readOnly={true}
+                                            />
+                                        </div>
+                                    ) : (
+                                        <div className="mb-3">
+                                            <label
+                                                htmlFor="salary"
+                                                className="block text-sm font-medium leading-6 text-gray-900"
+                                            >
+                                                Salary: <span className='text-red-500'>*</span>
+                                            </label>
+                                            <input
+                                                type="text"
+                                                className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none border-b ps-0 font-semibold placeholder:text-gray-400 sm:text-sm sm:leading-6"}
+                                                id="salary"
+                                                name="salary"
+                                                value={formData.salary}
+                                                onChange={handleInputChange}
+                                            />
+                                        </div>
+                                    )
+                                }
+
+                                {
+                                    id ? (
+                                        <div className="mb-3">
+                                            <label
+                                                htmlFor="bankName"
+                                                className="block text-sm font-medium leading-6 text-gray-900"
+                                            >
+                                                Bank: <span className='text-red-500'>*</span>
+                                            </label>
+                                            <input
+                                                type="text"
+                                                className={`block w-full rounded-md border-0 py-1.5 pr-20 text-gray-900 focus:outline-none ring-gray-300 border-b font-semibold placeholder:text-gray-400 sm:text-sm sm:leading-6`}
+                                                id="bankName"
+                                                name="bankName"
+                                                value={formData.bankName}
+                                                readOnly={true}
+                                            />
+                                        </div>
+                                    ) : (
+                                        <div className="mb-3">
+                                            <label
+                                                htmlFor="bankName"
+                                                className="block text-sm font-medium leading-6 text-gray-900"
+                                            >
+                                                Bank: <span className='text-red-500'>*</span>
+                                            </label>
+                                            <input
+                                                type="text"
+                                                className={`block w-full rounded-md border-0 py-1.5 pr-20 text-gray-900 font-semibold focus:outline-none ring-gray-300 border-b placeholder:text-gray-400 sm:text-sm sm:leading-6`}
+                                                id="bankName"
+                                                name="bankName"
+                                                value={formData.bankName}
+                                                onChange={handleInputChange}
+                                            />
+                                        </div>
+                                    )
+                                }
+
+                                {
+                                    id ? (
+                                        <div className="mb-3">
+                                            <label
+                                                htmlFor="accountNum"
+                                                className="block text-sm font-medium leading-6 text-gray-900"
+                                            >
+                                                Account: <span className='text-red-500'>*</span>
+                                            </label>
+                                            <input
+                                                type="text"
+                                                className={`block w-full rounded-md border-0 py-1.5 pr-20 text-gray-900 font-semibold focus:outline-none ring-gray-300 border-b placeholder:text-gray-400 sm:text-sm sm:leading-6`}
+                                                id="accountNum"
+                                                name="accountNum"
+                                                value={formData.accountNum}
+                                                readOnly={true}
+                                            />
+                                        </div>
+                                    ) : (
+                                        <div className="mb-3">
+                                            <label
+                                                htmlFor="accountNum"
+                                                className="block text-sm font-medium leading-6 text-gray-900"
+                                            >
+                                                Account: <span className='text-red-500'>*</span>
+                                            </label>
+                                            <input
+                                                type="text"
+                                                className={`block w-full rounded-md border-0 py-1.5 pr-20 text-gray-900 font-semibold focus:outline-none ring-gray-300 border-b placeholder:text-gray-400 sm:text-sm sm:leading-6`}
+                                                id="accountNum"
+                                                name="accountNum"
+                                                value={formData.accountNum}
+                                                onChange={handleInputChange}
+                                            />
+                                        </div>
+                                    )
+                                }
+
                             </div>
                             <div className='my-5 text-center'>
-                                <button
-                                    onClick={() => handleSubmit()}
-                                    className="text-white bg-indigo-500 border-0 py-2 px-9 focus:outline-none hover:bg-indigo-600 rounded">
-                                    Submit
-                                </button>
+                                {id ? (
+                                    <button
+                                        onClick={handleUpdate}
+                                        className="text-white bg-indigo-500 border-0 py-2 px-9 focus:outline-none hover:bg-indigo-600 rounded">
+                                        Update
+                                    </button>
+                                ) : (
+                                    <button
+                                        onClick={() => handleSubmit()}
+                                        className="text-white bg-indigo-500 border-0 py-2 px-9 focus:outline-none hover:bg-indigo-600 rounded">
+                                        Submit
+                                    </button>
+                                )}
+
                             </div>
                         </div>
                     </div>

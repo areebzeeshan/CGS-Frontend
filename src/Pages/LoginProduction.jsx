@@ -32,6 +32,7 @@ const LoginProduction = () => {
     } catch (error) {
       console.error("Error logging in:", error);
       setAuthError("Error logging in");
+      alert(error.message); 
     }
   };
 

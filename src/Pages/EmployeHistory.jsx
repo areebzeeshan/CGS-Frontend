@@ -25,6 +25,10 @@ const EmployeHistory = () => {
     "Account"
   ];
 
+  const [shift, setShift] = useState([]);
+  const [designation, setDesignation] = useState([]);
+  const [department, setDepartment] = useState([]);
+  const [bank, setBank] = useState([]);
   const [formData, setFormData] = useState({
     id: "",
     Name: "",
@@ -57,7 +61,53 @@ const EmployeHistory = () => {
       }
     };
 
+    const shiftFetch = async () => {
+      try {
+        const response = await axios.get(`${api}/dropdown/getShift`);
+        if (response.status === 200 && response.data.success) {
+          setShift(response.data.data[0])
+        }
+      } catch (error) {
+        console.log("Error in shift fetching", error)
+      }
+    }
+
+    const designationFetch = async () => {
+      try {
+        const response = await axios.get(`${api}/dropdown/getDesignation`);
+        if (response.status === 200 && response.data.success) {
+          setDesignation(response.data.data[0])
+        }
+      } catch (error) {
+        console.log("Error in designation fetching", error)
+      }
+    }
+
+    const getDepartment = async () => {
+      try {
+        const response = await axios.get(`${api}/dropdown/getDepartment`);
+        setDepartment(response.data.data[0]);
+        console.log("Response", response.data.data[0]);
+      } catch (error) {
+        console.log("Error in fetching Project Nature", error)
+      }
+    };
+
+    const bankFetch = async () => {
+      try {
+        const response = await axios.get(`${api}/dropdown/getBank`);
+        setBank(response.data.data[0]);
+        console.log("Response", response.data.data[0]);
+      } catch (error) {
+        console.log("Error in fetching Bank", error)
+      }
+    };
+
     fetchEmployeeData();
+    shiftFetch();
+    designationFetch();
+    getDepartment();
+    bankFetch();
   }, []);
 
 
@@ -91,6 +141,7 @@ const EmployeHistory = () => {
       }
     } catch (error) {
       console.log("Error", error);
+      alert("Error in adding record : ", error.message)
     }
   }
 
@@ -171,14 +222,14 @@ const EmployeHistory = () => {
                       >
                         Department: <span className='text-red-500'>*</span>
                       </label>
-                      <input
-                        type="text"
-                        className={`block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none ring-gray-300 ring-1 ring-inset placeholder:text-gray-400 sm:text-sm sm:leading-6`}
-                        id="depart"
-                        name="depart"
-                        value={formData.depart}
-                        onChange={handleInputChange}
-                      />
+                      <select id="depart" className='w-full border p-2 rounded' name='depart' value={formData.depart} onChange={handleInputChange}>
+                        <option className='m-5' value="">Select</option>
+                        {
+                          department.map((item, index) => (
+                            <option key={index} className='m-5' value={item.label}>{item.label}</option>
+                          ))
+                        }
+                      </select>
                     </div>
                     <div className="mb-3">
                       <label
@@ -187,14 +238,14 @@ const EmployeHistory = () => {
                       >
                         Designation: <span className='text-red-500'>*</span>
                       </label>
-                      <input
-                        type="text"
-                        className={`block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none ring-gray-300 ring-1 ring-inset placeholder:text-gray-400 sm:text-sm sm:leading-6`}
-                        id="desg"
-                        name="desg"
-                        value={formData.desg}
-                        onChange={handleInputChange}
-                      />
+                      <select id="desg" className='w-full border p-2 rounded' name='desg' value={formData.desg} onChange={handleInputChange}>
+                        <option className='m-5' value="">Select</option>
+                        {
+                          designation.map((item, index) => (
+                            <option key={index} className='m-5' value={item.label}>{item.label}</option>
+                          ))
+                        }
+                      </select>
                     </div>
                     <div className="mb-3">
                       <label
@@ -251,14 +302,14 @@ const EmployeHistory = () => {
                       >
                         Shift: <span className='text-red-500'>*</span>
                       </label>
-                      <input
-                        type="text"
-                        className={`block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none ring-gray-300 ring-1 ring-inset placeholder:text-gray-400 sm:text-sm sm:leading-6`}
-                        id="shift"
-                        name="shift"
-                        value={formData.shift}
-                        onChange={handleInputChange}
-                      />
+                      <select id="shift" className='w-full border p-2 rounded' name='shift' value={formData.shift} onChange={handleInputChange}>
+                        <option className='m-5' value="">Select</option>
+                        {
+                          shift.map((item, index) => (
+                            <option key={index} className='m-5' value={item.label}>{item.label}</option>
+                          ))
+                        }
+                      </select>
                     </div>
                     <div className="mb-3">
                       <label
@@ -267,14 +318,14 @@ const EmployeHistory = () => {
                       >
                         Bank: <span className='text-red-500'>*</span>
                       </label>
-                      <input
-                        type="text"
-                        className={`block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none ring-gray-300 ring-1 ring-inset placeholder:text-gray-400 sm:text-sm sm:leading-6`}
-                        id="bankName"
-                        name="bankName"
-                        value={formData.bankName}
-                        onChange={handleInputChange}
-                      />
+                      <select id="bankName" className='w-full border p-2 rounded' name='bankName' value={formData.bankName} onChange={handleInputChange}>
+                        <option className='m-5' value="">Select</option>
+                        {
+                          bank.map((item, index) => (
+                            <option key={index} className='m-5' value={item.label}>{item.label}</option>
+                          ))
+                        }
+                      </select>
                     </div>
                     <div className="mb-3">
                       <label
