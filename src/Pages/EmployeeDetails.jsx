@@ -214,7 +214,7 @@ const EmployeeDetails = () => {
             }
         } catch (error) {
             console.log("Error in Updating employee ", error)
-            alert("Error in Updating Employee : ", error.message);
+            alert("Error in Updating Employee");
         }
     }
 
