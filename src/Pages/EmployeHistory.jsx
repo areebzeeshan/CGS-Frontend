@@ -69,7 +69,7 @@ const EmployeHistory = () => {
         }
       } catch (error) {
         console.log("Error in shift fetching", error)
-      }
+      } 
     }
 
     const designationFetch = async () => {
