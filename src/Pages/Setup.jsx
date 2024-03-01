@@ -150,7 +150,7 @@ const Setup = () => {
         }
       );
       if (response.status === 200 && response.data.success) {
-        alert("Data posted successfully")
+        alert("Department posted successfully")
         console.log("Data posted successfully");
         console.log(response);
         setDepartmentData({
@@ -176,7 +176,7 @@ const Setup = () => {
         value: shiftData.value4
       })
       if (response.status === 200 && response.data.success) {
-        alert("Data posted successfully")
+        alert("Shift posted successfully")
         console.log("Data posted successfully");
         console.log(response);
         setShiftData({
@@ -202,7 +202,7 @@ const Setup = () => {
         value: designationData.value5
       })
       if (response.status === 200 && response.data.success) {
-        alert("Data posted successfully")
+        alert("Designation posted successfully")
         console.log("Data posted successfully");
         console.log(response);
         setDesignationData({
@@ -222,13 +222,13 @@ const Setup = () => {
 
   const handleBankSubmit = async () => {
     try {
-      const response = await axios.post(`${api}/dropdown/designation`, {
+      const response = await axios.post(`${api}/dropdown/bank`, {
         id: bankData.id6,
         label: bankData.label6,
         value: bankData.value6
       })
       if (response.status === 200 && response.data.success) {
-        alert("Data posted successfully")
+        alert("Bank posted successfully")
         console.log("Data posted successfully");
         console.log(response);
         setBankData({
@@ -857,8 +857,8 @@ const Setup = () => {
               </div>
               {/* Designation end */}
 
-               {/* Bank start */}
-               <h1 className="text-3xl font-semibold">Bank </h1>
+              {/* Bank start */}
+              <h1 className="text-3xl font-semibold">Bank </h1>
               <div className="my-7 grid grid-cols-2 lg:grid-cols-4 gap-2">
                 <div className="mb-3">
                   <label
