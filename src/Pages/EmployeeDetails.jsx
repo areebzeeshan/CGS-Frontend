@@ -46,6 +46,7 @@ const EmployeeDetails = () => {
     const [count, setCount] = useState(1);
     const [shift, setShift] = useState([]);
     const [designation, setDesignation] = useState([]);
+    const [bank, setBank] = useState([]);
 
 
     const [formData, setFormData] = useState({
@@ -99,7 +100,7 @@ const EmployeeDetails = () => {
                     console.log("Production user added");
                 }
             }
-            else if (formData.department === "Admin") {
+            else if (formData.department === "Administration") {
                 const adminResponse = await axios.post(`${api}/api/user/signup`, {
                     username: formData.userName,
                     password: formData.password
@@ -290,11 +291,23 @@ const EmployeeDetails = () => {
             }
         }
 
+        const bankFetch = async () => {
+            try {
+                const response = await axios.get(`${api}/dropdown/getBank`);
+                if (response.status === 200 && response.data.success) {
+                    setBank(response.data.data[0])
+                }
+            } catch (error) {
+                console.log("Error in designation fetching", error)
+            }
+        }
+
         fetchEmployeeData();
         setRandomNumber(generateRandomId());
         getDepartment();
         shiftFetch();
         designationFetch();
+        bankFetch();
     }, [])
 
     console.log("Employee Data : ", employeeData)
@@ -707,7 +720,7 @@ const EmployeeDetails = () => {
                                             </label>
                                             <input
                                                 type="text"
-                                                className={`block w-full rounded-md border-0 py-1.5 pr-20 text-gray-900 focus:outline-none ring-gray-300 border-b font-semibold placeholder:text-gray-400 sm:text-sm sm:leading-6`}
+                                                className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none border-b ps-0 font-semibold placeholder:text-gray-400 sm:text-sm sm:leading-6"}
                                                 id="bankName"
                                                 name="bankName"
                                                 value={formData.bankName}
@@ -722,14 +735,14 @@ const EmployeeDetails = () => {
                                             >
                                                 Bank: <span className='text-red-500'>*</span>
                                             </label>
-                                            <input
-                                                type="text"
-                                                className={`block w-full rounded-md border-0 py-1.5 pr-20 text-gray-900 font-semibold focus:outline-none ring-gray-300 border-b placeholder:text-gray-400 sm:text-sm sm:leading-6`}
-                                                id="bankName"
-                                                name="bankName"
-                                                value={formData.bankName}
-                                                onChange={handleInputChange}
-                                            />
+                                            <select id="bankName" className='w-full border p-2 rounded' name='bankName' value={formData.bankName} onChange={handleInputChange} >
+                                                <option className='m-5' value="">Select</option>
+                                                {
+                                                    bank.map((item, index) => (
+                                                        <option key={index} className='m-5' value={item.label}>{item.label}</option>
+                                                    ))
+                                                }
+                                            </select>
                                         </div>
                                     )
                                 }

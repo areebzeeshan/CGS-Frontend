@@ -79,12 +79,12 @@ const WorkspaceProduction = () => {
                     </div>
                   </div>
                   {/* <div className="border rounded-lg p-3 shadow-lg mb-4 text-black bg-slate-200">
-                                        <h3 className="text-xl mb-2">Project Title</h3>
-                                        <h3 className="text-xl mb-2">Client Name</h3>
-                                        <h3 className="text-xl mb-2">
-                                            Deadline
-                                        </h3>
-                                    </div> */}
+                    <h3 className="text-xl mb-2">Project Title</h3>
+                    <h3 className="text-xl mb-2">Client Name</h3>
+                    <h3 className="text-xl mb-2">
+                      Deadline
+                    </h3>
+                  </div> */}
                 </div>
                 {/* In Review */}
                 <div>
