@@ -1,5 +1,5 @@
 // local server
-// https://cgs-backend-qeer.onrender.com
-const api = "http://localhost:4000";
+// http://localhost:4000
+const api = "https://cgs-backend-qeer.onrender.com";
 
 export default api; 
