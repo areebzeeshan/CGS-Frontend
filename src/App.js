@@ -20,6 +20,7 @@ import WorkspaceSales from "./Pages/WorkspaceSales";
 import SalesProjectDetail from "./Pages/SalesProjectDetail";
 import WorkspaceProduction from "./Pages/WorkspaceProduction";
 import Attachments from "./Pages/Attachments";
+import ProductionProjectDetail from "./Pages/ProductionProjectDetail";
 
 function App() {
   return (
@@ -54,6 +55,7 @@ function App() {
             element={<WorkspaceProduction />}
           />
           <Route path="/Attachments" element={<Attachments />} />
+          <Route path="/ProductionProjectDetail" element={<ProductionProjectDetail />} />
         </Routes>
       </BrowserRouter>
     </>
