@@ -107,9 +107,11 @@ const ProductionProjectDetail = () => {
         getDepartment();
     }, [])
 
-    const handleSubmit = async () => {
+    const handleSubmit = async (e) => {
         try {
-            const formData = new FormData();
+            e.preventDefault();
+            let formData = new FormData();
+            console.log("attachments", attachments)
             formData.append("attachments", attachments)
             formData.append("id", id);
             formData.append("title", title);
@@ -123,10 +125,8 @@ const ProductionProjectDetail = () => {
             formData.append("amount", amount);
             formData.append("clientName", clientName);
             formData.append("description", description);
-            console.log(formData);
-            var response = await axios.post(`${api}/api/projects/submit`, {
-                formData
-            })
+            console.log(formData,"asdadad");
+            var response = await axios.post(`${api}/api/projects/submit`,formData)
             if (response.status === 200 && response.data.success) {
                 console.log(response);
                 console.log("Project Posted Successfully")
@@ -152,7 +152,7 @@ const ProductionProjectDetail = () => {
                             <h1 className='text-2xl md:text-3xl lg:text-4xl lg:font-semibold text-slate-500 my-5'>Project Details</h1>
                             <div>
                                 {/* form start */}
-                                <form enctype="multipart/form-data">
+                                <form onSubmit={handleSubmit}>
 
                                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 text-center lg:text-start">
                                         {/* 1 */}
@@ -366,15 +366,15 @@ const ProductionProjectDetail = () => {
                                         ></textarea>
                                     </div>
 
+                                    <div className="flex justify-center my-10">
+                                        <button type='submit' className="text-white w-full lg:w-1/3 bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
+                                            Submit
+                                        </button>
+                                    </div>
                                 </form>
                                 {/* form end */}
 
                                 {/* submit button */}
-                                <div className="flex justify-center my-10">
-                                    <button type='submit' onClick={handleSubmit} className="text-white w-full lg:w-1/3 bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
-                                        Submit
-                                    </button>
-                                </div>
                             </div>
                         </div>
                     </div>
