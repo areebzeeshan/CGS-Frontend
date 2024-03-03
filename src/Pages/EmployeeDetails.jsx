@@ -333,7 +333,7 @@ const EmployeeDetails = () => {
                         <Navbar />
                         <div className="pt-10 px-5">
                             <div className='flex justify-between'>
-                                <h1 className='text-2xl lg:text-4xl font-semibold mb-5'>Employee Details</h1>
+                                <h1 className='text-2xl lg:text-4xl font-semibold mb-5'>{ id ? "Edit Employee Personal Details" : "Add a new Employee" }</h1>
                             </div>
                             <div className='grid grid-cols-1 lg:grid-cols-3 gap-3'>
                                 <div className="mb-3">
