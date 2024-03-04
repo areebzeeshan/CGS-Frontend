@@ -257,7 +257,7 @@ const EmployeeDetails = () => {
                     password: response.data.data[0].password,
                     department: response.data.data[0].history[response.data.data[0].history.length - 1].department,
                     designation: response.data.data[0].history[response.data.data[0].history.length - 1].designation,
-                    StartDate: response.data.data[0].StartDate,
+                    StartDate: response.data.data[0].history[response.data.data[0].history.length - 1].StartDate,
                     EndDate: response.data.data[0].history[response.data.data[0].history.length - 1].EndDate,
                     salary: response.data.data[0].history[response.data.data[0].history.length - 1].salary,
                     shift: response.data.data[0].history[response.data.data[0].history.length - 1].shift,
@@ -333,7 +333,7 @@ const EmployeeDetails = () => {
                         <Navbar />
                         <div className="pt-10 px-5">
                             <div className='flex justify-between'>
-                                <h1 className='text-2xl lg:text-4xl font-semibold mb-5'>{ id ? "Edit Employee Personal Details" : "Add a new Employee" }</h1>
+                                <h1 className='text-2xl lg:text-4xl font-semibold mb-5'>{id ? "Edit Employee Personal Details" : "Add a new Employee"}</h1>
                             </div>
                             <div className='grid grid-cols-1 lg:grid-cols-3 gap-3'>
                                 <div className="mb-3">
@@ -638,6 +638,26 @@ const EmployeeDetails = () => {
                                         onChange={handleInputChange}
                                     />
                                 </div>
+                                {
+                                    id ? (
+                                        <div className="mb-3">
+                                            <label
+                                                htmlFor="startDate"
+                                                className="block text-sm font-medium leading-6 text-gray-900"
+                                            >
+                                                Start Date: <span className='text-red-500'>*</span>
+                                            </label>
+                                            <input
+                                                type="text"
+                                                className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none border-b ps-0 font-semibold placeholder:text-gray-400 sm:text-sm sm:leading-6"}
+                                                id="startDate"
+                                                name="StartDate"
+                                                value={formData.StartDate}
+                                                readOnly={true}
+                                            />
+                                        </div>
+                                    ) : null
+                                }
                                 <div className="mb-3">
                                     <label
                                         htmlFor="email"
@@ -738,11 +758,12 @@ const EmployeeDetails = () => {
                                             <select id="bankName" className='w-full border p-2 rounded' name='bankName' value={formData.bankName} onChange={handleInputChange} >
                                                 <option className='m-5' value="">Select</option>
                                                 {
-                                                    bank.map((item, index) => (
+                                                    bank.filter(item => item.label.toLowerCase().startsWith(formData.bankName.toLowerCase())).map((item, index) => (
                                                         <option key={index} className='m-5' value={item.label}>{item.label}</option>
                                                     ))
                                                 }
                                             </select>
+
                                         </div>
                                     )
                                 }

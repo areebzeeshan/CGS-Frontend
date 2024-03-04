@@ -56,6 +56,28 @@ const EmployeHistory = () => {
         );
         setEmployeeData(response.data.data[0]);
         console.log(`fetching employee history of id : ${id}`, response.data.data[0]);
+        setFormData(prevState => ({
+          ...prevState,
+          // Name: response.data.data[0].name,
+          // joinDate: response.data.data[0].joiningDate,
+          // FathName: response.data.data[0].fathersName,
+          // phone: response.data.data[0].phone,
+          // cnic: response.data.data[0].cnic,
+          // email: response.data.data[0].email,
+          // emergencyPhone: response.data.data[0].emergencyPhone,
+          // reference: response.data.data[0].reference,
+          // address: response.data.data[0].address,
+          // userName: response.data.data[0].username,
+          // password: response.data.data[0].password,
+          depart: response.data.data[0].history[response.data.data[0].history.length - 1].department,
+          desg: response.data.data[0].history[response.data.data[0].history.length - 1].designation,
+          startDate: response.data.data[0].history[response.data.data[0].history.length - 1].StartDate,
+          endDate: response.data.data[0].history[response.data.data[0].history.length - 1].EndDate,
+          salary: response.data.data[0].history[response.data.data[0].history.length - 1].salary,
+          shift: response.data.data[0].history[response.data.data[0].history.length - 1].shift,
+          bankName: response.data.data[0].history[response.data.data[0].history.length - 1].bank,
+          accountNum: response.data.data[0].history[response.data.data[0].history.length - 1].accountNumber,
+        }));
       } catch (error) {
         console.log("Error fetching employee data :", error);
       }
@@ -69,7 +91,7 @@ const EmployeHistory = () => {
         }
       } catch (error) {
         console.log("Error in shift fetching", error)
-      } 
+      }
     }
 
     const designationFetch = async () => {

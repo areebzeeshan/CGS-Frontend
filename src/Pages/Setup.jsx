@@ -33,6 +33,7 @@ const Setup = () => {
   const [bankData, setBankData] = useState({
     id6: "",
     label6: "",
+    value6: ""
   });
   const [projectNatureTable, setProjectNatureTable] = useState([]);
   const [projectPlatformTable, setProjectPlatformTable] = useState([]);
@@ -226,25 +227,21 @@ const Setup = () => {
         id: bankData.id6,
         label: bankData.label6,
         value: bankData.value6
-      })
+      });
       if (response.status === 200 && response.data.success) {
-        alert("Bank posted successfully")
-        console.log("Data posted successfully");
-        console.log(response);
+        alert("Bank posted successfully");
         setBankData({
           id6: "",
           label6: "",
           value6: ""
-        })
+        });
+        console.log("Data posted successfully");
+        console.log(response);
       }
-      setBankData({
-        id: bankData.id6,
-        label: bankData.label6
-      })
     } catch (error) {
-      console.log("Error ", error)
+      console.log("Error ", error);
     }
-  }
+  };
 
   useEffect(() => {
     const projectNatureFetch = async () => {
