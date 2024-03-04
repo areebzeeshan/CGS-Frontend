@@ -102,7 +102,7 @@ const HR = () => {
                           <Link to={`/HR/EmployeeDetails/${item.id}`}>
                             <Buttons
                               title={"Personal Info"}
-                              background={"bg-red-500"}
+                              background={"bg-indigo-900"}
                             />
                           </Link>
                           <Link to={`/HR/EmployeeHistory/${item.id}`}>
@@ -111,6 +111,10 @@ const HR = () => {
                               background={"bg-green-500"}
                             />
                           </Link>
+                          <Buttons
+                            title={"Delete"}
+                            background={"bg-red-500"}
+                          />
                         </td>
                       </tr>
                     ))}
