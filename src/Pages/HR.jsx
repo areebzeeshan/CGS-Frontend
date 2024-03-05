@@ -45,6 +45,57 @@ const HR = () => {
     console.log("clicked");
   };
 
+  const handleUsersDelete = async (department, username) => {
+    try {
+      let endpoint;
+      switch (department) {
+        case "Administration":
+          endpoint = `${api}/api/user/delete/${username}`;
+          break;
+        case "Sales":
+          endpoint = `${api}/api/salesuser/delete/${username}`;
+          break;
+        // case "Production-Graphics":
+        case "Production-Development" || "Production-Graphics":
+          endpoint = `${api}/api/productionUser/delete/${username}`;
+          break;
+        default:
+          throw new Error("Invalid department");
+      }
+      const response = await axios.delete(endpoint);
+      if (response) {
+        console.log(`Deleted user from ${department} department`, response);
+        return true;
+      }
+      return false;
+    } catch (error) {
+      console.error(`Error deleting user from ${department} department:`, error);
+      throw error;
+    }
+  };
+
+  const handleDelete = async (id, username) => {
+    try {
+      const deleteResponse = await axios.delete(`${api}/api/employee/delete/${id}`);
+      console.log("delete response : ", deleteResponse)
+      if (deleteResponse) {
+        const response = await axios.get(`${api}/api/employee/search/${id}`);
+        console.log("before response")
+        if (response) {
+          console.log("after response")
+          const employeeDepartment = response.data.data[0].history[response.data.data[0].history.length - 1].department;
+          console.log(employeeDepartment)
+          await handleUsersDelete(employeeDepartment, username);
+          alert(`Employee with id : ${id} and associated user deleted successfully`);
+        }
+      }
+    } catch (error) {
+      console.error("Error in deleting employee:", error);
+      alert(error.message);
+    }
+  };
+
+
   return (
     <>
       <div className="flex">
@@ -111,10 +162,9 @@ const HR = () => {
                               background={"bg-green-500"}
                             />
                           </Link>
-                          <Buttons
-                            title={"Delete"}
-                            background={"bg-red-500"}
-                          />
+                          <button onClick={() => handleDelete(item.id, item.name)} className={"text-white bg-red-500 border-0 py-2 px-5 text-[12px] focus:outline-none rounded flex items-center me-5"}>
+                            Delete
+                          </button>
                         </td>
                       </tr>
                     ))}

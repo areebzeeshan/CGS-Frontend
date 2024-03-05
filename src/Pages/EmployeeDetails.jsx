@@ -64,7 +64,6 @@ const EmployeeDetails = () => {
         password: '',
         department: '',
         designation: '',
-        StartDate: '',
         EndDate: '',
         salary: '',
         shift: '',
@@ -121,6 +120,7 @@ const EmployeeDetails = () => {
                 id: id ? id : randomNumber,
                 name: formData.Name,
                 joiningDate: formData.joinDate,
+                EndDate: formData.EndDate,
                 fathersName: formData.FathName,
                 cnic: formData.cnic,
                 email: formData.email,
@@ -132,9 +132,7 @@ const EmployeeDetails = () => {
                 password: formData.password,
                 history: [{
                     department: formData.department,
-                    designation: formData.designation,
-                    StartDate: formData.joinDate,
-                    EndDate: formData.EndDate,
+                    designation: formData.designation,                   
                     salary: formData.salary,
                     shift: formData.shift,
                     bank: formData.bankName,
@@ -162,7 +160,6 @@ const EmployeeDetails = () => {
                     password: "",
                     department: "",
                     designation: "",
-                    StartDate: "",
                     EndDate: "",
                     salary: "",
                     shift: "",
@@ -193,6 +190,7 @@ const EmployeeDetails = () => {
             const updateData = {
                 name: formData.Name,
                 joiningDate: formData.joinDate,
+                EndDate: formData.EndDate,
                 fathersName: formData.FathName,
                 cnic: formData.cnic,
                 email: formData.email,
@@ -246,6 +244,7 @@ const EmployeeDetails = () => {
                     ...prevState,
                     Name: response.data.data[0].name,
                     joinDate: response.data.data[0].joiningDate,
+                    EndDate: response.data.data[0].EndDate,
                     FathName: response.data.data[0].fathersName,
                     phone: response.data.data[0].phone,
                     cnic: response.data.data[0].cnic,
@@ -257,8 +256,6 @@ const EmployeeDetails = () => {
                     password: response.data.data[0].password,
                     department: response.data.data[0].history[response.data.data[0].history.length - 1].department,
                     designation: response.data.data[0].history[response.data.data[0].history.length - 1].designation,
-                    StartDate: response.data.data[0].history[response.data.data[0].history.length - 1].StartDate,
-                    EndDate: response.data.data[0].history[response.data.data[0].history.length - 1].EndDate,
                     salary: response.data.data[0].history[response.data.data[0].history.length - 1].salary,
                     shift: response.data.data[0].history[response.data.data[0].history.length - 1].shift,
                     bankName: response.data.data[0].history[response.data.data[0].history.length - 1].bank,
@@ -584,44 +581,6 @@ const EmployeeDetails = () => {
                                     )
                                 }
 
-                                {
-                                    id ? (
-                                        <div className="mb-3">
-                                            <label
-                                                htmlFor="EndDate"
-                                                className="block text-sm font-medium leading-6 text-gray-900"
-                                            >
-                                                End Date:
-                                            </label>
-                                            <input
-                                                type="text"
-                                                className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none border-b ps-0 font-semibold placeholder:text-gray-400 sm:text-sm sm:leading-6"}
-                                                id="EndDate"
-                                                name="EndDate"
-                                                value={formData.EndDate}
-                                                readOnly={true}
-                                            />
-                                        </div>
-                                    ) : (
-                                        <div className="mb-3">
-                                            <label
-                                                htmlFor="EndDate"
-                                                className="block text-sm font-medium leading-6 text-gray-900"
-                                            >
-                                                End Date:
-                                            </label>
-                                            <input
-                                                type="text"
-                                                className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none border-b ps-0 font-semibold placeholder:text-gray-400 sm:text-sm sm:leading-6"}
-                                                id="EndDate"
-                                                name="EndDate"
-                                                value={formData.EndDate}
-                                                onChange={handleInputChange}
-                                            />
-                                        </div>
-                                    )
-                                }
-
                                 <div className="mb-3">
                                     <label
                                         htmlFor="joiningDate"
@@ -630,34 +589,34 @@ const EmployeeDetails = () => {
                                         Joining Date: <span className='text-red-500'>*</span>
                                     </label>
                                     <input
-                                        type="date"
+                                        type="text"
                                         className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none border-b ps-0 font-semibold placeholder:text-gray-400 sm:text-sm sm:leading-6"}
                                         id="joiningDate"
                                         name="joinDate"
+                                        placeholder='YYYY-MM-DD'
                                         value={formData.joinDate}
                                         onChange={handleInputChange}
                                     />
                                 </div>
-                                {
-                                    id ? (
-                                        <div className="mb-3">
-                                            <label
-                                                htmlFor="startDate"
-                                                className="block text-sm font-medium leading-6 text-gray-900"
-                                            >
-                                                Start Date: <span className='text-red-500'>*</span>
-                                            </label>
-                                            <input
-                                                type="text"
-                                                className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none border-b ps-0 font-semibold placeholder:text-gray-400 sm:text-sm sm:leading-6"}
-                                                id="startDate"
-                                                name="StartDate"
-                                                value={formData.StartDate}
-                                                readOnly={true}
-                                            />
-                                        </div>
-                                    ) : null
-                                }
+
+                                <div className="mb-3">
+                                    <label
+                                        htmlFor="EndDate"
+                                        className="block text-sm font-medium leading-6 text-gray-900"
+                                    >
+                                        End Date:
+                                    </label>
+                                    <input
+                                        type="text"
+                                        className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none border-b ps-0 font-semibold placeholder:text-gray-400 sm:text-sm sm:leading-6"}
+                                        id="EndDate"
+                                        name="EndDate"
+                                        placeholder='YYYY-MM-DD'
+                                        value={formData.EndDate}
+                                        onChange={handleInputChange}
+                                    />
+                                </div>
+
                                 <div className="mb-3">
                                     <label
                                         htmlFor="email"

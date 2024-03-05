@@ -17,8 +17,6 @@ const EmployeHistory = () => {
   const table_head = [
     "Department",
     "Designation",
-    "Start Date",
-    "End Date",
     "Salary",
     "Shift",
     "Bank",
@@ -34,8 +32,6 @@ const EmployeHistory = () => {
     Name: "",
     depart: "",
     desg: "",
-    startDate: "",
-    endDate: "",
     salary: "",
     shift: "",
     bankName: "",
@@ -71,8 +67,6 @@ const EmployeHistory = () => {
           // password: response.data.data[0].password,
           depart: response.data.data[0].history[response.data.data[0].history.length - 1].department,
           desg: response.data.data[0].history[response.data.data[0].history.length - 1].designation,
-          startDate: response.data.data[0].history[response.data.data[0].history.length - 1].StartDate,
-          endDate: response.data.data[0].history[response.data.data[0].history.length - 1].EndDate,
           salary: response.data.data[0].history[response.data.data[0].history.length - 1].salary,
           shift: response.data.data[0].history[response.data.data[0].history.length - 1].shift,
           bankName: response.data.data[0].history[response.data.data[0].history.length - 1].bank,
@@ -139,8 +133,6 @@ const EmployeHistory = () => {
       const response = await axios.post(`${api}/api/employee/addRecord/${id}`, {
         department: formData.depart,
         designation: formData.desg,
-        StartDate: formData.startDate,
-        EndDate: formData.endDate,
         salary: formData.salary,
         shift: formData.shift,
         bank: formData.bankName,
@@ -153,8 +145,6 @@ const EmployeHistory = () => {
         setFormData({
           depart: "",
           desg: "",
-          startDate: "",
-          endDate: "",
           salary: "",
           shift: "",
           bankName: "",
@@ -210,12 +200,6 @@ const EmployeHistory = () => {
                             {item.designation}
                           </td>
                           <td className="p-2 text-start border-b border-gray-300">
-                            {item.StartDate}
-                          </td>
-                          <td className="p-2 text-start border-b border-gray-300">
-                            {item.EndDate}
-                          </td>
-                          <td className="p-2 text-start border-b border-gray-300">
                             {item.salary}
                           </td>
                           <td className="p-2 text-start border-b border-gray-300">
@@ -268,38 +252,6 @@ const EmployeHistory = () => {
                           ))
                         }
                       </select>
-                    </div>
-                    <div className="mb-3">
-                      <label
-                        htmlFor="startDate"
-                        className="block text-sm font-medium leading-6 text-gray-900"
-                      >
-                        Start Date: <span className='text-red-500'>*</span>
-                      </label>
-                      <input
-                        type="text"
-                        className={`block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none ring-gray-300 ring-1 ring-inset placeholder:text-gray-400 sm:text-sm sm:leading-6`}
-                        id="startDate"
-                        name="startDate"
-                        value={formData.startDate}
-                        onChange={handleInputChange}
-                      />
-                    </div>
-                    <div className="mb-3">
-                      <label
-                        htmlFor="endDate"
-                        className="block text-sm font-medium leading-6 text-gray-900"
-                      >
-                        End Date:
-                      </label>
-                      <input
-                        type="text"
-                        className={`block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none ring-gray-300 ring-1 ring-inset placeholder:text-gray-400 sm:text-sm sm:leading-6`}
-                        id="endDate"
-                        name="endDate"
-                        value={formData.endDate}
-                        onChange={handleInputChange}
-                      />
                     </div>
                     <div className="mb-3">
                       <label
