@@ -21,6 +21,7 @@ import SalesProjectDetail from "./Pages/SalesProjectDetail";
 import WorkspaceProduction from "./Pages/WorkspaceProduction";
 import Attachments from "./Pages/Attachments";
 import ProductionProjectDetail from "./Pages/ProductionProjectDetail";
+import EmployeeEdit from "./Pages/EmployeeEdit";
 
 function App() {
   return (
@@ -56,6 +57,7 @@ function App() {
           />
           <Route path="/Attachments" element={<Attachments />} />
           <Route path="/ProductionProjectDetail" element={<ProductionProjectDetail />} />
+          <Route path="/EmployeeEdit/:id" element={<EmployeeEdit />} />
         </Routes>
       </BrowserRouter>
     </>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import Dashboard from '../Components/Dashboard';
 import Navbar from '../Components/Navbar';
 import Footer from '../Components/Footer';
@@ -132,7 +132,7 @@ const EmployeeDetails = () => {
                 password: formData.password,
                 history: [{
                     department: formData.department,
-                    designation: formData.designation,                   
+                    designation: formData.designation,
                     salary: formData.salary,
                     shift: formData.shift,
                     bank: formData.bankName,
@@ -310,9 +310,26 @@ const EmployeeDetails = () => {
     console.log("Employee Data : ", employeeData)
     console.log("Departments ", department);
 
+    const [errors, setErrors] = useState({});
+
+
     const handleInputChange = (e) => {
-        // console.log("formdata ki id ", formData.id)
-        setFormData({ ...formData, [e.target.name]: e.target.value })
+        const { name, value } = e.target;
+        let newErrors = { ...errors };
+
+        // Validate joining date format
+        if (name === 'joinDate' || name === 'EndDate') {
+            const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+            if (!dateRegex.test(value)) {
+                newErrors[name] = 'Please enter a valid date in the format YYYY-MM-DD';
+            } else {
+                delete newErrors[name];
+            }
+        }
+
+        // Update formData and errors state
+        setFormData({ ...formData, [name]: value });
+        setErrors(newErrors);
     };
 
     const handleEditMode = () => {
@@ -329,8 +346,15 @@ const EmployeeDetails = () => {
                     <div>
                         <Navbar />
                         <div className="pt-10 px-5">
-                            <div className='flex justify-between'>
+                            <div className='grid grid-cols-1 md:grid-cols-2'>
                                 <h1 className='text-2xl lg:text-4xl font-semibold mb-5'>{id ? "Edit Employee Personal Details" : "Add a new Employee"}</h1>
+                                <div className='lg:ms-auto'>
+                                    <Link to={`/EmployeeEdit/${id}`}>
+                                        <button className="text-white bg-indigo-500 border-0 py-2 px-9 focus:outline-none hover:bg-indigo-600 rounded">
+                                            Edit
+                                        </button>
+                                    </Link>
+                                </div>
                             </div>
                             <div className='grid grid-cols-1 lg:grid-cols-3 gap-3'>
                                 <div className="mb-3">
@@ -349,74 +373,162 @@ const EmployeeDetails = () => {
                                         onChange={handleInputChange}
                                     />
                                 </div>
-                                <div className="mb-3">
-                                    <label
-                                        htmlFor="Name"
-                                        className="block text-sm font-medium leading-6 text-gray-900"
-                                    >
-                                        Name: <span className='text-red-500'>*</span>
-                                    </label>
-                                    <input
-                                        type="text"
-                                        className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none border-b ps-0 font-semibold placeholder:text-gray-400 sm:text-sm sm:leading-6"}
-                                        id="Name"
-                                        name="Name"
-                                        value={formData.Name}
-                                        onChange={handleInputChange}
-                                    />
-                                </div>
-                                <div className="mb-3">
-                                    <label
-                                        htmlFor="fatherName"
-                                        className="block text-sm font-medium leading-6 text-gray-900"
-                                    >
-                                        Father's Name: <span className='text-red-500'>*</span>
-                                    </label>
-                                    <input
-                                        type="text"
-                                        className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none border-b ps-0 font-semibold placeholder:text-gray-400 sm:text-sm sm:leading-6"}
-                                        id="fatherName"
-                                        name="FathName"
-                                        value={formData.FathName}
-                                        onChange={handleInputChange}
-                                    />
-                                </div>
-                                <div className="mb-3">
-                                    <label
-                                        htmlFor="phone"
-                                        className="block text-sm font-medium leading-6 text-gray-900"
-                                    >
-                                        Phone: <span className='text-red-500'>*</span>
-                                    </label>
-                                    <input
-                                        type="text"
-                                        className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none border-b ps-0 font-semibold placeholder:text-gray-400 sm:text-sm sm:leading-6"}
-                                        id="phone"
-                                        name="phone"
-                                        value={formData.phone}
-                                        onChange={handleInputChange}
-                                    />
-                                </div>
-                                <div className="mb-3">
-                                    <label
-                                        htmlFor="emerPhone"
-                                        className="block text-sm font-medium leading-6 text-gray-900"
-                                    >
-                                        Emergency Phone: <span className='text-red-500'>*</span>
-                                    </label>
-                                    <input
-                                        type="number"
-                                        className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none border-b ps-0 font-semibold placeholder:text-gray-400 sm:text-sm sm:leading-6"}
-                                        id="emerPhone"
-                                        name="emergencyPhone"
-                                        value={formData.emergencyPhone}
-                                        onChange={handleInputChange}
-                                    />
-                                </div>
                                 {
                                     id ? (
                                         <div className="mb-3">
-                                            <label htmlFor="dropdown" className="block text-sm font-medium leading-6 text-gray-900">Department: <span className='text-red-500'>*</span></label> <br />
+                                            <label
+                                                htmlFor="Name"
+                                                className="block text-sm font-medium leading-6 text-gray-900"
+                                            >
+                                                Name: <span className='text-red-500'>*</span>
+                                            </label>
+                                            <input
+                                                type="text"
+                                                className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none border-b ps-0 font-semibold placeholder:text-gray-400 sm:text-sm sm:leading-6"}
+                                                id="Name"
+                                                name="Name"
+                                                value={formData.Name}
+                                                onChange={handleInputChange}
+                                                readOnly={true}
+                                            />
+                                        </div>
+                                    ) : (
+                                        <div className="mb-3">
+                                            <label
+                                                htmlFor="Name"
+                                                className="block text-sm font-medium leading-6 text-gray-900"
+                                            >
+                                                Name: <span className='text-red-500'>*</span>
+                                            </label>
+                                            <input
+                                                type="text"
+                                                className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none border-b ps-0 font-semibold placeholder:text-gray-400 sm:text-sm sm:leading-6"}
+                                                id="Name"
+                                                name="Name"
+                                                value={formData.Name}
+                                                onChange={handleInputChange}
+                                            />
+                                        </div>
+                                    )
+                                }
+                                {
+                                    id ? (
+                                        <div className="mb-3">
+                                            <label
+                                                htmlFor="fatherName"
+                                                className="block text-sm font-medium leading-6 text-gray-900"
+                                            >
+                                                Father's Name: <span className='text-red-500'>*</span>
+                                            </label>
+                                            <input
+                                                type="text"
+                                                className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none border-b ps-0 font-semibold placeholder:text-gray-400 sm:text-sm sm:leading-6"}
+                                                id="fatherName"
+                                                name="FathName"
+                                                value={formData.FathName}
+                                                onChange={handleInputChange}
+                                                readOnly={true}
+                                            />
+                                        </div>
+                                    ) : (
+                                        <div className="mb-3">
+                                            <label
+                                                htmlFor="fatherName"
+                                                className="block text-sm font-medium leading-6 text-gray-900"
+                                            >
+                                                Father's Name: <span className='text-red-500'>*</span>
+                                            </label>
+                                            <input
+                                                type="text"
+                                                className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none border-b ps-0 font-semibold placeholder:text-gray-400 sm:text-sm sm:leading-6"}
+                                                id="fatherName"
+                                                name="FathName"
+                                                value={formData.FathName}
+                                                onChange={handleInputChange}
+                                            />
+                                        </div>
+                                    )
+                                }
+                                {
+                                    id ? (
+                                        <div className="mb-3">
+                                            <label
+                                                htmlFor="phone"
+                                                className="block text-sm font-medium leading-6 text-gray-900"
+                                            >
+                                                Phone: <span className='text-red-500'>*</span>
+                                            </label>
+                                            <input
+                                                type="text"
+                                                className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none border-b ps-0 font-semibold placeholder:text-gray-400 sm:text-sm sm:leading-6"}
+                                                id="phone"
+                                                name="phone"
+                                                value={formData.phone}
+                                                onChange={handleInputChange}
+                                                readOnly={true}
+                                            />
+                                        </div>
+                                    ) : (
+                                        <div className="mb-3">
+                                            <label
+                                                htmlFor="phone"
+                                                className="block text-sm font-medium leading-6 text-gray-900"
+                                            >
+                                                Phone: <span className='text-red-500'>*</span>
+                                            </label>
+                                            <input
+                                                type="text"
+                                                className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none border-b ps-0 font-semibold placeholder:text-gray-400 sm:text-sm sm:leading-6"}
+                                                id="phone"
+                                                name="phone"
+                                                value={formData.phone}
+                                                onChange={handleInputChange}
+                                            />
+                                        </div>
+                                    )
+                                }
+                                {
+                                    id ? (
+                                        <div className="mb-3">
+                                            <label
+                                                htmlFor="emerPhone"
+                                                className="block text-sm font-medium leading-6 text-gray-900"
+                                            >
+                                                Emergency Phone: <span className='text-red-500'>*</span>
+                                            </label>
+                                            <input
+                                                type="number"
+                                                className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none border-b ps-0 font-semibold placeholder:text-gray-400 sm:text-sm sm:leading-6"}
+                                                id="emerPhone"
+                                                name="emergencyPhone"
+                                                value={formData.emergencyPhone}
+                                                onChange={handleInputChange}
+                                                readOnly={true}
+                                            />
+                                        </div>
+                                    ) : (
+                                        <div className="mb-3">
+                                            <label
+                                                htmlFor="emerPhone"
+                                                className="block text-sm font-medium leading-6 text-gray-900"
+                                            >
+                                                Emergency Phone: <span className='text-red-500'>*</span>
+                                            </label>
+                                            <input
+                                                type="number"
+                                                className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none border-b ps-0 font-semibold placeholder:text-gray-400 sm:text-sm sm:leading-6"}
+                                                id="emerPhone"
+                                                name="emergencyPhone"
+                                                value={formData.emergencyPhone}
+                                                onChange={handleInputChange}
+                                            />
+                                        </div>
+                                    )
+                                }
+                                {
+                                    id ? (
+                                        <div className="mb-3">
+                                            <label htmlFor="dropdown" className="block text-sm font-medium leading-6 text-gray-900">Department: <span className='text-red-500'>*</span></label>
                                             <input
                                                 type="text"
                                                 className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none border-b ps-0 font-semibold placeholder:text-gray-400 sm:text-sm sm:leading-6"}
@@ -428,7 +540,7 @@ const EmployeeDetails = () => {
                                         </div>
                                     ) : (
                                         <div className="mb-3">
-                                            <label htmlFor="dropdown" className="block text-sm font-medium leading-6 text-gray-900">Department: <span className='text-red-500'>*</span></label> <br />
+                                            <label htmlFor="dropdown" className="block text-sm font-medium leading-6 text-gray-900">Department: <span className='text-red-500'>*</span></label>
                                             <select id="dropdown" className='w-full border p-2 rounded' name='department' value={formData.department} onChange={handleInputChange}>
                                                 <option className='m-5' value="">Select</option>
                                                 {
@@ -479,70 +591,158 @@ const EmployeeDetails = () => {
                                     )
                                 }
 
-                                <div className="mb-3">
-                                    <label
-                                        htmlFor="cnic"
-                                        className="block text-sm font-medium leading-6 text-gray-900"
-                                    >
-                                        CNIC: <span className='text-red-500'>*</span>
-                                    </label>
-                                    <input
-                                        type="number"
-                                        className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none border-b ps-0 font-semibold placeholder:text-gray-400 sm:text-sm sm:leading-6"}
-                                        id="cnic"
-                                        name="cnic"
-                                        value={formData.cnic}
-                                        onChange={handleInputChange}
-                                    />
-                                </div>
-                                <div className="mb-3">
-                                    <label
-                                        htmlFor="reference"
-                                        className="block text-sm font-medium leading-6 text-gray-900"
-                                    >
-                                        Reference: <span className='text-red-500'>*</span>
-                                    </label>
-                                    <input
-                                        type="text"
-                                        className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none border-b ps-0 font-semibold placeholder:text-gray-400 sm:text-sm sm:leading-6"}
-                                        id="reference"
-                                        name="reference"
-                                        value={formData.reference}
-                                        onChange={handleInputChange}
-                                    />
-                                </div>
-                                <div className="mb-3">
-                                    <label
-                                        htmlFor="userID"
-                                        className="block text-sm font-medium leading-6 text-gray-900"
-                                    >
-                                        Username: <span className='text-red-500'>*</span>
-                                    </label>
-                                    <input
-                                        type="text"
-                                        className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none border-b ps-0 font-semibold placeholder:text-gray-400 sm:text-sm sm:leading-6"}
-                                        id="userID"
-                                        name="userName"
-                                        value={formData.userName}
-                                        onChange={handleInputChange}
-                                    />
-                                </div>
-                                <div className="mb-3">
-                                    <label
-                                        htmlFor="password"
-                                        className="block text-sm font-medium leading-6 text-gray-900"
-                                    >
-                                        Password: <span className='text-red-500'>*</span>
-                                    </label>
-                                    <input
-                                        type="text"
-                                        className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none border-b ps-0 font-semibold placeholder:text-gray-400 sm:text-sm sm:leading-6"}
-                                        id="password"
-                                        name="password"
-                                        value={formData.password}
-                                        onChange={handleInputChange}
-                                    />
-                                </div>
+                                {
+                                    id ? (
+                                        <div className="mb-3">
+                                            <label
+                                                htmlFor="cnic"
+                                                className="block text-sm font-medium leading-6 text-gray-900"
+                                            >
+                                                CNIC: <span className='text-red-500'>*</span>
+                                            </label>
+                                            <input
+                                                type="number"
+                                                className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none border-b ps-0 font-semibold placeholder:text-gray-400 sm:text-sm sm:leading-6"}
+                                                id="cnic"
+                                                name="cnic"
+                                                value={formData.cnic}
+                                                onChange={handleInputChange}
+                                                readOnly={true}
+                                            />
+                                        </div>
+                                    ) : (
+                                        <div className="mb-3">
+                                            <label
+                                                htmlFor="cnic"
+                                                className="block text-sm font-medium leading-6 text-gray-900"
+                                            >
+                                                CNIC: <span className='text-red-500'>*</span>
+                                            </label>
+                                            <input
+                                                type="number"
+                                                className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none border-b ps-0 font-semibold placeholder:text-gray-400 sm:text-sm sm:leading-6"}
+                                                id="cnic"
+                                                name="cnic"
+                                                value={formData.cnic}
+                                                onChange={handleInputChange}
+                                            />
+                                        </div>
+                                    )
+                                }
+                                {
+                                    id ? (
+                                        <div className="mb-3">
+                                            <label
+                                                htmlFor="reference"
+                                                className="block text-sm font-medium leading-6 text-gray-900"
+                                            >
+                                                Reference: <span className='text-red-500'>*</span>
+                                            </label>
+                                            <input
+                                                type="text"
+                                                className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none border-b ps-0 font-semibold placeholder:text-gray-400 sm:text-sm sm:leading-6"}
+                                                id="reference"
+                                                name="reference"
+                                                value={formData.reference}
+                                                onChange={handleInputChange}
+                                                readOnly={true}
+                                            />
+                                        </div>
+                                    ) : (
+                                        <div className="mb-3">
+                                            <label
+                                                htmlFor="reference"
+                                                className="block text-sm font-medium leading-6 text-gray-900"
+                                            >
+                                                Reference: <span className='text-red-500'>*</span>
+                                            </label>
+                                            <input
+                                                type="text"
+                                                className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none border-b ps-0 font-semibold placeholder:text-gray-400 sm:text-sm sm:leading-6"}
+                                                id="reference"
+                                                name="reference"
+                                                value={formData.reference}
+                                                onChange={handleInputChange}
+                                            />
+                                        </div>
+                                    )
+                                }
+                                {
+                                    id ? (
+                                        <div className="mb-3">
+                                            <label
+                                                htmlFor="userID"
+                                                className="block text-sm font-medium leading-6 text-gray-900"
+                                            >
+                                                Username: <span className='text-red-500'>*</span>
+                                            </label>
+                                            <input
+                                                type="text"
+                                                className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none border-b ps-0 font-semibold placeholder:text-gray-400 sm:text-sm sm:leading-6"}
+                                                id="userID"
+                                                name="userName"
+                                                value={formData.userName}
+                                                onChange={handleInputChange}
+                                                readOnly={true}
+                                            />
+                                        </div>
+                                    ) : (
+                                        <div className="mb-3">
+                                            <label
+                                                htmlFor="userID"
+                                                className="block text-sm font-medium leading-6 text-gray-900"
+                                            >
+                                                Username: <span className='text-red-500'>*</span>
+                                            </label>
+                                            <input
+                                                type="text"
+                                                className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none border-b ps-0 font-semibold placeholder:text-gray-400 sm:text-sm sm:leading-6"}
+                                                id="userID"
+                                                name="userName"
+                                                value={formData.userName}
+                                                onChange={handleInputChange}
+                                            />
+                                        </div>
+                                    )
+                                }
+                                {
+                                    id ? (
+                                        <div className="mb-3">
+                                            <label
+                                                htmlFor="password"
+                                                className="block text-sm font-medium leading-6 text-gray-900"
+                                            >
+                                                Password: <span className='text-red-500'>*</span>
+                                            </label>
+                                            <input
+                                                type="text"
+                                                className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none border-b ps-0 font-semibold placeholder:text-gray-400 sm:text-sm sm:leading-6"}
+                                                id="password"
+                                                name="password"
+                                                value={formData.password}
+                                                onChange={handleInputChange}
+                                                readOnly={true}
+                                            />
+                                        </div>
+                                    ) : (
+                                        <div className="mb-3">
+                                            <label
+                                                htmlFor="password"
+                                                className="block text-sm font-medium leading-6 text-gray-900"
+                                            >
+                                                Password: <span className='text-red-500'>*</span>
+                                            </label>
+                                            <input
+                                                type="text"
+                                                className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none border-b ps-0 font-semibold placeholder:text-gray-400 sm:text-sm sm:leading-6"}
+                                                id="password"
+                                                name="password"
+                                                value={formData.password}
+                                                onChange={handleInputChange}
+                                            />
+                                        </div>
+                                    )
+                                }
                                 {
                                     id ? (
                                         <div className="mb-3">
@@ -581,74 +781,165 @@ const EmployeeDetails = () => {
                                     )
                                 }
 
-                                <div className="mb-3">
-                                    <label
-                                        htmlFor="joiningDate"
-                                        className="block text-sm font-medium leading-6 text-gray-900"
-                                    >
-                                        Joining Date: <span className='text-red-500'>*</span>
-                                    </label>
-                                    <input
-                                        type="text"
-                                        className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none border-b ps-0 font-semibold placeholder:text-gray-400 sm:text-sm sm:leading-6"}
-                                        id="joiningDate"
-                                        name="joinDate"
-                                        placeholder='YYYY-MM-DD'
-                                        value={formData.joinDate}
-                                        onChange={handleInputChange}
-                                    />
-                                </div>
+                                {
+                                    id ? (
+                                        <div className="mb-3">
+                                            <label
+                                                htmlFor="joiningDate"
+                                                className="block text-sm font-medium leading-6 text-gray-900"
+                                            >
+                                                Joining Date: <span className='text-red-500'>*</span>
+                                            </label>
+                                            <input
+                                                type="text"
+                                                className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none border-b ps-0 font-semibold placeholder:text-gray-400 sm:text-sm sm:leading-6"}
+                                                id="joiningDate"
+                                                name="joinDate"
+                                                placeholder='YYYY-MM-DD'
+                                                value={formData.joinDate}
+                                                onChange={handleInputChange}
+                                                readOnly={true}
+                                            />
+                                        </div>
+                                    ) : (
+                                        <div className="mb-3">
+                                            <label
+                                                htmlFor="joiningDate"
+                                                className="block text-sm font-medium leading-6 text-gray-900"
+                                            >
+                                                Joining Date: <span className='text-red-500'>*</span>
+                                            </label>
+                                            <input
+                                                type="text"
+                                                className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none border-b ps-0 font-semibold placeholder:text-gray-400 sm:text-sm sm:leading-6"}
+                                                id="joiningDate"
+                                                name="joinDate"
+                                                placeholder='YYYY-MM-DD'
+                                                value={formData.joinDate}
+                                                onChange={handleInputChange}
+                                            />
+                                            {errors.joinDate && <p className="text-red-500 text-xs mt-1">{errors.joinDate}</p>}
+                                        </div>
+                                    )
+                                }
 
-                                <div className="mb-3">
-                                    <label
-                                        htmlFor="EndDate"
-                                        className="block text-sm font-medium leading-6 text-gray-900"
-                                    >
-                                        End Date:
-                                    </label>
-                                    <input
-                                        type="text"
-                                        className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none border-b ps-0 font-semibold placeholder:text-gray-400 sm:text-sm sm:leading-6"}
-                                        id="EndDate"
-                                        name="EndDate"
-                                        placeholder='YYYY-MM-DD'
-                                        value={formData.EndDate}
-                                        onChange={handleInputChange}
-                                    />
-                                </div>
+                                {
+                                    id ? (
+                                        <div className="mb-3">
+                                            <label
+                                                htmlFor="EndDate"
+                                                className="block text-sm font-medium leading-6 text-gray-900"
+                                            >
+                                                End Date:
+                                            </label>
+                                            <input
+                                                type="text"
+                                                className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none border-b ps-0 font-semibold placeholder:text-gray-400 sm:text-sm sm:leading-6"}
+                                                id="EndDate"
+                                                name="EndDate"
+                                                value={formData.EndDate}
+                                                onChange={handleInputChange}
+                                                readOnly={true}
+                                            />
+                                        </div>
+                                    ) : (
+                                        <div className="mb-3">
+                                            <label
+                                                htmlFor="EndDate"
+                                                className="block text-sm font-medium leading-6 text-gray-900"
+                                            >
+                                                End Date:
+                                            </label>
+                                            <input
+                                                type="text"
+                                                className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none border-b ps-0 font-semibold placeholder:text-gray-400 sm:text-sm sm:leading-6"}
+                                                id="EndDate"
+                                                name="EndDate"
+                                                placeholder='YYYY-MM-DD'
+                                                value={formData.EndDate}
+                                                onChange={handleInputChange}
+                                            />
+                                            {errors.EndDate && <p className="text-red-500 text-xs mt-1">{errors.EndDate}</p>}
+                                        </div>
+                                    )
+                                }
 
-                                <div className="mb-3">
-                                    <label
-                                        htmlFor="email"
-                                        className="block text-sm font-medium leading-6 text-gray-900"
-                                    >
-                                        Email: <span className='text-red-500'>*</span>
-                                    </label>
-                                    <input
-                                        type="email"
-                                        className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none border-b ps-0 font-semibold placeholder:text-gray-400 sm:text-sm sm:leading-6"}
-                                        id="email"
-                                        name="email"
-                                        value={formData.email}
-                                        onChange={handleInputChange}
-                                    />
-                                </div>
-                                <div className="mb-3">
-                                    <label
-                                        htmlFor="address"
-                                        className="block text-sm font-medium leading-6 text-gray-900"
-                                    >
-                                        Address: <span className='text-red-500'>*</span>
-                                    </label>
-                                    <input
-                                        type="text"
-                                        className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none border-b ps-0 font-semibold placeholder:text-gray-400 sm:text-sm sm:leading-6"}
-                                        id="address"
-                                        name="address"
-                                        value={formData.address}
-                                        onChange={handleInputChange}
-                                    />
-                                </div>
+                                {
+                                    id ? (
+                                        <div className="mb-3">
+                                            <label
+                                                htmlFor="email"
+                                                className="block text-sm font-medium leading-6 text-gray-900"
+                                            >
+                                                Email: <span className='text-red-500'>*</span>
+                                            </label>
+                                            <input
+                                                type="email"
+                                                className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none border-b ps-0 font-semibold placeholder:text-gray-400 sm:text-sm sm:leading-6"}
+                                                id="email"
+                                                name="email"
+                                                value={formData.email}
+                                                onChange={handleInputChange}
+                                                readOnly={true}
+                                            />
+                                        </div>
+                                    ) : (
+                                        <div className="mb-3">
+                                            <label
+                                                htmlFor="email"
+                                                className="block text-sm font-medium leading-6 text-gray-900"
+                                            >
+                                                Email: <span className='text-red-500'>*</span>
+                                            </label>
+                                            <input
+                                                type="email"
+                                                className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none border-b ps-0 font-semibold placeholder:text-gray-400 sm:text-sm sm:leading-6"}
+                                                id="email"
+                                                name="email"
+                                                value={formData.email}
+                                                onChange={handleInputChange}
+                                            />
+                                        </div>
+                                    )
+                                }
+                                {
+                                    id ? (
+                                        <div className="mb-3">
+                                            <label
+                                                htmlFor="address"
+                                                className="block text-sm font-medium leading-6 text-gray-900"
+                                            >
+                                                Address: <span className='text-red-500'>*</span>
+                                            </label>
+                                            <input
+                                                type="text"
+                                                className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none border-b ps-0 font-semibold placeholder:text-gray-400 sm:text-sm sm:leading-6"}
+                                                id="address"
+                                                name="address"
+                                                value={formData.address}
+                                                onChange={handleInputChange}
+                                                readOnly={true}
+                                            />
+                                        </div>
+                                    ) : (
+                                        <div className="mb-3">
+                                            <label
+                                                htmlFor="address"
+                                                className="block text-sm font-medium leading-6 text-gray-900"
+                                            >
+                                                Address: <span className='text-red-500'>*</span>
+                                            </label>
+                                            <input
+                                                type="text"
+                                                className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none border-b ps-0 font-semibold placeholder:text-gray-400 sm:text-sm sm:leading-6"}
+                                                id="address"
+                                                name="address"
+                                                value={formData.address}
+                                                onChange={handleInputChange}
+                                            />
+                                        </div>
+                                    )
+                                }
 
                                 {
                                     id ? (
@@ -767,13 +1058,7 @@ const EmployeeDetails = () => {
 
                             </div>
                             <div className='my-5 text-center'>
-                                {id ? (
-                                    <button
-                                        onClick={handleUpdate}
-                                        className="text-white bg-indigo-500 border-0 py-2 px-9 focus:outline-none hover:bg-indigo-600 rounded">
-                                        Update
-                                    </button>
-                                ) : (
+                                {id ? null : (
                                     <button
                                         onClick={() => handleSubmit()}
                                         className="text-white bg-indigo-500 border-0 py-2 px-9 focus:outline-none hover:bg-indigo-600 rounded">
