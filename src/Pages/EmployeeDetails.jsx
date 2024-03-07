@@ -366,7 +366,7 @@ const EmployeeDetails = () => {
                                     </label>
                                     <input
                                         type="number"
-                                        className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none border-b ps-0 font-semibold placeholder:text-gray-400 sm:text-sm sm:leading-6"}
+                                        className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-500 focus:outline-none border-b ps-0 placeholder:text-gray-400 sm:text-sm sm:leading-6"}
                                         id="ID"
                                         name="id"
                                         value={id ? id : randomNumber}
@@ -384,7 +384,7 @@ const EmployeeDetails = () => {
                                             </label>
                                             <input
                                                 type="text"
-                                                className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none border-b ps-0 font-semibold placeholder:text-gray-400 sm:text-sm sm:leading-6"}
+                                                className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-500 focus:outline-none border-b ps-0 placeholder:text-gray-400 sm:text-sm sm:leading-6"}
                                                 id="Name"
                                                 name="Name"
                                                 value={formData.Name}
@@ -422,7 +422,7 @@ const EmployeeDetails = () => {
                                             </label>
                                             <input
                                                 type="text"
-                                                className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none border-b ps-0 font-semibold placeholder:text-gray-400 sm:text-sm sm:leading-6"}
+                                                className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-500 focus:outline-none border-b ps-0 placeholder:text-gray-400 sm:text-sm sm:leading-6"}
                                                 id="fatherName"
                                                 name="FathName"
                                                 value={formData.FathName}
@@ -460,7 +460,7 @@ const EmployeeDetails = () => {
                                             </label>
                                             <input
                                                 type="text"
-                                                className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none border-b ps-0 font-semibold placeholder:text-gray-400 sm:text-sm sm:leading-6"}
+                                                className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-500 focus:outline-none border-b ps-0 placeholder:text-gray-400 sm:text-sm sm:leading-6"}
                                                 id="phone"
                                                 name="phone"
                                                 value={formData.phone}
@@ -498,7 +498,7 @@ const EmployeeDetails = () => {
                                             </label>
                                             <input
                                                 type="number"
-                                                className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none border-b ps-0 font-semibold placeholder:text-gray-400 sm:text-sm sm:leading-6"}
+                                                className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-500 focus:outline-none border-b ps-0 placeholder:text-gray-400 sm:text-sm sm:leading-6"}
                                                 id="emerPhone"
                                                 name="emergencyPhone"
                                                 value={formData.emergencyPhone}
@@ -531,7 +531,7 @@ const EmployeeDetails = () => {
                                             <label htmlFor="dropdown" className="block text-sm font-medium leading-6 text-gray-900">Department: <span className='text-red-500'>*</span></label>
                                             <input
                                                 type="text"
-                                                className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none border-b ps-0 font-semibold placeholder:text-gray-400 sm:text-sm sm:leading-6"}
+                                                className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-500 focus:outline-none border-b ps-0 placeholder:text-gray-400 sm:text-sm sm:leading-6"}
                                                 id="department"
                                                 name="department"
                                                 value={formData.department}
@@ -564,7 +564,7 @@ const EmployeeDetails = () => {
                                             </label>
                                             <input
                                                 type="text"
-                                                className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none border-b ps-0 font-semibold placeholder:text-gray-400 sm:text-sm sm:leading-6"}
+                                                className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-500 focus:outline-none border-b ps-0 placeholder:text-gray-400 sm:text-sm sm:leading-6"}
                                                 id="shift"
                                                 name="shift"
                                                 value={formData.shift}
@@ -602,7 +602,7 @@ const EmployeeDetails = () => {
                                             </label>
                                             <input
                                                 type="number"
-                                                className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none border-b ps-0 font-semibold placeholder:text-gray-400 sm:text-sm sm:leading-6"}
+                                                className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-500 focus:outline-none border-b ps-0 placeholder:text-gray-400 sm:text-sm sm:leading-6"}
                                                 id="cnic"
                                                 name="cnic"
                                                 value={formData.cnic}
@@ -640,7 +640,7 @@ const EmployeeDetails = () => {
                                             </label>
                                             <input
                                                 type="text"
-                                                className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none border-b ps-0 font-semibold placeholder:text-gray-400 sm:text-sm sm:leading-6"}
+                                                className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-500 focus:outline-none border-b ps-0 placeholder:text-gray-400 sm:text-sm sm:leading-6"}
                                                 id="reference"
                                                 name="reference"
                                                 value={formData.reference}
@@ -678,7 +678,7 @@ const EmployeeDetails = () => {
                                             </label>
                                             <input
                                                 type="text"
-                                                className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none border-b ps-0 font-semibold placeholder:text-gray-400 sm:text-sm sm:leading-6"}
+                                                className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-500 focus:outline-none border-b ps-0 placeholder:text-gray-400 sm:text-sm sm:leading-6"}
                                                 id="userID"
                                                 name="userName"
                                                 value={formData.userName}
@@ -716,7 +716,7 @@ const EmployeeDetails = () => {
                                             </label>
                                             <input
                                                 type="text"
-                                                className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none border-b ps-0 font-semibold placeholder:text-gray-400 sm:text-sm sm:leading-6"}
+                                                className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-500 focus:outline-none border-b ps-0 placeholder:text-gray-400 sm:text-sm sm:leading-6"}
                                                 id="password"
                                                 name="password"
                                                 value={formData.password}
@@ -754,7 +754,7 @@ const EmployeeDetails = () => {
                                             </label>
                                             <input
                                                 type="text"
-                                                className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none border-b ps-0 font-semibold placeholder:text-gray-400 sm:text-sm sm:leading-6"}
+                                                className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-500 focus:outline-none border-b ps-0 placeholder:text-gray-400 sm:text-sm sm:leading-6"}
                                                 id="designation"
                                                 name="designation"
                                                 value={formData.designation}
@@ -792,7 +792,7 @@ const EmployeeDetails = () => {
                                             </label>
                                             <input
                                                 type="text"
-                                                className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none border-b ps-0 font-semibold placeholder:text-gray-400 sm:text-sm sm:leading-6"}
+                                                className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-500 focus:outline-none border-b ps-0 placeholder:text-gray-400 sm:text-sm sm:leading-6"}
                                                 id="joiningDate"
                                                 name="joinDate"
                                                 placeholder='YYYY-MM-DD'
@@ -834,7 +834,7 @@ const EmployeeDetails = () => {
                                             </label>
                                             <input
                                                 type="text"
-                                                className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none border-b ps-0 font-semibold placeholder:text-gray-400 sm:text-sm sm:leading-6"}
+                                                className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-500 focus:outline-none border-b ps-0 placeholder:text-gray-400 sm:text-sm sm:leading-6"}
                                                 id="EndDate"
                                                 name="EndDate"
                                                 value={formData.EndDate}
@@ -875,7 +875,7 @@ const EmployeeDetails = () => {
                                             </label>
                                             <input
                                                 type="email"
-                                                className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none border-b ps-0 font-semibold placeholder:text-gray-400 sm:text-sm sm:leading-6"}
+                                                className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-500 focus:outline-none border-b ps-0 placeholder:text-gray-400 sm:text-sm sm:leading-6"}
                                                 id="email"
                                                 name="email"
                                                 value={formData.email}
@@ -913,7 +913,7 @@ const EmployeeDetails = () => {
                                             </label>
                                             <input
                                                 type="text"
-                                                className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none border-b ps-0 font-semibold placeholder:text-gray-400 sm:text-sm sm:leading-6"}
+                                                className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-500 focus:outline-none border-b ps-0 placeholder:text-gray-400 sm:text-sm sm:leading-6"}
                                                 id="address"
                                                 name="address"
                                                 value={formData.address}
@@ -952,7 +952,7 @@ const EmployeeDetails = () => {
                                             </label>
                                             <input
                                                 type="text"
-                                                className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none border-b ps-0 font-semibold placeholder:text-gray-400 sm:text-sm sm:leading-6"}
+                                                className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-500 focus:outline-none border-b ps-0 placeholder:text-gray-400 sm:text-sm sm:leading-6"}
                                                 id="salary"
                                                 name="salary"
                                                 value={formData.salary}
@@ -990,7 +990,7 @@ const EmployeeDetails = () => {
                                             </label>
                                             <input
                                                 type="text"
-                                                className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none border-b ps-0 font-semibold placeholder:text-gray-400 sm:text-sm sm:leading-6"}
+                                                className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-500 focus:outline-none border-b ps-0 placeholder:text-gray-400 sm:text-sm sm:leading-6"}
                                                 id="bankName"
                                                 name="bankName"
                                                 value={formData.bankName}
@@ -1029,7 +1029,7 @@ const EmployeeDetails = () => {
                                             </label>
                                             <input
                                                 type="text"
-                                                className={`block w-full rounded-md border-0 py-1.5 pr-20 text-gray-900 font-semibold focus:outline-none ring-gray-300 border-b placeholder:text-gray-400 sm:text-sm sm:leading-6`}
+                                                className={`block w-full rounded-md border-0 py-1.5 pr-20 text-gray-500 focus:outline-none ring-gray-300 border-b placeholder:text-gray-400 sm:text-sm sm:leading-6`}
                                                 id="accountNum"
                                                 name="accountNum"
                                                 value={formData.accountNum}
