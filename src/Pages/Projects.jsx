@@ -7,30 +7,30 @@ import axios from 'axios';
 import { IoIosSend } from 'react-icons/io';
 import api from '../Components/Api';
 
-const Input = (props) => (
-  <components.Input {...props} readOnly={props.selectProps.isReadOnly} />
-);
+// const Input = (props) => (
+//   <components.Input {...props} readOnly={props.selectProps.isReadOnly} />
+// );
 
-const MySelect = (props) => {
-  const { options, label, onChange, isReadOnly } = props;
-  const [menuIsOpen, setMenuIsOpen] = useState(false); // State to manage menu open/close
+// const MySelect = (props) => {
+//   const { options, label, onChange, isReadOnly } = props;
+//   const [menuIsOpen, setMenuIsOpen] = useState(false); // State to manage menu open/close
 
-  const handleChange = (selectedOption) => {
-    onChange(selectedOption);
-  };
+//   const handleChange = (selectedOption) => {
+//     onChange(selectedOption);
+//   };
 
-  return (
-    <Select
-      options={options}
-      label={label}
-      onChange={handleChange}
-      menuIsOpen={!isReadOnly && menuIsOpen} // Open menu if not read-only and state is open
-      onMenuOpen={() => setMenuIsOpen(true)} // Open menu when clicked
-      onMenuClose={() => setMenuIsOpen(false)} // Close menu when clicked outside
-      components={{ Input }}
-    />
-  );
-};
+//   return (
+//     <Select
+//       options={options}
+//       label={label}
+//       onChange={handleChange}
+//       menuIsOpen={!isReadOnly && menuIsOpen} // Open menu if not read-only and state is open
+//       onMenuOpen={() => setMenuIsOpen(true)} // Open menu when clicked
+//       onMenuClose={() => setMenuIsOpen(false)} // Close menu when clicked outside
+//       components={{ Input }}
+//     />
+//   );
+// };
 
 const Projects = () => {
 
@@ -50,26 +50,6 @@ const Projects = () => {
   const [clientName, setClientName] = useState(null);
   const [description, setDescription] = useState(null);
   const [attachments, setAttachments] = useState(null);
-  // const [formData, setFormData] = useState({
-  //   title: "",
-  //   id: "",
-  //   startDate: "",
-  //   deleiveryDate: "",
-  //   platform: "",
-  //   department: "",
-  //   nature: "",
-  //   profile: "",
-  //   salesPerson: "",
-  //   amount: "",
-  //   clientName: "",
-  //   description: "",
-  //   attachments: "",
-  // });
-  // const handleInputChange = (e) => {
-  //   setFormData({ ...formData, [e.target.name]: e.target.value });
-  //   console.log({ [e.target.name]: e.target.value })
-  // };
-
   useEffect(() => {
     const getProjectNature = async () => {
       try {
@@ -109,32 +89,29 @@ const Projects = () => {
   const handleSubmit = async () => {
     try {
       const formData = new FormData();
-      formData.append("attachments", attachments)
+      formData.append("attachments", attachments);
       formData.append("id", id);
       formData.append("title", title);
       formData.append("startDate", startDate);
       formData.append("deleiveryDate", deleiveryDate);
-      formData.append("platform", platform);
-      formData.append("department", department);
+      formData.append("platform", plat);
+      formData.append("department", depart);
       formData.append("nature", nature);
       formData.append("profile", profile);
       formData.append("salesPerson", salesPerson);
       formData.append("amount", amount);
       formData.append("clientName", clientName);
       formData.append("description", description);
+
       console.log(formData);
-      var response = await axios.post(`${api}/api/projects/submit`, {
-        formData
-      })
+      const response = await axios.post(`${api}/api/projects/submit`, formData);
       if (response.status === 200 && response.data.success) {
-        console.log(response);
-        console.log("Project Posted Successfully")
+        console.log("Project Posted Successfully");
         alert("Project Posted Successfully");
       }
     } catch (error) {
-      console.log(response)
-      console.log("Error in posting Project", error)
-      // alert(error.message)
+      alert(error.message);
+      console.log("Error in posting Project", error);
     }
   }
 
@@ -210,7 +187,7 @@ const Projects = () => {
                         />
                       </div>
                       <div className="mb-3">
-                        <label htmlFor="dropdown" className="block text-sm font-medium leading-6 text-gray-900">Project Nature:</label> <br />
+                        <label htmlFor="dropdown" className="block text-sm font-medium leading-6 text-gray-900">Project Nature:</label>
                         <select id="dropdown" className='w-full border p-2 rounded' name='nature' value={nature} onChange={(e) => setNature(e.target.value)}>
                           <option className='m-5' value="">Select</option>
                           {
@@ -308,8 +285,8 @@ const Projects = () => {
                         />
                       </div>
                       <div className="mb-3">
-                        <label htmlFor="dropdown" className="block text-sm font-medium leading-6 text-gray-900">Department:</label> <br />
-                        <select id="dropdown" className='w-full border p-2 rounded' name='department' value={depart} onChange={(e) => setDepart(e.target.value)}>
+                        <label htmlFor="depart" className="block text-sm font-medium leading-6 text-gray-900">Department:</label>
+                        <select id="depart" className='w-full border p-2 rounded' name='depart' value={depart} onChange={(e) => setDepart(e.target.value)}>
                           <option className='m-5' value="">Select</option>
                           {
                             department.map((item, index) => (
@@ -336,8 +313,8 @@ const Projects = () => {
                         />
                       </div>
                       <div className="mb-3">
-                        <label htmlFor="dropdown" className="block text-sm font-medium leading-6 text-gray-900">Platform:</label> <br />
-                        <select id="dropdown" className='w-full border p-2 rounded' name='platform' value={plat} onChange={(e) => setPlat(e.target.value)}>
+                        <label htmlFor="plat" className="block text-sm font-medium leading-6 text-gray-900">Platform:</label> <br />
+                        <select id="plat" className='w-full border p-2 rounded' name='plat' value={plat} onChange={(e) => setPlat(e.target.value)}>
                           <option className='m-5' value="">Select</option>
                           {
                             platform.map((item, index) => (

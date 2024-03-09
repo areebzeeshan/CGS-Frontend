@@ -51,19 +51,18 @@ const WorkspaceSales = () => {
                       </div>
                     </div>
                   </div>
-                  {projects &&
-                    projects.map((item, index) => (
-                      <Link key={index} to={"/SalesProjectDetail"}>
-                        <div className="border rounded-lg p-3 shadow-lg mb-4 text-black bg-slate-200">
-                          <h3 className="text-xl mb-2">{item.title}</h3>
-                          <h3 className="mb-2">Client : {item.clientName}</h3>
-                          <h3 className="font-semibold mb-2">
-                            <span className="text-red-500">Deadline : </span>{" "}
-                            {item.deleiveryDate}
-                          </h3>
-                        </div>
-                      </Link>
-                    ))}
+                  {projects && projects.map((item, index) => (
+                    <Link key={index} to={`/SalesProjectDetail/${item.id}`}>
+                      <div className="border rounded-lg p-3 shadow-lg mb-4 text-black bg-slate-200">
+                        <h3 className="text-xl mb-2">{item.title}</h3>
+                        <h3 className="mb-2">Client : {item.clientName}</h3>
+                        <h3 className="font-semibold mb-2">
+                          <span className="text-red-500">Deadline : </span>{" "}
+                          {item.deleiveryDate}
+                        </h3>
+                      </div>
+                    </Link>
+                  ))}
                 </div>
                 {/* In progress */}
                 <div>

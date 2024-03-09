@@ -22,6 +22,7 @@ import WorkspaceProduction from "./Pages/WorkspaceProduction";
 import Attachments from "./Pages/Attachments";
 import ProductionProjectDetail from "./Pages/ProductionProjectDetail";
 import EmployeeEdit from "./Pages/EmployeeEdit";
+import SalesProjectEdit from "./Pages/SalesProjectEdit";
 
 function App() {
   return (
@@ -50,7 +51,7 @@ function App() {
           <Route path="/SalesLogin" element={<LoginSales />} />
           <Route path="/ProductionLogin" element={<LoginProduction />} />
           <Route path="/WorkspaceSales" element={<WorkspaceSales />} />
-          <Route path="/SalesProjectDetail" element={<SalesProjectDetail />} />
+          <Route path="/SalesProjectDetail/:id" element={<SalesProjectDetail />} />
           <Route
             path="/WorkspaceProduction"
             element={<WorkspaceProduction />}
@@ -58,6 +59,7 @@ function App() {
           <Route path="/Attachments" element={<Attachments />} />
           <Route path="/ProductionProjectDetail" element={<ProductionProjectDetail />} />
           <Route path="/EmployeeEdit/:id" element={<EmployeeEdit />} />
+          <Route path="/SalesProjectEdit/:id" element={<SalesProjectEdit />} />
         </Routes>
       </BrowserRouter>
     </>
