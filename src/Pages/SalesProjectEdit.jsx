@@ -16,24 +16,52 @@ const SalesProjectEdit = () => {
     const [projectNature, setProjectNature] = useState([{ label: "", value: "" }]);
     const [platform, setPlatform] = useState([{ label: "", value: "" }]);
     const [department, setDepartment] = useState([{ label: "", value: "" }]);
-    const [formData, setFormData] = useState({
-        title: "",
-        id: "",
-        startDate: "",
-        deleiveryDate: "",
-        plat: "",
-        depart: "",
-        nature: "",
-        profile: "",
-        salesPerson: "",
-        amount: "",
-        clientName: "",
-        description: "",
-        attachments: "",
-    });
-    const handleInputChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
-    };
+    const [Id, setId] = useState(null);
+    const [title, setTitle] = useState(null);
+    const [startDate, setStartDate] = useState(null);
+    const [deleiveryDate, setDelieveryDate] = useState(null);
+    const [plat, setPlat] = useState(null);
+    const [depart, setDepart] = useState(null);
+    const [nature, setNature] = useState(null);
+    const [profile, setProfile] = useState(null);
+    const [salesPerson, setSalesPerson] = useState(null);
+    const [amount, setAmount] = useState(null);
+    const [clientName, setClientName] = useState(null);
+    const [description, setDescription] = useState(null);
+    const [attachments, setAttachments] = useState(null);
+    // const handleInputChange = (e) => {
+    //     setFormData({ ...formData, [e.target.name]: e.target.value });
+    // };
+
+    const handleUpdate = async () => {
+        try {
+            const formData = new FormData();
+            formData.append("attachments", attachments);
+            formData.append("id", id);
+            formData.append("title", title);
+            formData.append("startDate", startDate);
+            formData.append("deleiveryDate", deleiveryDate);
+            formData.append("platform", plat);
+            formData.append("department", depart);
+            formData.append("nature", nature);
+            formData.append("profile", profile);
+            formData.append("salesPerson", salesPerson);
+            formData.append("amount", amount);
+            formData.append("clientName", clientName);
+            formData.append("description", description);
+
+            console.log("Form Data : ", formData)
+
+            const updatedProject = await axios.put(`${api}/api/projects/update/${id}`, formData);
+            if (updatedProject.status === 200 && updatedProject.data.success) {
+                console.log('Updated Projects : ', updatedProject)
+                alert("Projects updated successfully!")
+            }
+        } catch (error) {
+            console.log("Error in updating project : ", error)
+            alert(error.message)
+        }
+    }
 
     useEffect(() => {
         const getProjectNature = async () => {
@@ -73,20 +101,31 @@ const SalesProjectEdit = () => {
                 if (response) {
                     console.log("project search : ", response.data.data[0])
                     const responseData = response.data.data[0];
-                    setFormData({
-                        title: responseData.title,
-                        startDate: responseData.startDate,
-                        deleiveryDate: responseData.deleiveryDate,
-                        plat: responseData.platform,
-                        depart: responseData.department,
-                        nature: responseData.nature,
-                        profile: responseData.profile,
-                        salesPerson: responseData.salesPerson,
-                        amount: responseData.amount,
-                        clientName: responseData.clientName,
-                        description: responseData.description,
-                        // attachments: responseData.attachments
-                    })
+                    // setFormData({
+                    //     title: responseData.title,
+                    //     startDate: responseData.startDate,
+                    //     deleiveryDate: responseData.deleiveryDate,
+                    //     plat: responseData.platform,
+                    //     depart: responseData.department,
+                    //     nature: responseData.nature,
+                    //     profile: responseData.profile,
+                    //     salesPerson: responseData.salesPerson,
+                    //     amount: responseData.amount,
+                    //     clientName: responseData.clientName,
+                    //     description: responseData.description,
+                    //     // attachments: responseData.attachments
+                    // })
+                    setTitle(responseData.title)
+                    setStartDate(responseData.startDate)
+                    setDelieveryDate(responseData.deleiveryDate)
+                    setPlat(responseData.platform)
+                    setDepart(responseData.department)
+                    setNature(responseData.nature)
+                    setProfile(responseData.profile)
+                    setSalesPerson(responseData.salesPerson)
+                    setAmount(responseData.amount)
+                    setClientName(responseData.clientName)
+                    setDescription(responseData.description)
                 }
             } catch (error) {
                 console.log("Error fetching project:", error);
@@ -131,8 +170,6 @@ const SalesProjectEdit = () => {
                                                 id="ID"
                                                 name="id"
                                                 value={id}
-                                                onChange={handleInputChange}
-
                                             />
                                         </div>
 
@@ -149,9 +186,8 @@ const SalesProjectEdit = () => {
                                                 id="startDate"
                                                 name="startDate"
                                                 placeholder='YYYY-MM-DD'
-                                                value={formData.startDate}
-                                                onChange={handleInputChange}
-
+                                                value={startDate}
+                                                onChange={(e) => setStartDate(e.target.value)}
                                             />
                                         </div>
 
@@ -167,15 +203,15 @@ const SalesProjectEdit = () => {
                                                 className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none ring-gray-300 ring-1 ring-inset placeholder:text-gray-400 sm:text-sm sm:leading-6"}
                                                 id="clientName"
                                                 name="clientName"
-                                                value={formData.clientName}
-                                                onChange={handleInputChange}
+                                                value={clientName}
+                                                onChange={(e) => setClientName(e.target.value)}
 
                                             />
                                         </div>
 
                                         <div className="mb-3">
                                             <label htmlFor="platform" className="block text-sm font-medium leading-6 text-gray-900">Platform:</label>
-                                            <select id="platform" className='w-full border p-2 rounded' name='plat' value={formData.plat} onChange={handleInputChange}>
+                                            <select id="platform" className='w-full border p-2 rounded' name='plat' value={plat} onChange={(e) => setPlat(e.target.value)}>
                                                 <option className='m-5' value="">Select</option>
                                                 {
                                                     platform.map((item, index) => (
@@ -197,8 +233,8 @@ const SalesProjectEdit = () => {
                                                 className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none ring-gray-300 ring-1 ring-inset placeholder:text-gray-400 sm:text-sm sm:leading-6"}
                                                 id="salesPerson"
                                                 name="salesPerson"
-                                                value={formData.salesPerson}
-                                                onChange={handleInputChange}
+                                                value={salesPerson}
+                                                onChange={(e) => setSalesPerson(e.target.value)}
 
                                             />
                                         </div>
@@ -215,8 +251,8 @@ const SalesProjectEdit = () => {
                                                 className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none ring-gray-300 ring-1 ring-inset placeholder:text-gray-400 sm:text-sm sm:leading-6"}
                                                 id="attachments"
                                                 name="attachments"
-                                                value={formData.attachments}
-                                                onChange={handleInputChange}
+                                                value={attachments}
+                                                onChange={(e) => setAttachments(e.target.value)}
                                             />
                                         </div>
 
@@ -233,8 +269,8 @@ const SalesProjectEdit = () => {
                                                 id="delieveryDate"
                                                 name="delieveryDate"
                                                 placeholder='YYYY-MM-DD'
-                                                value={formData.deleiveryDate}
-                                                onChange={handleInputChange}
+                                                value={deleiveryDate}
+                                                onChange={(e) => setDelieveryDate(e.target.value)}
 
                                             />
                                         </div>
@@ -251,15 +287,15 @@ const SalesProjectEdit = () => {
                                                 className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none ring-gray-300 ring-1 ring-inset placeholder:text-gray-400 sm:text-sm sm:leading-6"}
                                                 id="title"
                                                 name="title"
-                                                value={formData.title}
-                                                onChange={handleInputChange}
+                                                value={title}
+                                                onChange={(e) => setTitle(e.target.value)}
 
                                             />
                                         </div>
 
                                         <div className="mb-3">
                                             <label htmlFor="depart" className="block text-sm font-medium leading-6 text-gray-900">Department:</label>
-                                            <select id="depart" className='w-full border p-2 rounded' name='depart' value={formData.depart} onChange={handleInputChange}>
+                                            <select id="depart" className='w-full border p-2 rounded' name='depart' value={depart} onChange={(e) => setDepart(e.target.value)}>
                                                 <option className='m-5' value="">Select</option>
                                                 {
                                                     department.map((item, index) => (
@@ -281,15 +317,15 @@ const SalesProjectEdit = () => {
                                                 className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none ring-gray-300 ring-1 ring-inset placeholder:text-gray-400 sm:text-sm sm:leading-6"}
                                                 id="amount"
                                                 name="amount"
-                                                value={formData.amount}
-                                                onChange={handleInputChange}
+                                                value={amount}
+                                                onChange={(e) => setAmount(e.target.value)}
 
                                             />
                                         </div>
 
                                         <div className="mb-3">
                                             <label htmlFor="nature" className="block text-sm font-medium leading-6 text-gray-900">Project Nature:</label>
-                                            <select id="nature" className='w-full border p-2 rounded' name='nature' value={formData.nature} onChange={handleInputChange}>
+                                            <select id="nature" className='w-full border p-2 rounded' name='nature' value={nature} onChange={(e) => setNature(e.target.value)}>
                                                 <option className='m-5' value="">Select</option>
                                                 {
                                                     projectNature.map((item, index) => (
@@ -312,16 +348,15 @@ const SalesProjectEdit = () => {
                                             className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none ring-gray-300 ring-1 ring-inset placeholder:text-gray-400 sm:text-sm sm:leading-6"}
                                             name="description"
                                             id="description"
-                                            value={formData.description}
-                                            onChange={handleInputChange}
-
+                                            value={description}
+                                            onChange={(e) => setDescription(e.target.value)}
                                         ></textarea>
                                     </div>
                                 </form>
                                 {/* form end */}
 
                                 <div className='flex justify-center my-10'>
-                                    <button className="text-white w-full lg:w-1/3 bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
+                                    <button onClick={handleUpdate} className="text-white w-full lg:w-1/3 bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
                                         Edit
                                     </button>
                                 </div>

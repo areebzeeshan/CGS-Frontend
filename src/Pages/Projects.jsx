@@ -2,35 +2,8 @@ import React, { useEffect, useState } from 'react'
 import Navbar from '../Components/Navbar'
 import Footer from '../Components/Footer'
 import SalesDashboard from '../Components/SalesDashboard'
-import Select, { components } from "react-select";
 import axios from 'axios';
-import { IoIosSend } from 'react-icons/io';
 import api from '../Components/Api';
-
-// const Input = (props) => (
-//   <components.Input {...props} readOnly={props.selectProps.isReadOnly} />
-// );
-
-// const MySelect = (props) => {
-//   const { options, label, onChange, isReadOnly } = props;
-//   const [menuIsOpen, setMenuIsOpen] = useState(false); // State to manage menu open/close
-
-//   const handleChange = (selectedOption) => {
-//     onChange(selectedOption);
-//   };
-
-//   return (
-//     <Select
-//       options={options}
-//       label={label}
-//       onChange={handleChange}
-//       menuIsOpen={!isReadOnly && menuIsOpen} // Open menu if not read-only and state is open
-//       onMenuOpen={() => setMenuIsOpen(true)} // Open menu when clicked
-//       onMenuClose={() => setMenuIsOpen(false)} // Close menu when clicked outside
-//       components={{ Input }}
-//     />
-//   );
-// };
 
 const Projects = () => {
 
