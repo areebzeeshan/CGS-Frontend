@@ -4,35 +4,8 @@ import Dashboard from '../Components/Dashboard';
 import Navbar from '../Components/Navbar';
 import Footer from '../Components/Footer';
 import axios from 'axios';
-import Select, { components } from "react-select";
 import WithAuth from '../Components/WithAuth';
 import api from '../Components/Api';
-
-
-const Input = (props) => (
-    <components.Input {...props} readOnly={props.selectProps.isReadOnly} />
-);
-
-const MySelect = (props) => {
-    const { options, value, onChange, isReadOnly } = props;
-    const [menuIsOpen, setMenuIsOpen] = useState(false); // State to manage menu open/close
-
-    const handleChange = (selectedOption) => {
-        onChange(selectedOption);
-    };
-
-    return (
-        <Select
-            options={options}
-            value={value}
-            onChange={handleChange}
-            menuIsOpen={!isReadOnly && menuIsOpen}
-            onMenuOpen={() => setMenuIsOpen(true)}
-            onMenuClose={() => setMenuIsOpen(false)}
-            components={{ Input }}
-        />
-    );
-};
 
 const EmployeeDetails = () => {
 

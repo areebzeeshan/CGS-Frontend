@@ -20,7 +20,7 @@ const SalesProjectDetail = () => {
         title: "",
         id: "",
         startDate: "",
-        deleiveryDate: "",
+        deliveryDate: "",
         plat: "",
         depart: "",
         nature: "",
@@ -69,14 +69,14 @@ const SalesProjectDetail = () => {
         const getProjectByID = async () => {
             try {
                 const response = await axios.get(`${api}/api/projects/search/${id}`);
-                console.log("Response:", response);
+                // console.log("Response:", response);
                 if (response) {
-                    console.log("project search : ", response.data.data[0])
+                    // console.log("project search : ", response.data.data[0])
                     const responseData = response.data.data[0];
                     setFormData({
                         title: responseData.title,
                         startDate: responseData.startDate,
-                        deleiveryDate: responseData.deleiveryDate,
+                        deliveryDate: responseData.deliveryDate,
                         plat: responseData.platform,
                         depart: responseData.department,
                         nature: responseData.nature,
@@ -94,8 +94,125 @@ const SalesProjectDetail = () => {
             }
         };
 
+        const getAllotedById = async () => {
+            try {
+                const response = await axios.get(`${api}/api/alloted/search/${id}`);
+                // console.log("Response:", response);
+                if (response) {
+                    // console.log("project search : ", response.data.data[0])
+                    const responseData = response.data.data[0];
+                    setFormData({
+                        title: responseData.title,
+                        startDate: responseData.startDate,
+                        deliveryDate: responseData.deliveryDate,
+                        plat: responseData.platform,
+                        depart: responseData.department,
+                        nature: responseData.nature,
+                        profile: responseData.profile,
+                        salesPerson: responseData.salesPerson,
+                        amount: responseData.amount,
+                        clientName: responseData.clientName,
+                        description: responseData.description,
+                        attachments: responseData.attachments
+                    })
+                }
+            } catch (error) {
+                console.log("Error fetching alloted project:", error);
+                alert(error.message);
+            }
+        };
 
-        getProjectByID();
+        const getProgressById = async () => {
+            try {
+                const response = await axios.get(`${api}/api/progress/search/${id}`);
+                // console.log("Response:", response);
+                if (response) {
+                    // console.log("project search : ", response.data.data[0])
+                    const responseData = response.data.data[0];
+                    setFormData({
+                        title: responseData.title,
+                        startDate: responseData.startDate,
+                        deliveryDate: responseData.deliveryDate,
+                        plat: responseData.platform,
+                        depart: responseData.department,
+                        nature: responseData.nature,
+                        profile: responseData.profile,
+                        salesPerson: responseData.salesPerson,
+                        amount: responseData.amount,
+                        clientName: responseData.clientName,
+                        description: responseData.description,
+                        attachments: responseData.attachments
+                    })
+                }
+            } catch (error) {
+                console.log("Error fetching progress project:", error);
+                alert(error.message);
+            }
+        };
+
+        const getReviewById = async () => {
+            try {
+                const response = await axios.get(`${api}/api/review/search/${id}`);
+                // console.log("Response:", response);
+                if (response) {
+                    // console.log("project search : ", response.data.data[0])
+                    const responseData = response.data.data[0];
+                    setFormData({
+                        title: responseData.title,
+                        startDate: responseData.startDate,
+                        deliveryDate: responseData.deliveryDate,
+                        plat: responseData.platform,
+                        depart: responseData.department,
+                        nature: responseData.nature,
+                        profile: responseData.profile,
+                        salesPerson: responseData.salesPerson,
+                        amount: responseData.amount,
+                        clientName: responseData.clientName,
+                        description: responseData.description,
+                        attachments: responseData.attachments
+                    })
+                }
+            } catch (error) {
+                console.log("Error fetching review project:", error);
+                alert(error.message);
+            }
+        };
+
+        const getCompletedById = async () => {
+            try {
+                const response = await axios.get(`${api}/api/completed/search/${id}`);
+                // console.log("Response:", response);
+                if (response) {
+                    // console.log("project search : ", response.data.data[0])
+                    const responseData = response.data.data[0];
+                    setFormData({
+                        title: responseData.title,
+                        startDate: responseData.startDate,
+                        deliveryDate: responseData.deliveryDate,
+                        plat: responseData.platform,
+                        depart: responseData.department,
+                        nature: responseData.nature,
+                        profile: responseData.profile,
+                        salesPerson: responseData.salesPerson,
+                        amount: responseData.amount,
+                        clientName: responseData.clientName,
+                        description: responseData.description,
+                        attachments: responseData.attachments
+                    })
+                }
+            } catch (error) {
+                console.log("Error fetching completed project:", error);
+                alert(error.message);
+            }
+        };
+
+
+        // getProjectByID();
+        getAllotedById();
+        getCompletedById();
+        getReviewById();
+        getProgressById();
+
         getProjectNature();
         getPlatform();
         getDepartment();
@@ -361,7 +478,7 @@ const SalesProjectDetail = () => {
                                             id ? (
                                                 <div className="mb-3">
                                                     <label
-                                                        htmlFor="delieveryDate"
+                                                        htmlFor="deliveryDate"
                                                         className="block text-sm font-medium leading-6 text-gray-900"
                                                     >
                                                         Delievery Date:
@@ -369,10 +486,9 @@ const SalesProjectDetail = () => {
                                                     <input
                                                         type="text"
                                                         className={"block w-full rounded-md border-0 py-1.5 pr-20 text-gray-500 focus:outline-none border-b placeholder:text-gray-400 sm:text-sm sm:leading-6"}
-                                                        id="delieveryDate"
-                                                        name="delieveryDate"
-                                                        placeholder='YYYY-MM-DD'
-                                                        value={formData.deleiveryDate}
+                                                        id="deliveryDate"
+                                                        name="deliveryDate"
+                                                        value={formData.deliveryDate}
                                                         readOnly={true}
 
                                                     />
