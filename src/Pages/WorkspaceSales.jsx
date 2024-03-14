@@ -16,6 +16,7 @@ const WorkspaceSales = () => {
   const [allotedProjects, setAllotedProjects] = useState([]);
   const [reviewProjects, setReviewProjects] = useState([]);
   const [completedProjects, setCompletedProjects] = useState([]);
+  const [progressProjects, setProgressProjects] = useState([]);
 
   useEffect(() => {
     const fetchingProjects = async () => {
@@ -66,10 +67,23 @@ const WorkspaceSales = () => {
       }
     }
 
+    const fetchingProgressProjects = async () => {
+      try {
+        const response = await axios.get(
+          `${api}/api/progress/get`
+        );
+        setProgressProjects(response.data.data[0]);
+        console.log(response.data.data[0]);
+      } catch (error) {
+        console.log("Error in fetching progress Projects ", error);
+      }
+    }
+
     // fetchingProjects();
     fetchingAllotedProjects();
     fetchingReviewProjects();
     fetchingCompletedProjects();
+    fetchingProgressProjects();
   }, []);
 
   return (
@@ -115,15 +129,17 @@ const WorkspaceSales = () => {
                       </div>
                     </div>
                   </div>
-                  {/* <Link to={'/SalesProjectDetail'}>
-                                        <div className="border rounded-lg p-3 shadow-lg mb-4 text-black bg-slate-200">
-                                            <h3 className="text-xl mb-2">Project Title</h3>
-                                            <h3 className="text-xl mb-2">Client Name</h3>
-                                            <h3 className="text-xl mb-2">
-                                                Deadline
-                                            </h3>
-                                        </div>
-                                    </Link> */}
+                  {progressProjects && progressProjects.map((item, index) => (
+                    <Link key={index} to={`/SalesProjectDetail/${item.id}`}>
+                      <div className="border rounded-lg p-3 shadow-lg mb-4 text-black bg-slate-200">
+                        <h3 className="text-xl mb-2">{item.title}</h3>
+                        <h3 className="mb-2">Client : {item.clientName}</h3>
+                        <h3 className="font-semibold mb-2">
+                          <span className="text-red-500">Deadline : {item.deliveryDate}</span>
+                        </h3>
+                      </div>
+                    </Link>
+                  ))}
                 </div>
                 {/* In Review */}
                 <div>

@@ -13,16 +13,18 @@ const SalesProjectEdit = () => {
 
     const { id } = useParams();
 
+    const projectStatus = ["To be Alloted", "In Progress", "In Review", "Completed"];
     const [projectNature, setProjectNature] = useState([{ label: "", value: "" }]);
     const [platform, setPlatform] = useState([{ label: "", value: "" }]);
     const [department, setDepartment] = useState([{ label: "", value: "" }]);
     const [Id, setId] = useState(null);
     const [title, setTitle] = useState(null);
     const [startDate, setStartDate] = useState(null);
-    const [deleiveryDate, setDelieveryDate] = useState(null);
-    const [plat, setPlat] = useState(null);
-    const [depart, setDepart] = useState(null);
-    const [nature, setNature] = useState(null);
+    const [deliveryDate, setDeliveryDate] = useState(null);
+    const [plat, setPlat] = useState('');
+    const [depart, setDepart] = useState('');
+    const [status, setStatus] = useState('');
+    const [nature, setNature] = useState('');
     const [profile, setProfile] = useState(null);
     const [salesPerson, setSalesPerson] = useState(null);
     const [amount, setAmount] = useState(null);
@@ -40,9 +42,10 @@ const SalesProjectEdit = () => {
             formData.append("id", id);
             formData.append("title", title);
             formData.append("startDate", startDate);
-            formData.append("deleiveryDate", deleiveryDate);
+            formData.append("deliveryDate", deliveryDate);
             formData.append("platform", plat);
             formData.append("department", depart);
+            formData.append("status", status);
             formData.append("nature", nature);
             formData.append("profile", profile);
             formData.append("salesPerson", salesPerson);
@@ -52,10 +55,16 @@ const SalesProjectEdit = () => {
 
             console.log("Form Data : ", formData)
 
-            const updatedProject = await axios.put(`${api}/api/projects/update/${id}`, formData);
-            if (updatedProject.status === 200 && updatedProject.data.success) {
-                console.log('Updated Projects : ', updatedProject)
-                alert("Projects updated successfully!")
+            if (status === "To be Alloted") {
+                const response = await axios.put(`${api}/api/alloted/update/${id}`);
+                if (response.status === 200 && response.data.success) {
+                    console.log("Project updated successfully : ", response)
+                    alert("Project updated successfully!")
+                }
+                else {
+                    alert(response.data)
+                    console.log("project not updating : ", response)
+                }
             }
         } catch (error) {
             console.log("Error in updating project : ", error)
@@ -117,7 +126,7 @@ const SalesProjectEdit = () => {
                     // })
                     setTitle(responseData.title)
                     setStartDate(responseData.startDate)
-                    setDelieveryDate(responseData.deleiveryDate)
+                    setDeliveryDate(responseData.deliveryDate)
                     setPlat(responseData.platform)
                     setDepart(responseData.department)
                     setNature(responseData.nature)
@@ -133,8 +142,117 @@ const SalesProjectEdit = () => {
             }
         };
 
+        const getAllotedByID = async () => {
+            try {
+                const response = await axios.get(`${api}/api/alloted/search/${id}`);
+                console.log("Response:", response);
+                if (response) {
+                    console.log("project search : ", response.data.data[0])
+                    const responseData = response.data.data[0];
+                    setTitle(responseData.title)
+                    setStartDate(responseData.startDate)
+                    setDeliveryDate(responseData.deliveryDate)
+                    setPlat(responseData.platform)
+                    setDepart(responseData.department)
+                    setStatus(responseData.status)
+                    setNature(responseData.nature)
+                    setProfile(responseData.profile)
+                    setSalesPerson(responseData.salesPerson)
+                    setAmount(responseData.amount)
+                    setClientName(responseData.clientName)
+                    setDescription(responseData.description)
+                }
+            } catch (error) {
+                console.log("Error fetching alloted project:", error);
+                alert(error.message);
+            }
+        };
 
-        getProjectByID();
+        const getReviewByID = async () => {
+            try {
+                const response = await axios.get(`${api}/api/review/search/${id}`);
+                console.log("Response:", response);
+                if (response) {
+                    console.log("project search : ", response.data.data[0])
+                    const responseData = response.data.data[0];
+                    setTitle(responseData.title)
+                    setStartDate(responseData.startDate)
+                    setDeliveryDate(responseData.deliveryDate)
+                    setPlat(responseData.platform)
+                    setDepart(responseData.department)
+                    setStatus(responseData.status)
+                    setNature(responseData.nature)
+                    setProfile(responseData.profile)
+                    setSalesPerson(responseData.salesPerson)
+                    setAmount(responseData.amount)
+                    setClientName(responseData.clientName)
+                    setDescription(responseData.description)
+                }
+            } catch (error) {
+                console.log("Error fetching review project:", error);
+                alert(error.message);
+            }
+        };
+
+        const getProgressByID = async () => {
+            try {
+                const response = await axios.get(`${api}/api/progress/search/${id}`);
+                console.log("Response:", response);
+                if (response) {
+                    console.log("project search : ", response.data.data[0])
+                    const responseData = response.data.data[0];
+                    setTitle(responseData.title)
+                    setStartDate(responseData.startDate)
+                    setDeliveryDate(responseData.deliveryDate)
+                    setPlat(responseData.platform)
+                    setDepart(responseData.department)
+                    setStatus(responseData.status)
+                    setNature(responseData.nature)
+                    setProfile(responseData.profile)
+                    setSalesPerson(responseData.salesPerson)
+                    setAmount(responseData.amount)
+                    setClientName(responseData.clientName)
+                    setDescription(responseData.description)
+                }
+            } catch (error) {
+                console.log("Error fetching progress project:", error);
+                alert(error.message);
+            }
+        };
+
+        const getCompletedByID = async () => {
+            try {
+                const response = await axios.get(`${api}/api/completed/search/${id}`);
+                console.log("Response:", response);
+                if (response) {
+                    console.log("project search : ", response.data.data[0])
+                    const responseData = response.data.data[0];
+                    setTitle(responseData.title)
+                    setStartDate(responseData.startDate)
+                    setDeliveryDate(responseData.deliveryDate)
+                    setPlat(responseData.platform)
+                    setDepart(responseData.department)
+                    setStatus(responseData.status)
+                    setNature(responseData.nature)
+                    setProfile(responseData.profile)
+                    setSalesPerson(responseData.salesPerson)
+                    setAmount(responseData.amount)
+                    setClientName(responseData.clientName)
+                    setDescription(responseData.description)
+                }
+            } catch (error) {
+                console.log("Error fetching completed project:", error);
+                alert(error.message);
+            }
+        };
+
+
+        // getProjectByID();
+        getAllotedByID();
+        getReviewByID();
+        getProgressByID();
+        getCompletedByID();
+
         getProjectNature();
         getPlatform();
         getDepartment();
@@ -248,17 +366,17 @@ const SalesProjectEdit = () => {
                                             </label>
                                             <input
                                                 type="file"
-                                                className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none ring-gray-300 ring-1 ring-inset placeholder:text-gray-400 sm:text-sm sm:leading-6"}
+                                                className="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none ring-gray-300 ring-1 ring-inset placeholder:text-gray-400 sm:text-sm sm:leading-6"
                                                 id="attachments"
                                                 name="attachments"
-                                                value={attachments}
-                                                onChange={(e) => setAttachments(e.target.value)}
+                                                onChange={(e) => setAttachments(e.target.files[0])}
                                             />
+
                                         </div>
 
                                         <div className="mb-3">
                                             <label
-                                                htmlFor="delieveryDate"
+                                                htmlFor="deliveryDate"
                                                 className="block text-sm font-medium leading-6 text-gray-900"
                                             >
                                                 Delievery Date:
@@ -266,11 +384,11 @@ const SalesProjectEdit = () => {
                                             <input
                                                 type="text"
                                                 className={"block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 focus:outline-none ring-gray-300 ring-1 ring-inset placeholder:text-gray-400 sm:text-sm sm:leading-6"}
-                                                id="delieveryDate"
-                                                name="delieveryDate"
+                                                id="deliveryDate"
+                                                name="deliveryDate"
                                                 placeholder='YYYY-MM-DD'
-                                                value={deleiveryDate}
-                                                onChange={(e) => setDelieveryDate(e.target.value)}
+                                                value={deliveryDate}
+                                                onChange={(e) => setDeliveryDate(e.target.value)}
 
                                             />
                                         </div>
@@ -324,6 +442,18 @@ const SalesProjectEdit = () => {
                                         </div>
 
                                         <div className="mb-3">
+                                            <label htmlFor="status" className="block text-sm font-medium leading-6 text-gray-900">Project Status <span className='text-red-500'>*</span></label>
+                                            <select id="status" className='w-full border p-2 rounded' name='status' value={status} onChange={(e) => setStatus(e.target.value)}>
+                                                <option className='m-5' value="">Select</option>
+                                                {
+                                                    projectStatus.map((item, index) => (
+                                                        <option key={index} className='m-5' value={item}>{item}</option>
+                                                    ))
+                                                }
+                                            </select>
+                                        </div>
+
+                                        <div className="mb-3">
                                             <label htmlFor="nature" className="block text-sm font-medium leading-6 text-gray-900">Project Nature:</label>
                                             <select id="nature" className='w-full border p-2 rounded' name='nature' value={nature} onChange={(e) => setNature(e.target.value)}>
                                                 <option className='m-5' value="">Select</option>
@@ -357,7 +487,7 @@ const SalesProjectEdit = () => {
 
                                 <div className='flex justify-center my-10'>
                                     <button onClick={handleUpdate} className="text-white w-full lg:w-1/3 bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
-                                        Edit
+                                        Update
                                     </button>
                                 </div>
 
