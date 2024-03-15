@@ -57,7 +57,7 @@ function App() {
             element={<WorkspaceProduction />}
           />
           <Route path="/Attachments" element={<Attachments />} />
-          <Route path="/ProductionProjectDetail" element={<ProductionProjectDetail />} />
+          <Route path="/ProductionProjectDetail/:id" element={<ProductionProjectDetail />} />
           <Route path="/EmployeeEdit/:id" element={<EmployeeEdit />} />
           <Route path="/SalesProjectEdit/:id" element={<SalesProjectEdit />} />
         </Routes>

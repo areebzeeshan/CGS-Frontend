@@ -8,6 +8,7 @@ import { IoIosSend } from 'react-icons/io';
 import SalesAuth from '../Components/SalesAuth';
 import api from '../Components/Api';
 import { Link, useParams } from 'react-router-dom';
+import Dashboard from '../Components/Dashboard';
 
 const SalesProjectEdit = () => {
 
@@ -58,16 +59,61 @@ const SalesProjectEdit = () => {
 
             if (status === "To be Alloted") {
                 console.log("Status : ", status)
-                const response = await axios.put(`${api}/api/alloted/update/${id}`, formData);
-                console.log("After Axios Request", response);
+                const allotedResponse = await axios.put(`${api}/api/alloted/update/${id}`, formData);
+                console.log("After Axios Request", allotedResponse);
                 hideLoadingIndicator();
-                if (response.status === 200 && response.data.success) {
-                    console.log("Project updated successfully : ", response)
-                    alert("Project updated successfully!")
+                if (allotedResponse.status === 200 && allotedResponse.data.success) {
+                    console.log("Project updated successfully : ", allotedResponse)
+                    alert("Alloted Project updated successfully!")
                 }
                 else {
-                    alert('Response : ', response.message)
-                    console.log("project not updating : ", response)
+                    alert('allotedResponse : ', allotedResponse.message)
+                    console.log("project not updating : ", allotedResponse)
+                }
+            }
+
+            else if (status === "In Progress") {
+                console.log("Status : ", status)
+                const progressResponse = await axios.put(`${api}/api/progress/update/${id}`, formData);
+                console.log("After Axios Request", progressResponse);
+                hideLoadingIndicator();
+                if (progressResponse.status === 200 && progressResponse.data.success) {
+                    console.log("Project updated successfully : ", progressResponse)
+                    alert("Progressed Project updated successfully!")
+                }
+                else {
+                    alert('progressResponse : ', progressResponse.message)
+                    console.log("project not updating : ", progressResponse)
+                }
+            }
+
+            else if (status === "In Review") {
+                console.log("Status : ", status)
+                const reviewResponse = await axios.put(`${api}/api/progress/update/${id}`, formData);
+                console.log("After Axios Request", reviewResponse);
+                hideLoadingIndicator();
+                if (reviewResponse.status === 200 && reviewResponse.data.success) {
+                    console.log("Project updated successfully : ", reviewResponse)
+                    alert("Reviewed Project updated successfully!")
+                }
+                else {
+                    alert('reviewResponse : ', reviewResponse.message)
+                    console.log("project not updating : ", reviewResponse)
+                }
+            }
+
+            else if (status === "Completed") {
+                console.log("Status : ", status)
+                const completedResponse = await axios.put(`${api}/api/progress/update/${id}`, formData);
+                console.log("After Axios Request", completedResponse);
+                hideLoadingIndicator();
+                if (completedResponse.status === 200 && completedResponse.data.success) {
+                    console.log("Project updated successfully : ", completedResponse)
+                    alert("Completed Project updated successfully!")
+                }
+                else {
+                    alert('completedResponse : ', completedResponse.message)
+                    console.log("project not updating : ", completedResponse)
                 }
             }
         } catch (error) {
@@ -272,7 +318,7 @@ const SalesProjectEdit = () => {
         <>
             <div className='flex'>
                 <div>
-                    <SalesDashboard />
+                    <Dashboard />
                 </div>
                 <div className='container flex flex-col justify-between'>
                     <div>
@@ -495,12 +541,12 @@ const SalesProjectEdit = () => {
                                 </form>
                                 {/* form end */}
 
-                                <div className='flex justify-center my-10'>
+                                <div className='flex justify-center mt-10'>
                                     <button onClick={handleUpdate} className="text-white w-full lg:w-1/3 bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
                                         Update
                                     </button>
                                 </div>
-                                <div className='flex justify-center'>
+                                <div className='flex justify-center mt-3'>
                                     <span className='text-red-500 text-[15px] hidden' id='loading-overlay'>Updating...</span>
                                 </div>
                             </div>

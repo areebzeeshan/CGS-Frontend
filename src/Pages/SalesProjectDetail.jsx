@@ -230,13 +230,6 @@ const SalesProjectDetail = () => {
                         <div className='py-5 px-5'>
                             <div className='grid grid-cols-1 md:grid-cols-2'>
                                 <h1 className='text-2xl md:text-3xl lg:text-4xl lg:font-semibold text-slate-500 my-5'>Project Details</h1>
-                                <div className='text-end my-auto'>
-                                    <Link to={`/SalesProjectEdit/${id}`}>
-                                        <button className="text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
-                                            Edit
-                                        </button>
-                                    </Link>
-                                </div>
                             </div>
                             <div className=''>
                                 {/* form start */}
