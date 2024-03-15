@@ -36,8 +36,10 @@ const WorkspaceSales = () => {
         const response = await axios.get(
           `${api}/api/alloted/get`
         );
-        setAllotedProjects(response.data.data[0]);
-        console.log(response.data.data[0]);
+        if (response.status === 200 && response.data.success) {
+          setAllotedProjects(response.data.data[0]);
+          console.log(response.data.data[0]);
+        }
       } catch (error) {
         console.log("Error in fetching Alloted Projects ", error);
       }
@@ -48,8 +50,10 @@ const WorkspaceSales = () => {
         const response = await axios.get(
           `${api}/api/review/get`
         );
-        setReviewProjects(response.data.data[0]);
-        console.log(response.data.data[0]);
+        if (response.status === 200 && response.data.success) {
+          setReviewProjects(response.data.data[0]);
+          console.log(response.data.data[0]);
+        }
       } catch (error) {
         console.log("Error in fetching Review Projects ", error);
       }
@@ -60,8 +64,10 @@ const WorkspaceSales = () => {
         const response = await axios.get(
           `${api}/api/completed/get`
         );
-        setCompletedProjects(response.data.data[0]);
-        console.log(response.data.data[0]);
+        if (response.status === 200 && response.data.success) {
+          setCompletedProjects(response.data.data[0]);
+          console.log(response.data.data[0]);
+        }
       } catch (error) {
         console.log("Error in fetching Completed Projects ", error);
       }
@@ -72,8 +78,10 @@ const WorkspaceSales = () => {
         const response = await axios.get(
           `${api}/api/progress/get`
         );
-        setProgressProjects(response.data.data[0]);
-        console.log(response.data.data[0]);
+        if (response.status === 200 && response.data.success) {
+          setProgressProjects(response.data.data[0]);
+          console.log(response.data.data[0]);
+        }
       } catch (error) {
         console.log("Error in fetching progress Projects ", error);
       }

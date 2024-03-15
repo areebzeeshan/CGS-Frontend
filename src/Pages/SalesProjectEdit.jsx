@@ -36,6 +36,7 @@ const SalesProjectEdit = () => {
     // };
 
     const handleUpdate = async () => {
+        showLoadingIndicator();
         try {
             const formData = new FormData();
             formData.append("attachments", attachments);
@@ -56,19 +57,22 @@ const SalesProjectEdit = () => {
             console.log("Form Data : ", formData)
 
             if (status === "To be Alloted") {
-                const response = await axios.put(`${api}/api/alloted/update/${id}`);
+                console.log("Status : ", status)
+                const response = await axios.put(`${api}/api/alloted/update/${id}`, formData);
+                console.log("After Axios Request", response);
+                hideLoadingIndicator();
                 if (response.status === 200 && response.data.success) {
                     console.log("Project updated successfully : ", response)
                     alert("Project updated successfully!")
                 }
                 else {
-                    alert(response.data)
+                    alert('Response : ', response.message)
                     console.log("project not updating : ", response)
                 }
             }
         } catch (error) {
-            console.log("Error in updating project : ", error)
-            alert(error.message)
+            console.log("Error in updating project : ", error);
+            alert("Error updating project: " + error.message);
         }
     }
 
@@ -146,7 +150,7 @@ const SalesProjectEdit = () => {
             try {
                 const response = await axios.get(`${api}/api/alloted/search/${id}`);
                 console.log("Response:", response);
-                if (response) {
+                if (response.status === 200 && response.data.success) {
                     console.log("project search : ", response.data.data[0])
                     const responseData = response.data.data[0];
                     setTitle(responseData.title)
@@ -164,7 +168,6 @@ const SalesProjectEdit = () => {
                 }
             } catch (error) {
                 console.log("Error fetching alloted project:", error);
-                alert(error.message);
             }
         };
 
@@ -172,7 +175,7 @@ const SalesProjectEdit = () => {
             try {
                 const response = await axios.get(`${api}/api/review/search/${id}`);
                 console.log("Response:", response);
-                if (response) {
+                if (response.status === 200 && response.data.success) {
                     console.log("project search : ", response.data.data[0])
                     const responseData = response.data.data[0];
                     setTitle(responseData.title)
@@ -190,7 +193,6 @@ const SalesProjectEdit = () => {
                 }
             } catch (error) {
                 console.log("Error fetching review project:", error);
-                alert(error.message);
             }
         };
 
@@ -198,7 +200,7 @@ const SalesProjectEdit = () => {
             try {
                 const response = await axios.get(`${api}/api/progress/search/${id}`);
                 console.log("Response:", response);
-                if (response) {
+                if (response.status === 200 && response.data.success) {
                     console.log("project search : ", response.data.data[0])
                     const responseData = response.data.data[0];
                     setTitle(responseData.title)
@@ -216,7 +218,6 @@ const SalesProjectEdit = () => {
                 }
             } catch (error) {
                 console.log("Error fetching progress project:", error);
-                alert(error.message);
             }
         };
 
@@ -224,7 +225,7 @@ const SalesProjectEdit = () => {
             try {
                 const response = await axios.get(`${api}/api/completed/search/${id}`);
                 console.log("Response:", response);
-                if (response) {
+                if (response.status === 200 && response.data.success) {
                     console.log("project search : ", response.data.data[0])
                     const responseData = response.data.data[0];
                     setTitle(responseData.title)
@@ -242,7 +243,6 @@ const SalesProjectEdit = () => {
                 }
             } catch (error) {
                 console.log("Error fetching completed project:", error);
-                alert(error.message);
             }
         };
 
@@ -257,6 +257,16 @@ const SalesProjectEdit = () => {
         getPlatform();
         getDepartment();
     }, [])
+
+    function showLoadingIndicator() {
+        document.getElementById("loading-overlay").style.display = "block";
+    }
+
+    function hideLoadingIndicator() {
+        document.getElementById("loading-overlay").style.display = "none";
+    }
+
+
 
     return (
         <>
@@ -490,7 +500,9 @@ const SalesProjectEdit = () => {
                                         Update
                                     </button>
                                 </div>
-
+                                <div className='flex justify-center'>
+                                    <span className='text-red-500 text-[15px] hidden' id='loading-overlay'>Updating...</span>
+                                </div>
                             </div>
                         </div>
                     </div>
