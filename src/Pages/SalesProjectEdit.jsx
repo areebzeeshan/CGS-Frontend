@@ -32,9 +32,6 @@ const SalesProjectEdit = () => {
     const [clientName, setClientName] = useState(null);
     const [description, setDescription] = useState(null);
     const [attachments, setAttachments] = useState(null);
-    // const handleInputChange = (e) => {
-    //     setFormData({ ...formData, [e.target.name]: e.target.value });
-    // };
 
     const handleUpdate = async () => {
         showLoadingIndicator();
@@ -56,249 +53,74 @@ const SalesProjectEdit = () => {
             formData.append("description", description);
 
             console.log("Form Data : ", formData)
-
-            if (status === "To be Alloted") {
-                console.log("Status : ", status)
-                const allotedResponse = await axios.put(`${api}/api/alloted/update/${id}`, formData);
-                console.log("After Axios Request", allotedResponse);
-                hideLoadingIndicator();
-                if (allotedResponse.status === 200 && allotedResponse.data.success) {
-                    console.log("Project updated successfully : ", allotedResponse)
-                    alert("Alloted Project updated successfully!")
-                }
-                else {
-                    alert('allotedResponse : ', allotedResponse.message)
-                    console.log("project not updating : ", allotedResponse)
-                }
-            }
-
-            else if (status === "In Progress") {
-                console.log("Status : ", status)
-                const progressResponse = await axios.put(`${api}/api/progress/update/${id}`, formData);
-                console.log("After Axios Request", progressResponse);
-                hideLoadingIndicator();
-                if (progressResponse.status === 200 && progressResponse.data.success) {
-                    console.log("Project updated successfully : ", progressResponse)
-                    alert("Progressed Project updated successfully!")
-                }
-                else {
-                    alert('progressResponse : ', progressResponse.message)
-                    console.log("project not updating : ", progressResponse)
-                }
-            }
-
-            else if (status === "In Review") {
-                console.log("Status : ", status)
-                const reviewResponse = await axios.put(`${api}/api/progress/update/${id}`, formData);
-                console.log("After Axios Request", reviewResponse);
-                hideLoadingIndicator();
-                if (reviewResponse.status === 200 && reviewResponse.data.success) {
-                    console.log("Project updated successfully : ", reviewResponse)
-                    alert("Reviewed Project updated successfully!")
-                }
-                else {
-                    alert('reviewResponse : ', reviewResponse.message)
-                    console.log("project not updating : ", reviewResponse)
-                }
-            }
-
-            else if (status === "Completed") {
-                console.log("Status : ", status)
-                const completedResponse = await axios.put(`${api}/api/progress/update/${id}`, formData);
-                console.log("After Axios Request", completedResponse);
-                hideLoadingIndicator();
-                if (completedResponse.status === 200 && completedResponse.data.success) {
-                    console.log("Project updated successfully : ", completedResponse)
-                    alert("Completed Project updated successfully!")
-                }
-                else {
-                    alert('completedResponse : ', completedResponse.message)
-                    console.log("project not updating : ", completedResponse)
-                }
+            console.log("Status : ", status)
+            const response = await axios.put(`${api}/api/projects/update/${id}`, formData);
+            hideLoadingIndicator();
+            if (response.status === 200 && response.data.success) {
+                alert("Project updated successfully!")
             }
         } catch (error) {
             console.log("Error in updating project : ", error);
-            alert("Error updating project: " + error.message);
         }
     }
 
+    const getProjectNature = async () => {
+        try {
+            const response = await axios.get(`${api}/dropdown/getProjectNature`);
+            setProjectNature(response.data.data[0])
+            console.log("Response", response.data.data[0])
+        } catch (error) {
+            console.log("Error in fetching Project Nature", error)
+        }
+    };
+
+    const getPlatform = async () => {
+        try {
+            const response = await axios.get(`${api}/dropdown/getPlatform`);
+            setPlatform(response.data.data[0])
+            console.log("Response", response.data.data[0])
+        } catch (error) {
+            console.log("Error in fetching Project Nature", error)
+        }
+    };
+
+    const getDepartment = async () => {
+        try {
+            const response = await axios.get(`${api}/dropdown/getDepartment`);
+            setDepartment(response.data.data[0])
+            console.log("Response", response.data.data[0])
+        } catch (error) {
+            console.log("Error in fetching Project Nature", error)
+        }
+    };
+
+    const getProjectByID = async () => {
+        try {
+            const response = await axios.get(`${api}/api/projects/search/${id}`);
+            console.log("Response:", response);
+            if (response) {
+                console.log("project search : ", response.data.data[0])
+                const responseData = response.data.data[0];
+                setTitle(responseData.title)
+                setStartDate(responseData.startDate)
+                setDeliveryDate(responseData.deliveryDate)
+                setPlat(responseData.platform)
+                setDepart(responseData.department)
+                setNature(responseData.nature)
+                setStatus(responseData.status)
+                setProfile(responseData.profile)
+                setSalesPerson(responseData.salesPerson)
+                setAmount(responseData.amount)
+                setClientName(responseData.clientName)
+                setDescription(responseData.description)
+            }
+        } catch (error) {
+            console.log("Error fetching project: ", error);
+        }
+    };
+
     useEffect(() => {
-        const getProjectNature = async () => {
-            try {
-                const response = await axios.get(`${api}/dropdown/getProjectNature`);
-                setProjectNature(response.data.data[0])
-                console.log("Response", response.data.data[0])
-            } catch (error) {
-                console.log("Error in fetching Project Nature", error)
-            }
-        };
-
-        const getPlatform = async () => {
-            try {
-                const response = await axios.get(`${api}/dropdown/getPlatform`);
-                setPlatform(response.data.data[0])
-                console.log("Response", response.data.data[0])
-            } catch (error) {
-                console.log("Error in fetching Project Nature", error)
-            }
-        };
-
-        const getDepartment = async () => {
-            try {
-                const response = await axios.get(`${api}/dropdown/getDepartment`);
-                setDepartment(response.data.data[0])
-                console.log("Response", response.data.data[0])
-            } catch (error) {
-                console.log("Error in fetching Project Nature", error)
-            }
-        };
-
-        const getProjectByID = async () => {
-            try {
-                const response = await axios.get(`${api}/api/projects/search/${id}`);
-                console.log("Response:", response);
-                if (response) {
-                    console.log("project search : ", response.data.data[0])
-                    const responseData = response.data.data[0];
-                    // setFormData({
-                    //     title: responseData.title,
-                    //     startDate: responseData.startDate,
-                    //     deleiveryDate: responseData.deleiveryDate,
-                    //     plat: responseData.platform,
-                    //     depart: responseData.department,
-                    //     nature: responseData.nature,
-                    //     profile: responseData.profile,
-                    //     salesPerson: responseData.salesPerson,
-                    //     amount: responseData.amount,
-                    //     clientName: responseData.clientName,
-                    //     description: responseData.description,
-                    //     // attachments: responseData.attachments
-                    // })
-                    setTitle(responseData.title)
-                    setStartDate(responseData.startDate)
-                    setDeliveryDate(responseData.deliveryDate)
-                    setPlat(responseData.platform)
-                    setDepart(responseData.department)
-                    setNature(responseData.nature)
-                    setProfile(responseData.profile)
-                    setSalesPerson(responseData.salesPerson)
-                    setAmount(responseData.amount)
-                    setClientName(responseData.clientName)
-                    setDescription(responseData.description)
-                }
-            } catch (error) {
-                console.log("Error fetching project:", error);
-                alert(error.message);
-            }
-        };
-
-        const getAllotedByID = async () => {
-            try {
-                const response = await axios.get(`${api}/api/alloted/search/${id}`);
-                console.log("Response:", response);
-                if (response.status === 200 && response.data.success) {
-                    console.log("project search : ", response.data.data[0])
-                    const responseData = response.data.data[0];
-                    setTitle(responseData.title)
-                    setStartDate(responseData.startDate)
-                    setDeliveryDate(responseData.deliveryDate)
-                    setPlat(responseData.platform)
-                    setDepart(responseData.department)
-                    setStatus(responseData.status)
-                    setNature(responseData.nature)
-                    setProfile(responseData.profile)
-                    setSalesPerson(responseData.salesPerson)
-                    setAmount(responseData.amount)
-                    setClientName(responseData.clientName)
-                    setDescription(responseData.description)
-                }
-            } catch (error) {
-                console.log("Error fetching alloted project:", error);
-            }
-        };
-
-        const getReviewByID = async () => {
-            try {
-                const response = await axios.get(`${api}/api/review/search/${id}`);
-                console.log("Response:", response);
-                if (response.status === 200 && response.data.success) {
-                    console.log("project search : ", response.data.data[0])
-                    const responseData = response.data.data[0];
-                    setTitle(responseData.title)
-                    setStartDate(responseData.startDate)
-                    setDeliveryDate(responseData.deliveryDate)
-                    setPlat(responseData.platform)
-                    setDepart(responseData.department)
-                    setStatus(responseData.status)
-                    setNature(responseData.nature)
-                    setProfile(responseData.profile)
-                    setSalesPerson(responseData.salesPerson)
-                    setAmount(responseData.amount)
-                    setClientName(responseData.clientName)
-                    setDescription(responseData.description)
-                }
-            } catch (error) {
-                console.log("Error fetching review project:", error);
-            }
-        };
-
-        const getProgressByID = async () => {
-            try {
-                const response = await axios.get(`${api}/api/progress/search/${id}`);
-                console.log("Response:", response);
-                if (response.status === 200 && response.data.success) {
-                    console.log("project search : ", response.data.data[0])
-                    const responseData = response.data.data[0];
-                    setTitle(responseData.title)
-                    setStartDate(responseData.startDate)
-                    setDeliveryDate(responseData.deliveryDate)
-                    setPlat(responseData.platform)
-                    setDepart(responseData.department)
-                    setStatus(responseData.status)
-                    setNature(responseData.nature)
-                    setProfile(responseData.profile)
-                    setSalesPerson(responseData.salesPerson)
-                    setAmount(responseData.amount)
-                    setClientName(responseData.clientName)
-                    setDescription(responseData.description)
-                }
-            } catch (error) {
-                console.log("Error fetching progress project:", error);
-            }
-        };
-
-        const getCompletedByID = async () => {
-            try {
-                const response = await axios.get(`${api}/api/completed/search/${id}`);
-                console.log("Response:", response);
-                if (response.status === 200 && response.data.success) {
-                    console.log("project search : ", response.data.data[0])
-                    const responseData = response.data.data[0];
-                    setTitle(responseData.title)
-                    setStartDate(responseData.startDate)
-                    setDeliveryDate(responseData.deliveryDate)
-                    setPlat(responseData.platform)
-                    setDepart(responseData.department)
-                    setStatus(responseData.status)
-                    setNature(responseData.nature)
-                    setProfile(responseData.profile)
-                    setSalesPerson(responseData.salesPerson)
-                    setAmount(responseData.amount)
-                    setClientName(responseData.clientName)
-                    setDescription(responseData.description)
-                }
-            } catch (error) {
-                console.log("Error fetching completed project:", error);
-            }
-        };
-
-
-        // getProjectByID();
-        getAllotedByID();
-        getReviewByID();
-        getProgressByID();
-        getCompletedByID();
-
+        getProjectByID();
         getProjectNature();
         getPlatform();
         getDepartment();

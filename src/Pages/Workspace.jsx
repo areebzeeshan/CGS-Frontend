@@ -22,94 +22,103 @@ const Workspace = () => {
   const [completedProjects, setCompletedProjects] = useState([]);
   const [progressProjects, setProgressProjects] = useState([]);
 
-  useEffect(() => {
-    const fetchingProjects = async () => {
-      try {
-        const response = await axios.get(
-          `${api}/api/projects/get`
-        );
-        setProjects(response.data.data[0]);
+  // const fetchingProjects = async () => {
+  //   try {
+  //     const response = await axios.get(
+  //       `${api}/api/projects/get`
+  //     );
+  //     setProjects(response.data.data[0]);
+  //     console.log(response.data.data[0]);
+  //   } catch (error) {
+  //     console.log("Error in fetching projects ", error);
+  //   }
+  // };
+
+  const fetchingAllotedProjects = async () => {
+    try {
+      const response = await axios.get(
+        `${api}/api/alloted/get`
+      );
+      if (response.status === 200 && response.data.success) {
+        setAllotedProjects(response.data.data[0]);
         console.log(response.data.data[0]);
-      } catch (error) {
-        console.log("Error in fetching projects ", error);
       }
-    };
-
-    const fetchingAllotedProjects = async () => {
-      try {
-        const response = await axios.get(
-          `${api}/api/alloted/get`
-        );
-        if (response.status === 200 && response.data.success) {
-          setAllotedProjects(response.data.data[0]);
-          console.log(response.data.data[0]);
-        }
-      } catch (error) {
-        console.log("Error in fetching Alloted Projects ", error);
-      }
+    } catch (error) {
+      console.log("Error in fetching Alloted Projects ", error);
     }
+  }
 
-    const fetchingReviewProjects = async () => {
-      try {
-        const response = await axios.get(
-          `${api}/api/review/get`
-        );
-        if (response.status === 200 && response.data.success) {
-          setReviewProjects(response.data.data[0]);
-          console.log(response.data.data[0]);
-        }
-      } catch (error) {
-        console.log("Error in fetching Review Projects ", error);
+  const fetchingReviewProjects = async () => {
+    try {
+      const response = await axios.get(
+        `${api}/api/review/get`
+      );
+      if (response.status === 200 && response.data.success) {
+        setReviewProjects(response.data.data[0]);
+        console.log(response.data.data[0]);
       }
+    } catch (error) {
+      console.log("Error in fetching Review Projects ", error);
     }
+  }
 
-    const fetchingCompletedProjects = async () => {
-      try {
-        const response = await axios.get(
-          `${api}/api/completed/get`
-        );
-        if (response.status === 200 && response.data.success) {
-          setCompletedProjects(response.data.data[0]);
-          console.log(response.data.data[0]);
-        }
-      } catch (error) {
-        console.log("Error in fetching Completed Projects ", error);
+  const fetchingCompletedProjects = async () => {
+    try {
+      const response = await axios.get(
+        `${api}/api/completed/get`
+      );
+      if (response.status === 200 && response.data.success) {
+        setCompletedProjects(response.data.data[0]);
+        console.log(response.data.data[0]);
       }
+    } catch (error) {
+      console.log("Error in fetching Completed Projects ", error);
     }
+  }
 
-    const fetchingProgressProjects = async () => {
-      try {
-        const response = await axios.get(
-          `${api}/api/progress/get`
-        );
-        if (response.status === 200 && response.data.success) {
-          setProgressProjects(response.data.data[0]);
-          console.log(response.data.data[0]);
-        }
-      } catch (error) {
-        console.log("Error in fetching progress Projects ", error);
+  const fetchingProgressProjects = async () => {
+    try {
+      const response = await axios.get(
+        `${api}/api/progress/get`
+      );
+      if (response.status === 200 && response.data.success) {
+        setProgressProjects(response.data.data[0]);
+        console.log(response.data.data[0]);
       }
+    } catch (error) {
+      console.log("Error in fetching progress Projects ", error);
     }
+  }
 
-    // fetchingProjects();
-    fetchingAllotedProjects();
-    fetchingReviewProjects();
-    fetchingCompletedProjects();
-    fetchingProgressProjects();
-  }, []);
+  // useEffect(() => {
+
+  //   // fetchingProjects();
+  //   fetchingAllotedProjects();
+  //   fetchingReviewProjects();
+  //   fetchingCompletedProjects();
+  //   fetchingProgressProjects();
+  // }, []);
+
+  const fetchingProjects = async () => {
+    try {
+      const response = await axios.get(
+        `${api}/api/projects/get`
+      );
+      const project = response.data.data[0];
+      const allotedProjects = project.filter(item => item.status === "To be Alloted");
+      const progressProjects = project.filter(item => item.status === "In Progress");
+      const reviewProjects = project.filter(item => item.status === "In Review");
+      const completedProjects = project.filter(item => item.status === "Completed");
+      setAllotedProjects(allotedProjects);
+      setProgressProjects(progressProjects);
+      setReviewProjects(reviewProjects);
+      setCompletedProjects(completedProjects);
+    } catch (error) {
+      console.log("Error in fetching projects ", error);
+    }
+  };
 
   useEffect(() => {
-    const fetchingProjects = async () => {
-      try {
-        const response = await axios.get(
-          `${api}/api/projects/get`
-        );
-        setProjects(response.data.data[0]);
-        console.log(response.data.data[0]);
-      } catch (error) {
-        console.log("Error in fetching projects ", error);
-      }
-    };
 
     fetchingProjects();
   }, []);

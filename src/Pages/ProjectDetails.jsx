@@ -36,184 +36,63 @@ const ProjectDetails = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const getProjectNature = async () => {
+    try {
+      const response = await axios.get(`${api}/dropdown/getProjectNature`);
+      setProjectNature(response.data.data[0])
+      console.log("Response", response.data.data[0])
+    } catch (error) {
+      console.log("Error in fetching Project Nature", error)
+    }
+  };
+
+  const getPlatform = async () => {
+    try {
+      const response = await axios.get(`${api}/dropdown/getPlatform`);
+      setPlatform(response.data.data[0])
+      console.log("Response", response.data.data[0])
+    } catch (error) {
+      console.log("Error in fetching Project Nature", error)
+    }
+  };
+
+  const getDepartment = async () => {
+    try {
+      const response = await axios.get(`${api}/dropdown/getDepartment`);
+      setDepartment(response.data.data[0])
+      console.log("Response", response.data.data[0])
+    } catch (error) {
+      console.log("Error in fetching Project Nature", error)
+    }
+  };
+
+  const getProjectByID = async () => {
+    try {
+      const response = await axios.get(`${api}/api/projects/search/${id}`);
+      if (response) {
+        const responseData = response.data.data[0];
+        setFormData({
+          title: responseData.title,
+          startDate: responseData.startDate,
+          deliveryDate: responseData.deliveryDate,
+          plat: responseData.platform,
+          depart: responseData.department,
+          nature: responseData.nature,
+          profile: responseData.profile,
+          salesPerson: responseData.salesPerson,
+          amount: responseData.amount,
+          clientName: responseData.clientName,
+          description: responseData.description,
+          attachments: responseData.attachments
+        })
+      }
+    } catch (error) {
+      console.log("Error fetching project:", error);
+    }
+  };
+
   useEffect(() => {
-    const getProjectNature = async () => {
-      try {
-        const response = await axios.get(`${api}/dropdown/getProjectNature`);
-        setProjectNature(response.data.data[0])
-        console.log("Response", response.data.data[0])
-      } catch (error) {
-        console.log("Error in fetching Project Nature", error)
-      }
-    };
-
-    const getPlatform = async () => {
-      try {
-        const response = await axios.get(`${api}/dropdown/getPlatform`);
-        setPlatform(response.data.data[0])
-        console.log("Response", response.data.data[0])
-      } catch (error) {
-        console.log("Error in fetching Project Nature", error)
-      }
-    };
-
-    const getDepartment = async () => {
-      try {
-        const response = await axios.get(`${api}/dropdown/getDepartment`);
-        setDepartment(response.data.data[0])
-        console.log("Response", response.data.data[0])
-      } catch (error) {
-        console.log("Error in fetching Project Nature", error)
-      }
-    };
-
-    const getProjectByID = async () => {
-      try {
-        const response = await axios.get(`${api}/api/projects/search/${id}`);
-        // console.log("Response:", response);
-        if (response) {
-          // console.log("project search : ", response.data.data[0])
-          const responseData = response.data.data[0];
-          setFormData({
-            title: responseData.title,
-            startDate: responseData.startDate,
-            deliveryDate: responseData.deliveryDate,
-            plat: responseData.platform,
-            depart: responseData.department,
-            nature: responseData.nature,
-            profile: responseData.profile,
-            salesPerson: responseData.salesPerson,
-            amount: responseData.amount,
-            clientName: responseData.clientName,
-            description: responseData.description,
-            attachments: responseData.attachments
-          })
-        }
-      } catch (error) {
-        console.log("Error fetching project:", error);
-        alert(error.message);
-      }
-    };
-
-    const getAllotedById = async () => {
-      try {
-        const response = await axios.get(`${api}/api/alloted/search/${id}`);
-        // console.log("Response:", response);
-        if (response) {
-          // console.log("project search : ", response.data.data[0])
-          const responseData = response.data.data[0];
-          setFormData({
-            title: responseData.title,
-            startDate: responseData.startDate,
-            deliveryDate: responseData.deliveryDate,
-            plat: responseData.platform,
-            depart: responseData.department,
-            nature: responseData.nature,
-            profile: responseData.profile,
-            salesPerson: responseData.salesPerson,
-            amount: responseData.amount,
-            clientName: responseData.clientName,
-            description: responseData.description,
-            attachments: responseData.attachments
-          })
-        }
-      } catch (error) {
-        console.log("Error fetching alloted project:", error);
-        alert(error.message);
-      }
-    };
-
-    const getProgressById = async () => {
-      try {
-        const response = await axios.get(`${api}/api/progress/search/${id}`);
-        // console.log("Response:", response);
-        if (response) {
-          // console.log("project search : ", response.data.data[0])
-          const responseData = response.data.data[0];
-          setFormData({
-            title: responseData.title,
-            startDate: responseData.startDate,
-            deliveryDate: responseData.deliveryDate,
-            plat: responseData.platform,
-            depart: responseData.department,
-            nature: responseData.nature,
-            profile: responseData.profile,
-            salesPerson: responseData.salesPerson,
-            amount: responseData.amount,
-            clientName: responseData.clientName,
-            description: responseData.description,
-            attachments: responseData.attachments
-          })
-        }
-      } catch (error) {
-        console.log("Error fetching progress project:", error);
-        alert(error.message);
-      }
-    };
-
-    const getReviewById = async () => {
-      try {
-        const response = await axios.get(`${api}/api/review/search/${id}`);
-        // console.log("Response:", response);
-        if (response) {
-          // console.log("project search : ", response.data.data[0])
-          const responseData = response.data.data[0];
-          setFormData({
-            title: responseData.title,
-            startDate: responseData.startDate,
-            deliveryDate: responseData.deliveryDate,
-            plat: responseData.platform,
-            depart: responseData.department,
-            nature: responseData.nature,
-            profile: responseData.profile,
-            salesPerson: responseData.salesPerson,
-            amount: responseData.amount,
-            clientName: responseData.clientName,
-            description: responseData.description,
-            attachments: responseData.attachments
-          })
-        }
-      } catch (error) {
-        console.log("Error fetching review project:", error);
-        alert(error.message);
-      }
-    };
-
-    const getCompletedById = async () => {
-      try {
-        const response = await axios.get(`${api}/api/completed/search/${id}`);
-        // console.log("Response:", response);
-        if (response) {
-          // console.log("project search : ", response.data.data[0])
-          const responseData = response.data.data[0];
-          setFormData({
-            title: responseData.title,
-            startDate: responseData.startDate,
-            deliveryDate: responseData.deliveryDate,
-            plat: responseData.platform,
-            depart: responseData.department,
-            nature: responseData.nature,
-            profile: responseData.profile,
-            salesPerson: responseData.salesPerson,
-            amount: responseData.amount,
-            clientName: responseData.clientName,
-            description: responseData.description,
-            attachments: responseData.attachments
-          })
-        }
-      } catch (error) {
-        console.log("Error fetching completed project:", error);
-        alert(error.message);
-      }
-    };
-
-
-    // getProjectByID();
-    getAllotedById();
-    getCompletedById();
-    getReviewById();
-    getProgressById();
-
+    getProjectByID();
     getProjectNature();
     getPlatform();
     getDepartment();

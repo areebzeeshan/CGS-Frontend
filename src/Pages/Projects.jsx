@@ -27,41 +27,41 @@ const Projects = () => {
   const [description, setDescription] = useState(null);
   const [attachments, setAttachments] = useState(null);
 
-  useEffect(() => {
-    const generateRandomId = () => {
-      return Math.floor(100000 + Math.random() * 900000);
+  const generateRandomId = () => {
+    return Math.floor(100000 + Math.random() * 900000);
+  }
+
+  const getProjectNature = async () => {
+    try {
+      const response = await axios.get(`${api}/dropdown/getProjectNature`);
+      setProjectNature(response.data.data[0])
+      console.log("Response", response.data.data[0])
+    } catch (error) {
+      console.log("Error in fetching Project Nature", error)
     }
+  };
 
-    const getProjectNature = async () => {
-      try {
-        const response = await axios.get(`${api}/dropdown/getProjectNature`);
-        setProjectNature(response.data.data[0])
-        console.log("Response", response.data.data[0])
-      } catch (error) {
-        console.log("Error in fetching Project Nature", error)
-      }
-    };
+  const getPlatform = async () => {
+    try {
+      const response = await axios.get(`${api}/dropdown/getPlatform`);
+      setPlatform(response.data.data[0])
+      console.log("Response", response.data.data[0])
+    } catch (error) {
+      console.log("Error in fetching Project Nature", error)
+    }
+  };
 
-    const getPlatform = async () => {
-      try {
-        const response = await axios.get(`${api}/dropdown/getPlatform`);
-        setPlatform(response.data.data[0])
-        console.log("Response", response.data.data[0])
-      } catch (error) {
-        console.log("Error in fetching Project Nature", error)
-      }
-    };
+  const getDepartment = async () => {
+    try {
+      const response = await axios.get(`${api}/dropdown/getDepartment`);
+      setDepartment(response.data.data[0])
+      console.log("Response", response.data.data[0])
+    } catch (error) {
+      console.log("Error in fetching Project Nature", error)
+    }
+  };
 
-    const getDepartment = async () => {
-      try {
-        const response = await axios.get(`${api}/dropdown/getDepartment`);
-        setDepartment(response.data.data[0])
-        console.log("Response", response.data.data[0])
-      } catch (error) {
-        console.log("Error in fetching Project Nature", error)
-      }
-    };
-
+  useEffect(() => {
     setId(generateRandomId());
     getProjectNature();
     getPlatform();
@@ -101,60 +101,13 @@ const Projects = () => {
 
       console.log(formData);
 
-      // Alloted
-      if (status === "To be Alloted") {
-        const allotedResponse = await axios.post(`${api}/api/alloted/submit`, formData);
-        const projectResponse = await axios.post(`${api}/api/projects/submit`, formData);
-
-        hideLoadingIndicator();
-
-        if (allotedResponse.status === 200 && projectResponse.status === 200) {
-          console.log("Project Posted Successfully");
-          alert("Project Posted Successfully");
-        }
-      }
-
-      // progress
-      else if (status === "In Progress") {
-        const progressResponse = await axios.post(`${api}/api/progress/submit`, formData);
-        const projectResponse = await axios.post(`${api}/api/projects/submit`, formData);
-
-        hideLoadingIndicator();
-
-        if (progressResponse.status === 200 && projectResponse.status === 200) {
-          console.log("Project Posted Successfully");
-          alert("Project Posted Successfully");
-        }
-      }
-
-      // review
-      else if (status === "In Review") {
-        const reviewResponse = await axios.post(`${api}/api/review/submit`, formData);
-        const projectResponse = await axios.post(`${api}/api/projects/submit`, formData);
-
-        hideLoadingIndicator();
-
-        if (reviewResponse.status === 200 && projectResponse.status === 200) {
-          console.log("Project Posted Successfully");
-          alert("Project Posted Successfully");
-        }
-      }
-
-      // completed
-      else if (status === "Completed") {
-        const completedResponse = await axios.post(`${api}/api/completed/submit`, formData);
-        const projectResponse = await axios.post(`${api}/api/projects/submit`, formData);
-
-        hideLoadingIndicator();
-
-        if (completedResponse.status === 200 && projectResponse.status === 200) {
-          console.log("Project Posted Successfully");
-          alert("Project Posted Successfully");
-        }
+      const response = await axios.post(`${api}/api/projects/submit`, formData);
+      hideLoadingIndicator();
+      if (response.status === 200 && response.data.success) {
+        alert("Project Uploaded Successflly!")
       }
 
     } catch (error) {
-      hideLoadingIndicator();
 
       alert("Error in posting Project: " + error.message);
       console.error("Error in posting Project", error);
