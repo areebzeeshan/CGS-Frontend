@@ -325,14 +325,15 @@ const ProjectDetails = () => {
                           >
                             Attachments:
                           </label>
-                          <input
+                          {/* <input
                             type="text"
                             className={"block w-full rounded-md border-0 py-1.5 pr-20 text-gray-500 focus:outline-none border-b placeholder:text-gray-400 sm:text-sm sm:leading-6"}
                             id="attachments"
                             name="attachments"
                             value={formData.attachments}
                             readOnly={true}
-                          />
+                          /> */}
+                          <a href={formData.attachments} className="text-md text-blue-600 hover:text-blue-800 border-b py-3" >{formData.attachments}</a>
                         </div>
                       ) : (
                         <div className="mb-3">
