@@ -12,38 +12,33 @@ const LandingPage = () => {
     const [adminUser, setAdminUser] = useState([]);
     const [productionUser, setProductionUser] = useState([]);
 
+    const fetchEmployeeData = async () => {
+        const response = await axios.get(`${api}/api/employee/fetch`);
+        const data = response.data.data[0];
+
+        const sales = [];
+        const admin = [];
+        const production = [];
+
+        data.forEach(item => {
+            const department = item.history[item.history.length - 1].department;
+            if (department === "Administration") {
+                admin.push(item);
+            } else if (department === "Sales") {
+                sales.push(item);
+            } else if (department === "Production-Graphics" || department === "Production-Development") {
+                production.push(item);
+            }
+        });
+
+        setEmployeeData(data);
+        setAdminUser(admin);
+        setSalesUser(sales);
+        setProductionUser(production);
+    };
+
     useEffect(() => {
-        try {
-            const fetchEmployeeData = async () => {
-                const response = await axios.get(`${api}/api/employee/fetch`);
-                const data = response.data.data[0];
-
-                const sales = [];
-                const admin = [];
-                const production = [];
-
-                data.forEach(item => {
-                    const department = item.history[item.history.length - 1].department;
-                    if (department === "Administration") {
-                        admin.push(item);
-                    } else if (department === "Sales") {
-                        sales.push(item);
-                    } else if (department === "Production-Graphics" || department === "Production-Development") {
-                        production.push(item);
-                    }
-                });
-
-                setEmployeeData(data);
-                setAdminUser(admin);
-                setSalesUser(sales);
-                setProductionUser(production);
-            };
-
-            fetchEmployeeData();
-        } catch (error) {
-            console.log(error);
-            alert(error.message);
-        }
+        fetchEmployeeData();
     }, []);
 
     console.log("Employees -> ", employeeData.length);
