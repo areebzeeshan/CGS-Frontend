@@ -105,14 +105,14 @@ const Workspace = () => {
         `${api}/api/projects/get`
       );
       const project = response.data.data[0];
-      const allotedProjects = project.filter(item => item.status === "To be Alloted");
-      const progressProjects = project.filter(item => item.status === "In Progress");
-      const reviewProjects = project.filter(item => item.status === "In Review");
-      const completedProjects = project.filter(item => item.status === "Completed");
-      setAllotedProjects(allotedProjects);
-      setProgressProjects(progressProjects);
-      setReviewProjects(reviewProjects);
-      setCompletedProjects(completedProjects);
+      const allotProjects = project.filter(item => item.status === "To be Alloted");
+      const progProjects = project.filter(item => item.status === "In Progress");
+      const revProjects = project.filter(item => item.status === "In Review");
+      const compProjects = project.filter(item => item.status === "Completed");
+      setAllotedProjects(allotProjects);
+      setProgressProjects(progProjects);
+      setReviewProjects(revProjects);
+      setCompletedProjects(compProjects);
     } catch (error) {
       console.log("Error in fetching projects ", error);
     }
